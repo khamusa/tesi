@@ -1,0 +1,173 @@
+%
+% Tesi D.S.I. - modello preso da
+% Stanford University PhD thesis style -- modifications to the report style
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                         %
+%			TESI DOTTORATO                                                   %
+%			______________                                                   %
+%                                                                         %
+%			AUTORE: Elena Pagani                                             %
+%                                                                         %
+%			Ultima revisione: 7.X.1998                                       %
+%                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+\documentclass[12pt]{report}
+%
+% \includeonly{}
+%
+%			PREAMBOLO
+%
+\usepackage[a4paper]{geometry}
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{epsfig}
+\usepackage[italian]{babel}
+\usepackage{tesi}
+
+% per le accentate
+\usepackage[utf8]{inputenc}
+
+%
+\newtheorem{myteor}{Teorema}[section]
+%
+\newenvironment{teor}{\begin{myteor}\sl}{\end{myteor}}
+%
+%
+%			TITOLO
+%
+\begin{document}
+\title{Progettazione di un'applicazione e conseguenze di un approccio ``continuos refactoring''}
+\author{Samuel Gomes Brandão}
+\dept{Corso di Laurea in Informatica} 
+\anno{2013-2014}
+\matricola{803939}
+\relatore{Prof. Carlo Bellettini}
+%\correlatore{Dr. Richard STEVENS}
+%
+%        \submitdate{month year in which submitted to GPO}
+%		- date LaTeX'd if omitted
+%	\copyrightyear{year degree conferred (next year if submitted in Dec.)}
+%		- year LaTeX'd (or next year, in December) if omitted
+%	\copyrighttrue or \copyrightfakblse
+%		- produce or don't produce a copyright page (false by default)
+%	\figurespagetrue or \figurespagefalse
+%		- produce or don't produce a List of Figures page
+%		  (false by default)
+%	\tablespagetrue or \tablespagefalse
+%		- produce or don't produce a List of Tables page
+%		  (false by default)
+% 
+%			DEDICA
+%
+\beforepreface
+\prefacesection{}
+        {\hfill \Large {\sl Ai miei genitori Mônica e Zilmar}}
+% 
+%			PREFAZIONE
+%
+\prefacesection{Prefazione}
+Ciao! Ci vuole scrivere una prefazione!
+%
+%
+%			ORGANIZZAZIONE
+\section*{Organizzazione della tesi}
+\label{organizzazione}
+La tesi \`e organizzata come segue:
+\begin{itemize}
+\item nel Capitolo 1 ....
+\end{itemize}
+%
+%			RINGRAZIAMENTI
+%
+\prefacesection{Ringraziamenti}
+Vorrei ringraziare a Paolo Venturi e Diego Costantino, 
+al prof. Dr. Carlo Bellettini. 
+\afterpreface
+
+
+% 
+% 
+%			CAPITOLO 1: iNTRODUZIONE
+\chapter{Introduzione}
+\label{cap1}
+Spazi Unimi è il nome dato a un progetto per l’ottenimento di dati sugli spazi dell’Università degli Studi di Milano, sviluppato durante il Tirocinio Interno per la laurea triennale in Informatica all’UNIMI, da Samuel Gomes Brandão, Diego Costantino e Palo Venturi. L’idea nasce a partire dalle proposte del progetto Campus Sostenibile, promosso dall’UNIMI e dal Politecnico di Milano, e si sviluppa posteriormente in autonomia, sotto l’orientamento del Prof. Dr. Carlo Bellettini.
+
+Il progetto parte con lo sviluppo di un'applicazione software con lo scopo principale di estrarre, validare e correggere dati ottenuti da diverse sorgenti, procedendo in seguito alla loro integrazione. I dati vengono mantenuti su un database da venir utilizzato per futuri progetti e sviluppi, attraverso l’uso di una specifica Application Programming Interface (API) con architettura REST (Representational State Transfer). 
+
+Le informazioni integrate riguardano la topologia e la destinazione d'uso degli edifici universitari e i loro spazi, con particolare importanza alla elaborazione e presentazione delle piante interne e localizzazione di stanze precise. In questo modo, siamo in grado di fornire accuratamente informazioni sulla localizzazione di palazzi, aule, o stanze a secondo della loro tipologia d'uso (bagni, biblioteca, sale studio, ecc).
+
+Su questa relazione descrivo il processo di sviluppo della suddetta applicazione da zero, con particolare rilievo alle sfide per la buona progettazione e all’utilizzo di un concetto che ho chiamato “continuos refactoring” \footnote{Si veda il capitolo \ref{cap3}}
+
+
+
+% 
+% 
+%			CAPITOLO 2
+\chapter{Attività Preliminari}
+\label{cap2}
+Lorem Ipsum dolor sit
+
+
+
+% 
+% 
+%			CAPITOLO 3
+\chapter{Svolgimento delle Attività}
+\label{cap3}
+Lorem Ipsum dolor sit
+
+
+% 
+% 
+%			CAPITOLO 3.1 ? Come fare sottocapitoli, fuck?
+\section{Refactoring Guidato - SOLID}
+Lorem Ipsum dolor sit
+
+
+
+%
+%
+
+%
+%			BIBLIOGRAFIA
+%
+\begin{thebibliography}{00}
+%
+\bibitem{gotti91}
+M. Gotti, I linguaggi specialistici, Firenze, La Nuova Italia, 1991.
+%
+\bibitem{wellek62}
+R. Wellek, A. Warren, Theory of Literature , 3rd edition, New York, Harcourt, 1962.
+%
+\bibitem{canziani78}
+A. Canziani et al., Come comunica il teatro: dal testo alla scena. Milano, Il Formichiere, 1978.
+%
+\bibitem{MoD67}
+Ministry of Defence, Great Britain, Author and Subject Catalogues of the Naval Library, London, Ministry of Defence, HMSO, 1967.
+%
+\bibitem{heine23}
+H. Heine, Pensieri e ghiribizzi. A cura di A. Meozzi. Lanciano, Carabba, 1923.
+%
+\bibitem{basso62}
+L. Basso, ``Capitalismo monopolistico e strategia operaia'', Problemi del socialismo, vol. 8, n. 5, pp. 585-612, 1962.
+%
+\bibitem{avirovic93}
+L. Avirovic, J. Dodds (a cura di), Atti del Convegno internazionale "Umberto Eco, Claudio Magris. Autori e traduttori a confronto" ( Trieste, 27-28 novembre 1989), Udine, Campanotto, 1993.
+%
+\bibitem{gans67}
+E.L. Gans, "The Discovery of Illusion: Flaubert's Early Works, 1835-1837", unpublished Ph.D. Dissertation, Johns Hopkins University, 1967.
+%
+\bibitem{harrison92}
+R. Harrison, Bibliography of planned languages (excluding Esperanto).  \url{http://www.vor.nu/langlab/bibliog.html}, 1992, agg. 1997.
+%
+\end{thebibliography}
+% 
+\end{document}
+
+
+ 
