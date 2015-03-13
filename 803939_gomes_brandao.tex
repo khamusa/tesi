@@ -104,13 +104,59 @@ Le informazioni integrate riguardano la topologia e la destinazione d'uso degli 
 Su questa relazione descrivo il processo di sviluppo della suddetta applicazione da zero, con particolare rilievo alle sfide per la buona progettazione e all’utilizzo di un concetto che ho chiamato “continuos refactoring” \footnote{Si veda il capitolo \ref{cap3}}
 
 
-
 % 
 % 
 %			CAPITOLO 2
 \chapter{Attività Preliminari}
 \label{cap2}
-Lorem Ipsum dolor sit
+``We cannot solve the problems we have created
+with the same thinking we used in creating them.'' - A. Einstein (be dumb when writing code)
+
+``Experience is simply the name we give our mistakes'' - Oscar Wilde
+
+La fase iniziale dello sviluppo di un progetto è quella di capirlo, il ché può richiedere tempo e dedicazione considerevole. Molto spesso però il capire avviene - e lo può soltanto - durante lo sviluppo stesso.
+
+Il primo passo è stato quello di pensare ai casi d'uso che volevamo coprire con la nostra applicazione. Da questo punto abbiamo proceduto verso la comprensione dei dati e delle informazioni disponibili e la scelta delle tecnologie più adeguate per la loro elaborazione. Le sorgenti dati che dovevamo integrare erano due principali, a loro volta suddivise in più tipologie di informazione e formati di provvenienza.
+
+Dal dipartimento di Edilizia dell'UNIMI abbiamo ottenuto le piante architettoniche dei palazzi utilizzati dall'Università, in formato DWG - un formato file proprietario, e una serie di fogli elettronici con informazioni dettagliate sui palazzi e sulle loro stanze, in speciale quelle utilizzate per scopi didattici.
+
+Con l'aiuto anche della divisione di Sistemi Informativi, rappresentata in speciale da Vincenzo Pupillo, abbiamo ottenuto in formato testuale CSV (comma separated values) le informazioni utilizzate dal sistema Easyrooms, che mira a fornire informazioni rispetto all'uso didattico degli spazi (eventi, lezioni, capienza delle aule, lauree, eccettera).
+
+Entrambi i dipartimenti ci hanno aiutato con totale disponibilità e trasparenza, e senza il loro aiuto il nostro progetto non sarebbe mai stato portato a buon fine.
+
+Con queste informazioni in mano ne abbiamo incominciato l'analisi, cercando di capire non solo le loro criticità, ma anche dove si sovrapponevano, complementavano o fossero ridondanti. Al primo contatto ci sembravano perfette: avevamo informazioni di destinazione delle stanze, la loro capienza, accessibilità a disabili, e le potevamo localizzare sulle piante architettoniche utilizzando il loro codice identificativo. Dalle piante ottenevamo anche la localizzazione di aree di interesse come biblioteche, sale studio, bagni, spazi di restorazione, eccettera.
+
+
+\section{La consistenza dei dati}
+
+Sotto uno sguardo più attento, però, l'immagine mentale che ci eravamo costruiti di quei dati incominciò a rilevare i suoi diffetti: le fessure venivano come errori di battitura, l'utilizzo duplice di codici identificativi per i palazzi, piante architettoniche fuori scala o semplicemente disegno della stessa stanza più di una volta sullo stesso file. Spesso i disegni venivano ripetuti sulla stessa posizione, probabilmente frutto di un'operazione di copia e incolla interrotta a metà. All'occhio umano saltavano facilmente gli errori, che riuscivamo a correggere facilmente, guardandoli e riconoscendo dei pattern di riferimento. Soltanto a un programmatore interessato ad estrarre informazioni in modo automatico con l'uso di un elaboratore avrebbero causato danni, e allora ci toccava gestirli.
+
+Questi errori sono stati molto probabilmente accumulati lungo gli anni, ed è totalmente comprensibile che ci siano, se  consideriamo ad esempio che la maggior parte delle piante architettoniche di cui disponevano sono state disegnate in formato cartaceo e solo posteriormente trasferite in formato digitale. Sono inoltre state fatte e raccolte lungo periodi significativi, create da persone diverse, e perciò è difficile mantenere degli \textit{standard} nella loro rappresentazione digitale. Ovviamente nel processo di trasferimento da cartaceo a digitale dettagli vengono persi e errori introdotti, e le versioni digitali non passano per la stessa meticolosa verifica a cui vengono sottoposte quelle utilizzate per la costruzione degli edifici. 
+
+La molle di dati era significativa, in speciale per i file DWG: più di 700, ogniuno con dimensione media di 4.5Mb, e casi estremi di fino a 44Mb. Questi file contenevano tutte le informazioni edili: tubature, finestre, porte, scale, sezioni dei palazzi, disegno dei muri, cortili, terrazze, eccettera. Ci è stato necessario meno di una settimana di contemplazione e analisi di quei dati per capire che l'unico modo di giudicarne la loro qualità e se erano in grado di soddisfare le nostre esigenze sarebbe stato incominciando con la loro estrazione e cercando di imparare sul processo.
+
+
+\section*{Nessuna assunzione}
+
+Dalle analisi iniziali abbiamo concluso che potevamo fare poche o nessuna assunzione sulla qualità, formato, presenza o consistenza dei dati. Alcuni esempi di assunzioni che abbiamo concluso non essere possibili e che avrebbero agevolato significativamente lo sviluppo sono la presenza o meno di codici identificativi univoci per i palazzi dai file testuali, la presenza di un identificazione univoca del piano e palazzo a cui ogni file DWG si riferisce, e l'univocità degli identificativi di piani. 
+
+\section{Le scelte tecnologiche a partire dai dati}
+
+Questa natura dei dati trasformava tante delle nostre richieste in \textit{``Wicked Problems''}, cioè problemi la cui comprensione avviene direttamente durante la loro risoluzione e non è possibile \textit{a priori}, e ciò ha influenzato molto la scelta tecnologica. Questo è stato uno dei primi motivi che ci ha fatto scegliere Python 3 come linguaggio di riferimento per l'estrazione e l'elaborazione: la capacità di scrivere velocemente degli script in grado di estrarre e produrre dettagliate analisi delle caratteristiche dei dati. Infatti, durante lo sviluppo, l'uso della REPL (Read Eval Print Loop) per l'esplorazione di questi dati prima dell'effettiva sintesi degli algoritmi e scrittura del codice ci ha permesso di affrontare i problemi in modo più efficiente.
+
+Altri aspetti hanno contribuito alla scelta di Python:
+\begin{itemize}
+  \item La presenza delle \textit{list comprehentions}, un potente strumento per l'esecuzione di operazioni di trasformazione e filtraggio dei dati.
+  \item L'esistenza di una forte comunità di sviluppatori e entusiasti per il linguaggio, specialmente in Italia.
+  \item Ampia presenza di librerie di supporto per le attività che dovevamo eseguire (lettura delle piante, elaborazioni geometriche, ecc).
+  \item Python era un nuovo linguaggio per tutti i partecipanti al progetto, e allora rappresentava una positiva sfida didattica.
+  \item Non volevamo che le scelte tecnologiche fossero limitanti per la continuazione del progetto in futuro da parte di altri studenti/tesisti. Abbiamo considerato Python adeguata in quanto è anche insegnata all'università come parte del corso di Programmazione Avanzata, tenuto dal prof. Walter Cazzola.
+\end{itemize}
+
+Per quanto riguarda la scelta del DBMS (Database Management System) è stata l'inconsistenza dei dati a guidare la scelta: le informazioni presenti sui diversi palazzi non erano omogenee in termini quantitativi ne qualitativi. Su qualche edifici disponevamo di più informazioni topologiche mentre su altri quasi nessuna. Anche le informazioni inerenti all'edificio stesso (come il suo nome rappresentativo o scopo d'utilizzo - ad esempio ``Dipartimento di Informatica'') non sempre erano presenti o validi, e ciò si ripeteva anche sugli altri dati. Per questi motivi abbiamo concluso che la miglior scelta sarebbe stata quella di utilizzare un DBMS che seguisse un modello di memorizzazione \textit{schemaless}. 
+
+Abbiamo scelto MongoDB per le sue note caratteristiche prestazionali, supporto nativo a calcoli su coordinate geografiche, presenza di una forte comunità, documentazione chiara e completa e la diversità di librerie aggiuntive disponibili.
+
 
 
 
@@ -125,7 +171,7 @@ Lorem Ipsum dolor sit
 % 
 % 
 %			CAPITOLO 3.1 ? Come fare sottocapitoli, fuck?
-\section{Refactoring Guidato - SOLID}
+\section{Refactoring guidato - SOLID}
 Lorem Ipsum dolor sit
 
 
