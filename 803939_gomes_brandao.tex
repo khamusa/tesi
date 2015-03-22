@@ -23,6 +23,7 @@
 \usepackage[a4paper]{geometry}
 \usepackage{amssymb,amsmath,amsthm}
 \usepackage{graphicx}
+\graphicspath{ {./images/} }
 \usepackage{url}
 \usepackage{epsfig}
 \usepackage[italian]{babel}
@@ -37,6 +38,13 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 
+
+%Figure con bordo
+\usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
+
+
 %
 \newtheorem{myteor}{Teorema}[section]
 %
@@ -46,7 +54,7 @@
 %			TITOLO
 %
 \begin{document}
-\title{Progettazione di un'applicazione e consegu|denze di un approccio ``continuos refactoring''}
+\title{Progettazione di un'applicazione e conseguenze di un approccio ``continuos refactoring''}
 \author{Samuel Gomes Brandão}
 \dept{Corso di Laurea in Informatica} 
 \anno{2013-2014}
@@ -94,8 +102,14 @@ Il progetto parte con lo sviluppo di un'applicazione software con lo scopo princ
 
 Le informazioni integrate riguardano la topologia e la destinazione d'uso degli edifici universitari e i loro spazi, con particolare importanza alla elaborazione e presentazione delle piante interne e localizzazione di stanze precise. In questo modo, siamo in grado di fornire accuratamente informazioni sulla localizzazione di palazzi, aule, o stanze a secondo della loro tipologia d'uso (bagni, biblioteca, sale studio, ecc).
 
-Su questa relazione descrivo il processo di sviluppo della suddetta applicazione da zero, con particolare rilievo alle sfide per la buona progettazione e all'utilizzo di un concetto che ho chiamato “continuos refactoring” \footnote{Si veda il capitolo \ref{cap3}}
+In definitiva, tre sono stati i principali compiti del progetto:
+\begin{itemize}
+  \item Estrarre la topologia interna degli edifici universitari a partire dalle piantine edili.
+  \item Integrare le diverse informazioni testuali (fogli elettronici, file CSV\footnote{Comma separated values - formato testuale in cui le informazioni vengono inserite utilizzando le virgole come separatori}) fornite dall'università e validarle.
+  \item Associare le informazioni testuali alla topologia dei palazzi, identificando la localizzazione di stanze rilevanti e la categoria funzionale delle altre stanze.
+\end{itemize}
 
+Su questa relazione descrivo il processo di sviluppo della suddetta applicazione da zero, con particolare rilievo alle sfide per la buona progettazione e all'utilizzo di un concetto che ho chiamato “continuos refactoring” \footnote{Si veda il capitolo \ref{cap3}}. Per quanto riguarda i compiti sopra, per motivi di brevità mi concentrerò di più sugli aspetti di estrazione dati dalle piantine edili.
 
 % 
 % 
@@ -113,6 +127,15 @@ Il primo passo è stato quello di pensare ai casi d'uso che volevamo coprire con
 
 Dal dipartimento di Edilizia dell'UNIMI abbiamo ottenuto le piante architettoniche dei palazzi utilizzati dall'Università, in formato DWG - un formato file proprietario, e una serie di fogli elettronici con informazioni dettagliate sui palazzi e sulle loro stanze, in speciale quelle utilizzate per scopi didattici.
 
+Abbiamo convertito questi file binari in formato DXF (formato testuale ``CAD-compatible'' ma comunque incomprensibile all'essere umano) utilizzando uno strumento gratuito, dato che era il formato richiesto dalla libreria dxfgrabber \footnote{Libreria \textit{opensource}, sorgente disponibile in https://bitbucket.org/mozman/dxfgrabber} che abbiamo utilizzato. La dimensione dei file arrivava facilmente all'ordine dei megabyte, con decine di migliaia di righe su ognuno, il che è ragionevole, se consideriamo che ogni file contiene, oltre al disegno delle stanze, una marea di informazioni imprescindibili al lavoro edile (misure, tubature, passaggio di elettricità, porte e finestre, scale, ascensori, sezioni, ecc).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{03-dxf-chaos.jpg}
+    \caption{Esempio del contenuto di un file DWG di media complessità (Dipartimento di Informatica, 1º piano). La quantità di informazioni presente rende difficile la comprensione del contenuto informativo del file manualmente. }
+    \label{fig:dxf_chaos}
+\end{figure}
+
 Con l'aiuto anche della divisione di Sistemi Informativi, rappresentata in speciale da Vincenzo Pupillo, abbiamo ottenuto in formato testuale CSV (comma separated values) le informazioni utilizzate dal sistema Easyrooms, che mira a fornire informazioni rispetto all'uso didattico degli spazi (eventi, lezioni, capienza delle aule, lauree, eccetera).
 
 Entrambi i dipartimenti ci hanno aiutato con totale disponibilità e trasparenza, e senza il loro aiuto il nostro progetto non sarebbe mai stato portato a buon fine.
@@ -122,20 +145,19 @@ Con queste informazioni in mano ne abbiamo incominciato l'analisi, cercando di c
 
 \section{La consistenza dei dati}
 
-Sotto uno sguardo più attento, però, l'immagine mentale che ci eravamo costruiti di quei dati incominciò a rilevare i suoi difetti: le fessure venivano come errori di battitura, l'utilizzo duplice di codici identificativi per i palazzi, piante architettoniche fuori scala o semplicemente disegno della stessa stanza più di una volta sullo stesso file. Spesso i disegni venivano ripetuti sulla stessa posizione, probabilmente frutto di un'operazione di copia e incolla interrotta a metà. All'occhio umano saltavano facilmente gli errori, che riuscivamo a correggere facilmente, guardandoli e riconoscendo dei pattern di riferimento, ma per un elaboratore no sarebbe così facile. Soltanto a un programmatore interessato ad estrarre informazioni in modo automatico con l'uso di un elaboratore questi errori avrebbero causato danni, e allora ci toccava gestirli.
+Sotto uno sguardo più attento, però, l'immagine mentale che ci eravamo costruiti di quei dati incominciò a rilevare i suoi difetti: le fessure venivano come errori di battitura, l'utilizzo duplice di codici identificativi per i palazzi, piante architettoniche fuori scala o semplicemente disegno della stessa stanza più di una volta sullo stesso file. Spesso i disegni venivano ripetuti sulla stessa posizione, probabilmente frutto di un'operazione di copia e incolla interrotta a metà. All'occhio umano saltavano facilmente gli errori, e riuscivamo a correggerli riconoscendo dei pattern di riferimento, ma per un elaboratore no sarebbe stato così facile. Soltanto a un programmatore interessato ad estrarre informazioni in modo automatico con l'uso di un calcolatore questi errori avrebbero causato danni, e allora ci toccava gestirli.
 
-Con buona probabilità questi errori sono stati accumulati lungo gli anni, ed è totalmente comprensibile che ci siano, se  consideriamo ad esempio che la maggior parte delle piante architettoniche di cui disponevano sono state disegnate in formato cartaceo e solo posteriormente trasferite in formato digitale, quando la costruzione dell'edificio era già finita. Sono inoltre state fatte e raccolte lungo periodi significativi, create da persone diverse, e perciò è difficile mantenere degli \textit{standard} nella loro rappresentazione digitale. Ovviamente nel processo di trasferimento da cartaceo a digitale dettagli vengono persi e errori introdotti, e le versioni digitali non passano per la stessa meticolosa verifica a cui vengono sottoposte quelle utilizzate per la costruzione degli edifici. 
-
-La molle di dati era significativa, in speciale per i file DWG: più di 700, ognuno con dimensione media di 4.5Mb, e casi estremi di fino a 44Mb. Questi file contenevano tutte le informazioni edili: tubature, finestre, porte, scale, sezioni dei palazzi, disegno dei muri, cortili, terrazze, eccetera. Ci è stato necessario meno di una settimana di contemplazione e analisi di quei dati per capire che l'unico modo di giudicarne la loro qualità e se erano in grado di soddisfare le nostre esigenze sarebbe stato incominciando con la loro estrazione e cercando di imparare sul processo. Queste caratteristiche hanno determinato tanti aspetti dello sviluppo, addirittura il nostro workflow, che frequentemente si è dimostrato ``REPL Driven'' o ``Experimentation Driven''.
-
+Con buona probabilità questi errori sono stati accumulati lungo gli anni, ed è totalmente comprensibile che ci siano, se  consideriamo ad esempio che la maggior parte delle piante architettoniche di cui disponevano sono state disegnate in formato cartaceo e solo posteriormente trasferite in formato digitale, quando la costruzione dell'edificio era già finita. Sono inoltre state fatte e raccolte lungo periodi significativi, create da persone diverse, e perciò è difficile mantenere degli \textit{standard} nella loro rappresentazione digitale. Ovviamente nel processo di trasferimento da cartaceo a digitale dettagli vengono persi e errori vengono introdotti, e le versioni digitali non passano per la stessa meticolosa verifica di quelle utilizzate per la costruzione degli edifici. 
 
 \section*{Nessuna assunzione}
 
-Dalle analisi iniziali abbiamo concluso che potevamo fare poche o nessuna assunzione sulla qualità, formato, presenza o consistenza dei dati. Alcuni esempi di assunzioni che abbiamo concluso non essere possibili e che avrebbero agevolato significativamente lo sviluppo sono la presenza o meno di codici identificativi univoci per i palazzi dai file testuali, la presenza di un identificazione univoca del piano e palazzo a cui ogni file DWG si riferisce, e l'univocità degli identificativi di piani.
+La molle di dati era significativa, in speciale per i file DWG: più di 700, ognuno con dimensione media di 4.5Mb, e casi estremi di fino a 44Mb. Questi file contenevano tutte le informazioni edili: tubature, finestre, porte, scale, sezioni dei palazzi, disegno dei muri, cortili, terrazze, eccetera. Ci è stato poco tempo di analisi di quei dati per capire che l'unico modo di giudicarne la loro qualità sarebbe stato incominciando con la loro estrazione e imparando durante il processo. Queste caratteristiche hanno determinato tanti aspetti dello sviluppo, addirittura il nostro \textit{workflow}, che frequentemente si è dimostrato ``REPL Driven'' o ``Experimentation Driven''\footnote{Più dettagli nel capitolo \ref{cap3}}.
+
+Da queste analisi abbiamo concluso che potevamo fare poche o nessuna assunzione iniziale sulla qualità, formato, presenza o consistenza dei dati.
 
 \section{Le scelte tecnologiche a partire dai dati}
 
-Questa natura dei dati trasformava tante delle nostre richieste in \textit{``Wicked Problems''}, problemi la cui comprensione avviene direttamente durante la loro risoluzione e non è possibile \textit{a priori}. Questo è stato uno dei primi motivi che ci ha fatto scegliere Python 3 come linguaggio di riferimento per l'estrazione e l'elaborazione: la capacità di scrivere velocemente degli script in grado di estrarre e produrre dettagliate analisi delle caratteristiche dei dati.
+Questa natura dei dati trasformava tante delle nostre richieste in \textit{``Wicked Problems''}, problemi la cui comprensione potrebbe avvenire soltanto durante la loro risoluzione stessa e non era possibile \textit{a priori}. Questo è stato uno dei primi motivi che ci ha fatto scegliere Python 3 come linguaggio di riferimento per l'estrazione e l'elaborazione: la capacità di scrivere velocemente degli script in grado di estrarre e produrre dettagliate analisi delle caratteristiche dei dati. 
 
 Oltre a questo aspetto, anche i seguenti punti hanno contribuito alla scelta di Python:
 \begin{itemize}
@@ -146,10 +168,9 @@ Oltre a questo aspetto, anche i seguenti punti hanno contribuito alla scelta di 
   \item La scelta di Python non sarebbe limitante per la continuazione del progetto in futuro da parte di altri studenti/tesisti, in quanto è anche insegnato all'università.
 \end{itemize}
 
-Per quanto riguarda la scelta del DBMS (Database Management System) è stata l'inconsistenza dei dati a guidare la scelta: le informazioni presenti sui diversi palazzi non erano omogenee in termini quantitativi ne qualitativi. Su qualche edifici disponevamo di più informazioni topologiche mentre su altri quasi nessuna. Anche le informazioni inerenti all'edificio stesso (come il suo nome rappresentativo o scopo d'utilizzo - ad esempio ``Dipartimento di Informatica'') non sempre erano presenti o validi, e ciò si ripeteva anche sugli altri dati. L'uso di un DBMS relazionale avrebbe comportato degli \textit{schema} con considerevoli campi null e denormalizzato. Per questi motivi abbiamo scelto un DBMS che seguisse un modello di memorizzazione \textit{schemaless}. 
+Per quanto riguarda la scelta del DBMS (Database Management System) è stata l'inconsistenza dei dati a guidare la scelta: le informazioni presenti sui diversi palazzi non erano omogenee in termini quantitativi ne qualitativi. Su qualche edifici disponevamo di più informazioni topologiche mentre su altri quasi nessuna. Anche le informazioni inerenti all'edificio stesso (come il suo nome rappresentativo o scopo d'utilizzo - ad esempio ``Dipartimento di Informatica'') non sempre erano presenti o validi, e ciò si ripeteva anche sugli altri dati. L'uso di un DBMS relazionale avrebbe comportato degli \textit{schema} con considerevoli campi \textit{null} e denormalizzato. Per questi motivi abbiamo scelto un DBMS che seguisse un modello di memorizzazione \textit{schemaless}. 
 
 Per le note caratteristiche prestazionali, supporto nativo a calcoli su coordinate geografiche, presenza di forte comunità, documentazione chiara e completa e la diversità di librerie aggiuntive disponibili, abbiamo scelto MongoDB come DBMS di riferimento.
-
 
 % 
 % 
@@ -157,67 +178,141 @@ Per le note caratteristiche prestazionali, supporto nativo a calcoli su coordina
 \chapter{Svolgimento delle Attività}
 \label{cap3}
 
-Abbiamo incominciato il progetto affrontando quello che ci sembrava l'aspetto più difficile, cioè l'estrazione dei dati delle piante architettoniche. Abbiamo convertito i file DWG in DXF utilizzando uno strumento gratuito, dato che era il formato richiesto dalla libreria dxfgrabber \footnote{Libreria \textit{opensource}, sorgente disponibile in https://bitbucket.org/mozman/dxfgrabber} che abbiamo utilizzato.
 
-Il primo passo era quello di estrarre le stanze, e in seguito le etichette e testi associati a ogni stanza, il disegno dei muri e finestre (per scopi estetici principalmente), la posizione delle porte, scale e ascensori. Ognuno di questi elementi si è rivelato più complicato di quanto ce ne aspettavamo.
+\section{\textit{La scelta di un workflow: partire con il TDD}}
 
-La lettura delle stanze è stata poco problematica. Le difficoltà maggiori sono sorte in fase di ottenimento delle etichette appartenenti alle stanze e nell'associarle. L'unico vincolo fra le etichette della stanza e il suo contorno era la posizione del testo e del disegno, senza nessun vincolo sintattico. Nel 90\% dei casi ciò non ci causava problemi, ma in un 10\% significativo causava errori scomodi, specialmente in presenza di stanze piccole o strette (come corridoi ad esempio), in cui l'etichetta, per mancanza di spazio, poteva venir collocata al di fuori del contorno della stanza, nelle sue vicinanze, potendo addirittura finire all'interno del contorno di altre stanze. All'occhio umano era semplice capire a quale stanza tale etichetta appartenesse, ma lo stesso era molto difficile in termini algoritmici.
+Per incominciare lo sviluppo avevamo l'obbiettivo di utilizzare il \textit{TDD - Test Driven Development}, un consacrato \textit{workflow} per lo sviluppo software noto per portare a soluzioni di design più semplici, pulite, disaccoppiate e testabili, tutte proprietà desiderabili da un software. Dato che sul TDD esiste già una svariata bibliografia online, lo riassumo in poche parole: consiste sostanzialmente nello scrivere i test delle nuove funzionalità prima di implementarle, seguendo un preciso flusso di lavoro (scrivo il test, lo eseguo e lo vedo fallire, implemento la funzionalità e rieseguo il test fino a farlo passare, faccio \textit{refactoring} e ricomincio con la prossima funzionalità). In questo modo è permesso allo sviluppatore testare l'interfaccia stessa delle funzioni, metodi, moduli o oggetti che dovrà sviluppare, per poi andare a riempire i dettagli.
 
+Con questo obbiettivo in mente abbiamo incominciato il progetto affrontando quello che ci sembrava l'aspetto più difficile e che allo stesso tempo più ci interessava, cioè l'estrazione dei dati delle piante architettoniche. 
 
-\section{\textit{Experimentation Driven Workflow}}
+La libreria dxfgrabber gestiva il compito di leggere i file da disco, interpretare le sue informazioni e darci un oggetto che rappresentasse il suo contenuto. Ci forniva la lista di entità grafiche/geometriche (linee, segmenti, cerchi, raggruppamenti di oggetti) e i testi, o etichette, tutto rispettando i 
+\textit{layers}\footnote{I \textit{layers} sono strati diversi su cui gli elementi del file vengono collocati. Servono a raggruppare elementi diversi per scopo funzionale o semantico, come nell'esempio citato per le porte.}
+con cui il file veniva organizzato. La grande maggioranza di questi file seguiva uno standard preciso per il \textit{naming} dei \textit{layers}: c'era un \textit{layer} ``PORTE'', un \textit{layer} ``RM\$'' che conteneva i poligoni delle stanze, un \textit{layer} ``FINESTRE'', e così via. Ma in qualche file, Il layer ``PORTE'' potrebbe chiamarsi ``PORTA'', le finestre potrebbero essere state inserite insieme alle murature nel \textit{layer} ``MURI'', mentre il \textit{layer} ``SCALE'' era vuoto con le scale disegnate insieme alle stanze su ``RM\$''. Sul \textit{layer} delle porte, a volte trovavamo le porte disegnate come linee e archi sparsi, a volte raggruppate all'interno di oggetti composti (chiamati Insert, una specie di gruppo di oggetti), e lo stesso valeva per le finestre e le scale. 
 
-Per \textit{Experimentation Driven Workflow} intendo una modalità pratica di sviluppo del \textit{software} che attraverso l'esplorazione pratica del dominio applicativo, dei problemi da risolvere, e della natura dei dati, si prefigge di:
+Con morfologie talmente eterogenee da trattare, in che modo avremmo potuto incominciare il lavoro su questi dati/file utilizzando il TDD? Una delle qualità del TDD sta nel fatto che molto spesso, quando non si sa come incominciare l'implementazione di una funzionalità, si è in grado di scrivere almeno i test che andranno a testarla. Nel nostro caso, anche se studiassimo i dati a lungo, che assunzioni potevamo veramente fare? E allora che tipologia di test avremmo potuto scrivere inizialmente per guidarci lo sviluppo? Con queste domande abbiamo concluso che l'utilizzo sistematico del TDD avrebbe portato all'utilizzo di almeno una delle seguenti strategie per la scrittura dei test iniziali:
 
 \begin{itemize}
-	\item Garantire una comprensione più approfondita del problema.
-	\item Rivelare in che modo il linguaggio utilizzato, i suoi moduli o librerie esterne possono contribuire alla risoluzione del problema
-	\item Capire caratteristiche importanti/comuni su una molle considerevole di dati.
-	\item Eventualmente generare codice da venir utilizzato nell'implementazione finale.
+  \item Basarsi sui file VERI, rischiando di ottenere implementazioni che funzionassero soltanto per casi simili, o test poco affidabili.
+  \item Basarsi su una quantità enorme di dati fittizi, cercando di coprire molti casi, ma scrivendo dei test fragili e potenzialmente più numerosi di quanto fosse ragionevole, specialmente per la loro manutenzione.
+  \item Basarsi su usi complessi di \textit{mock} per limitare la quantità di dati fittizi e isolare piccoli casi da trattare. Poco pratico perché i piccoli casi da trattare sarebbero troppi da gestire esplicitamente.
 \end{itemize}
 
-Come strumento per l'esplorazione abbiamo scelto la REPL (\textit{Read Eval Print Loop}) di Python stessa. In questo modo abbiamo potuto esplorare i problemi/dati nell'ambiente stesso su cui avremo dovuto poi implementare le soluzioni. In questo modo, il \textit{workflow} basico è composto dai seguenti passi:
+Per evitarle dovevamo essere in grado di fare qualche assunzione, ma non riuscivamo a trovare proprietà che venissero rispettate nel 100\% dei casi. 
+
+Dopo un naturale momento di disperazione, abbiamo capito un aspetto imprescindibile per un lavoro così complicato, su dati così eterogenei: non dobbiamo cercare il 100\%. Non l'avremmo mai raggiunto. Ci serviva, invece, una soglia ammissibile di errore, la possibilità di segnalarli all'utente o superarli attraverso qualche euristica particolare. Sorsero allora i seguenti obbiettivi, per ogni funzionalità / problema in considerazione: 
+
+\begin{itemize}
+  \item Definire la soglia di errore ammissibile.
+  \item Superare la maggior parte possibile di errori, con uso di euristiche diverse per coprire più casi possibili.
+  \item Rilevare errori non risolubili per rendere possibile all'utente la loro correzione manuale. In questo modo, anche se non riuscivamo a soddisfare la soglia di errore ammissibile, avremmo sviluppato un sistema che tende in futuro a migliorare.
+\end{itemize}
+
+In altre parole, non avremmo più partito dai test, ma da un'esplorazione sistematica del problema e dei dati. Tale approccio ci ha consentito gestire meglio l'incertezza, sostituendo le assunzioni per ipotesi da testare.
+
+In uno speech nell'Agile UX NYC 2012, Joshua Seiden discorre sul rimpiazzare i \textit{requirements} con ipotesi quando sviluppando per un ambiente dove non ce ne sono certezze: \textit{``When you\'re in production, building to known standard, you want requirements. When you\'re in an environment of uncertainty, you want hypotheses.''} (Seiden, 2012).
+
+L'autore sottolinea che molto spesso i \textit{requirements} nascondono forti assunzioni sugli effetti dei cambiamenti, e la tecnica suggerita di esprimerli in forma di ipotesi è utile nell'esplicitare l'incertezza. Un approccio simile abbiamo adottato nel gestire le assunzioni che facevamo sui nostri dati, attraverso la definizione di soglie di errore come delle ipotesi di soddisfacibilità dei nostri requisiti.
+
+In seguito allo stabilire delle ipotesi sui dati, seguiva la fase della loro validazione, dalla quale volevamo ricavare un percentuale di soddisfacibilità (quale percentuale dei dati totali soddisfa positivamente o negativamente l'ipotesi in questione).
+
+\section{\textit{Experimentation Driven Development}}
+
+Per \textit{Experimentation Driven Development} intendo una modalità pratica di sviluppo del \textit{software} che attraverso l'esplorazione pratica del dominio applicativo, dei problemi da risolvere, e della natura dei dati, si prefigge di:
+
+\begin{enumerate}
+	\item Garantire una comprensione più approfondita del problema.
+	\item Capire caratteristiche importanti/comuni su una molle considerevole di dati.
+  \item Rivelare in che modo il linguaggio utilizzato, i suoi moduli o librerie esterne possono contribuire alla risoluzione del problema
+  \item Confrontare ipotetiche soluzioni con grandi quantità di input non fittizi per capirne la precisione e/o \textit{recall}.
+	\item Permettere una naturale validazione e conseguente migrazione degli approcci di esplorazione utilizzati verso un'implementazione funzionante.
+\end{enumerate}
+
+È imprescindibile che l'esplorazione avvenga nell'ambiente stesso su cui avverrà l'implementazione. Per questo motivo abbiamo utilizzato la REPL (\textit{Read Eval Print Loop}), con l'interprete python bpython\footnote{\url{http://www.bpython-interpreter.org/}}, che fornisce diverse funzionalità utili per un approccio del genere:
+
+\begin{itemize}
+  \item Colorazione del codice per facilitarne la comprensione
+  \item \textit{Indenting} automatico, il che risparmia considerevole tempo scrivendo codice su Python, in cui l'indentazione è significativa.
+  \item Introspezione sui metodi e funzioni utilizzate, esibendo direttamente sulla REPL dettagli sulla loro segnatura e anche documentazione (docstring).
+  \item Possibilità di salvare il codice utilizzato direttamente sul filesystem
+  \item Funzionalità \textit{rewind}, che permette di disfare le istruzioni precedenti. Ci permetteva ad esempio di esplorare e trasformare i dati per vederne determinati risultati, tornare in dietro e riprovare con strategie diverse.
+\end{itemize}
+
+Il nostro \textit{workflow} basico era composto dai seguenti passi, eseguiti in modo iterativo:
 
 \begin{itemize}
 	\item Comprendere teoricamente la natura del problema
-	\item Utilizzare la REPL per conoscere meglio i dati e le sfide implementative
-	\item (Opzionale) Creare un prototipo o bozza che permetta la risoluzione del problema e l'esplorazione di ulteriori aspetti. ???? dettagliare ???
+	\item Utilizzare la REPL per conoscere meglio i dati e le sfide implementative, analizzando la numerosità totale degli input e la quantità di casi che soddisfano  qualche insieme di proprietà desiderate.
+	\item Creare/salvare codice che permetta o la risoluzione del problema (in termini di soglie ammissibili) o l'esecuzione di test significativi sulle funzionalità da implementare.
 \end{itemize}
 
-Il prototipo/bozza differisce da un'implementazione finale principalmente per aspetti di completezza (può non gestire ad esempio casi limite) e qualità del codice e prestazioni (viene scritto il più veloce possibile in modo da non bloccare il \textit{workflow}, ma non necessariamente è un'implementazione efficace o chiara).
+Ad ogni iterazione, le prove precedenti e codici ottenuti venivano riutilizzati e permettevano una più ampia comprensione, oltre a generare dei prototipi/bozze implementativi.
 
-La nostra soluzione per il problema delle etichette delle stanze è nata direttamente dall'approccio di esplorazione utilizzato. Con l'uso della REPL, abbiamo analizzato tutti i file di cui disponevamo e le loro stanze, associando un'etichetta a ognuna delle stanze. Se a una stanza venissero associate più etichette, la scartavamo. Con questa strategia siamo stati in grado di mappare etichette al 98\% delle stanze disponibili. Del 2\% senza etichette, meno di un quarto erano di tipo didattico (aule, laboratori, ecc), e allora per i nostri scopi potevamo stimare un tasso di \textit{recall} del circa 99\% con precisione molto simile, e ciò era più che soddisfacente.
+Il prototipo/bozza differisce da una versione finale principalmente per aspetti di completezza (può non gestire ad esempio casi limite) e qualità del codice e prestazioni (viene scritto il più veloce possibile in modo da non bloccare il \textit{workflow}, ma non necessariamente è un'implementazione efficace o chiara).
 
-Infatti, durante lo sviluppo, l'uso della REPL per l'esplorazione di questi dati prima dell'effettiva sintesi degli algoritmi e scrittura del codice ci ha permesso di affrontare i problemi in modo più efficiente. Ci permetteva subito di esperimentare con i dati, capire caratteristiche comuni o analizzare i loro attributi, per poi migrare quelle conclusioni verso un'implementazione effettiva. 
+\section*{\textit{Esempio pratico}}
 
-A volte il ottenevamo dalla REPL un modulo già semilavorato, a volte semplicemente una media campionaria che ci permetteva di avere più confidenza nelle scelte prese.
+Un esempio su cui abbiamo utilizzato questa strategia è l'estrazione delle stanze, e in seguito le etichette e testi associati a loro, in modo da poter identificare, ad esempio, dove si trovasse la ``Aula Beta'' sulla piantina, o quali stanze rappresentavano dei Bagni, studi o uffici, cioè le categorie delle stanze.
+
+La lettura delle stanze è stata poco problematica, e con l'uso della REPL siamo riusciti a ottenere a piccoli passi i codici per estrarre le stanze e le etichette.
+
+Le difficoltà maggiori sono sorte nell'associare le etichette alle relative stanze. L'unico vincolo fra le etichette di una stanza e il suo disegno era la loro relativa posizione, senza nessun vincolo a livello sintattico. Abbiamo allora utilizzato un algoritmo che, dato un poligono S (stanza) e un punto P nello spazio (punto di ancoraggio dell'etichetta testuale), rispondeva alla domanda ``Il punto P è dentro il poligono S?''. Si tratta di un algoritmo particolarmente interessante e concettualmente semplice, chiamato \textit{Ray Casting Algorithm}\footnote{Una chiara spiegazione è presente su Wikipedia: \url{http://en.wikipedia.org/wiki/Point_in_polygon\#Ray_casting_algorithm}}.
+
+La nostra ipotesi sui dati era che, essendo in grado di rispondere a questa domanda, saremmo riusciti ad associare etichette correttamente al 90\% delle stanze\footnote{La scelta di questa soglia era giustificata dal fatto che in mezzo ai file di cui disponevamo c'erano anche altri file che non ci davano informazioni utili, o che si riferivano a palazzi non utilizzati per scopi didattici, in cui la percentuale di identificazione di stanze è naturalmente più bassa}.
+
+In presenza di stanze piccole o strette (come corridoi ad esempio), poteva capitare che l'etichetta, per mancanza di spazio, venisse collocata all'interno di una stanza vicina. All'occhio umano era semplice capire a quale stanza tale etichetta appartenesse, ma un po' più complicato in termini algoritmici.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=300pt]{03-dxf-stanza-etichette-fuori.jpg}
+    \caption{Esempio di stanza con più etichette al suo interno. Le etichette corrette sarebbero quelle indicate dal numero 1004. Quelle di numero 1005 sono riferite al piccolo rettangolo indicato (in questo particolare caso, ma non sempre) dalla linea uscente, e si tratta di un ``Cavedio Porta Impianti'', cioè uno spazio per il passaggio dei cavi}
+    \label{fig:dxf_chaos}
+\end{figure}
+
+In seguito la REPL ci ha permesso capire quanto buona effettivamente fosse la nostra soluzione. L'algoritmo riusciva ad associare etichette con un \textit{recall} del 94\% delle stanze, con una \textit{precision} sul 88\%. Avevamo in mano, dall'uso della REPL, una soluzione che sembrava quasi soddisfacente. Non avevamo il 90\% desiderato ma eravamo abbastanza vicini. 
+
+Abbiamo allora lanciato una nuova ipotesi: se scartiamo qualche tipologie specifiche di stanze che ai nostri scopi sono di minore importanza, riusciremo ad aumentare la precisione al 90\% desiderato, al patto di ridurre il percentuale di \textit{recall}.
+
+Con l'uso della REPL abbiamo eseguito delle prove veloci manipolando i codici già esistenti in modo che scartassero le etichette di tipo ``cavedio'' e infatti siamo arrivati a un' \textit{recall} del 93\% con 90\% di precisione stimata.
+
+Infatti, durante lo sviluppo, l'uso della REPL per l'esplorazione di questi dati prima dell'effettiva sintesi degli algoritmi e scrittura del codice ci ha permesso di affrontare i problemi in modo più efficiente. Ci permetteva velocemente di capire caratteristiche comuni o analizzare attributi dei dati e provare alternative, per poi migrare quelle conclusioni verso un'implementazione effettiva. 
+
+A volte ottenevamo dalla REPL un modulo già semilavorato, a volte semplicemente una media campionaria che ci permetteva di avere più confidenza nelle scelte prese.
 Quando una precisione assoluta e deterministica non era possibile, l'analisi delle qualità dei dati giustificava assunzioni che ci permettevano di procedere a un'estrazione \textbf{sufficientemente o statisticamente buona}, superando le difficoltà dell'analisi e la difficoltà di correggere errori umani. In altre parole, ci permetteva di continuare anche quando in termini assoluti sarebbe stato sbagliato farlo.
 
-\section{La naturale migrazione verso un \textit{workflow} prototipale}
+L'ultimo vantaggio è quello di garantire un rapido \textit{feedback} per le strategie adottate. Di certo non tanto rapido quanto una suite di test, ma nel contesto in cui la scrittura dei test sarebbe stata problematica, l'uso della REPL ha agevolato significativamente la valutazione manuale e l'ottenimento di statistiche.
 
-Molti componenti dell'applicazione finale sono nati a partire da questi esperimenti con la REPL, incentivando un approccio alla progettazione di tipo prototipale. Da queste versioni prototipali ottenute dalla sperimentazione, ottenevamo versioni compiute del prodotto eseguendo delle continue trasformazioni e operazioni di \textit{refactoring}. Perché funzionasse correttamente, le prove sulla REPL dovevano essere estremamente veloci, senza preoccupazioni con la qualità del codice prodotto e senza neanche attività di \textit{testing} formale. 
 
-Il principale vantaggio era quello di poter conoscere la natura dei problemi o i limiti e le potenzialità delle nostre scelte algoritmiche, senza dover pagare un prezzo troppo alto se mai fosse necessario tornare in dietro. Fino a questo punto non si trattava di design di software, ma di sola esplorazione e comprensione. Una volta capito meglio il \textit{wicked problem} in questione, lo sviluppo proseguiva in una di due possibili strade: scartare il prototipo per rifarlo da capo, o rielaborarlo.
+\section{La naturale migrazione verso un approccio prototipale}
+
+Molti componenti dell'applicazione finale sono nati a partire da questi esperimenti con la REPL, incentivando un approccio alla progettazione di tipo prototipale. 
+
+Il principale vantaggio era quello di poter conoscere la natura dei problemi o i limiti e le potenzialità delle nostre scelte algoritmiche, senza dover pagare un prezzo troppo alto se mai fosse necessario tornare in dietro. Fino a questo punto non si trattava di design di software, ma di sola esplorazione e comprensione. A misura che riuscivamo ad avere implementazioni soddisfacenti per ogni funzionalità, le incorporavamo al \textit{codebase} principale e proseguivamo verso l'esplorazione di ulteriori limiti e possibilità.
+
+Da queste versioni prototipali ottenute dalla sperimentazione, ottenevamo versioni più elaborate eseguendo delle continue trasformazioni e operazioni di \textit{refactoring}. Perché funzionasse correttamente, le prove sulla REPL dovevano essere estremamente veloci, e allora le attività di design e \textit{testing} non erano la priorità. In questa fase di \textit{refactoring} dovevamo sanare queste eventuali deficienze.
+
+Una volta capito meglio il \textit{wicked problem} in questione, lo sviluppo proseguiva in una di due possibili strade: scartare il prototipo per rifarlo da capo, o rielaborarlo.
 
 Nel caso venisse scartato, un approccio di tipo Test Driven Design (TDD) veniva utilizzato per la sua ricostruzione. In questo modo potevamo centralizzare gli sforzi nella definizione del design e dell'interfaccia della componente, dato che le procedure per la risoluzione del problema erano già state esplorate.
 
 In qualche casi, però, ci sembrava evidente che una nuova versione fatta da zero avrebbe avuto molto in comune con il prototipo in mano. In questi casi abbiamo scelto di rielaborarlo e risistemarlo, in particolare assicurandoci di:
 
 \begin{itemize}
-	\item Ripensare le sue interfacce utilizzando una metodologia ispirata al TDD
-	\item Gestire casi estremi e eccezioni
-	\item Stabilire una modularità adeguata
-	\item Rispettare gli standard per la buona progettazione
-	\item Aggiungere \textit{test coverage}, in speciale test di unità di tipo \textit{white box}, \textit{non regression test} e test di accetazione.
+	\item Ripensare le sue interfacce utilizzando una metodologia per il \textit{refactoring} ispirata al TDD, facendo finta che nessuna implementazione esistesse, scrivendo test contro l'interfaccia ideale, e poi trasformando l'implementazione fino a far passare i test.
+	\item Gestire casi estremi e eccezioni.
+	\item Stabilire una modularità adeguata.
+	\item Rispettare gli standard per la buona progettazione.
+	\item Aggiungere \textit{test coverage}, in speciale test di unità di tipo \textit{white box}, \textit{non regression test} e test di accetazione \textit{end to end}.
 \end{itemize}
+
+Rimane da dire come è stata superata la difficoltà del testing. Una volta che avevamo affrontato la diversità dei dati con un approccio di esplorazione, avevamo dimostrato diverse delle nostre ipotesi, e a quel punto eravamo anche in grado di scrivere dei test che testassero in che modo il nostro codice si relazionava con quelle ipotesi. Non dovevamo più testare la funzionalità di per se (o i requisiti), ma le ipotesi che avevamo definito con il margine definito.
+
+Attraverso la creazione di opportuni moduli e classi che ci permettessero di gestire astrazioni delle informazioni dei file DXF, e non gli elementi veri estratti dalla biblioteca dxfgrabber, siamo stati in grado di definire una quantità di test di qualità significativa, con sufficiente isolamento rispetto ad altre funzionalità / moduli del sistema.
 
 \section{Non regression test}
 
 Questo \textit{workflow} fece si che nessun componente prototipale rimanesse intoccato per molto tempo. In conseguenza dell'aggiunta di nuove funzionalità o di cambiamenti del codice esistente, per ad esempio gestire più casi, le componenti venivano rielaborate, ritrasformate e pulite. In sostanza, il \textit{refactoring} di pezzi preesistenti diventò parte essenziale del processo di sviluppo, e per renderlo possibile abbiamo dato più importanza ai textit{non regression test} e a una modularità e incapsulamento che ci permettessero di cambiare il codice con sufficiente confidenza. 
 
 Avere un insieme di test su cui ci fidavamo è stato essenziale per rendere possibile e veloce lo sviluppo in queste modalità. Un aspetto curioso da discutere è proprio questo: in che modo aumentare il grado di affidabilità fornito da una \textit{suite} di test?
-
-
-
 
 Un altro contesto in cui l'analisi statistica dei dati e dei file è stata essenziale è stato durante la fase di integrazione di informazioni sulle stanze e piani di ogni edificio. Alla fine della lettura e estrazione, abbiamo scoperto che non esisteva nessun standard identificativo per i piani che venisse rispettato da tutte le sorgenti. Non c'era un modo diretto per associare due piani dello stesso palazzo su sorgenti diverse, e ciò rendeva l'integrazione dell'informazione delle stanze molto difficile.
 
@@ -245,32 +340,8 @@ with the same thinking we used in creating them.'' - A. Einstein
 %
 \begin{thebibliography}{00}
 %
-\bibitem{gotti91}
-M. Gotti, I linguaggi specialistici, Firenze, La Nuova Italia, 1991.
-%
-\bibitem{wellek62}
-R. Wellek, A. Warren, Theory of Literature , 3rd edition, New York, Harcourt, 1962.
-%
-\bibitem{canziani78}
-A. Canziani et al., Come comunica il teatro: dal testo alla scena. Milano, Il Formichiere, 1978.
-%
-\bibitem{MoD67}
-Ministry of Defence, Great Britain, Author and Subject Catalogues of the Naval Library, London, Ministry of Defence, HMSO, 1967.
-%
-\bibitem{heine23}
-H. Heine, Pensieri e ghiribizzi. A cura di A. Meozzi. Lanciano, Carabba, 1923.
-%
-\bibitem{basso62}
-L. Basso, ``Capitalismo monopolistico e strategia operaia'', Problemi del socialismo, vol. 8, n. 5, pp. 585-612, 1962.
-%
-\bibitem{avirovic93}
-L. Avirovic, J. Dodds (a cura di), Atti del Convegno internazionale "Umberto Eco, Claudio Magris. Autori e traduttori a confronto" ( Trieste, 27-28 novembre 1989), Udine, Campanotto, 1993.
-%
-\bibitem{gans67}
-E.L. Gans, "The Discovery of Illusion: Flaubert's Early Works, 1835-1837", unpublished Ph.D. Dissertation, Johns Hopkins University, 1967.
-%
-\bibitem{harrison92}
-R. Harrison, Bibliography of planned languages (excluding Esperanto).  \url{http://www.vor.nu/langlab/bibliog.html}, 1992, agg. 1997.
+\bibitem{seiden2012}
+Seiden, Josh, Replacing Requirements with Hypotheses, speach, \url{http://www.slideshare.net/jseiden/2012-feb-25-agile-ux-nyc-seiden-requirements-to-hypotheses?from=ss_embed}, 2012.
 %
 \end{thebibliography}
 % 
