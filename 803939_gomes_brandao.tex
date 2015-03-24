@@ -346,20 +346,298 @@ Avere un insieme di test su cui ci fidavamo è stato essenziale per rendere poss
 
 
 % 
-%			CAPITOLO 3.1 ?
-\chapter{Refactoring guidato}
+%			CAPITOLO 4 ?
+\chapter{Continuous Refactoring}
 
 ``We cannot solve the problems we have created
 with the same thinking we used in creating them.'' - A. Einstein
 
+\section{La completa e totale disperazione}
 
-[TODO]
+A un certo punto dello sviluppo mi sono accorto che incominciavamo a fallire. 
+Gli algoritmi funzionavano, il programma eseguiva i suoi compiti, ma il
+codice diventava intricato e difficile da mantenere.
 
-Continuous Refactoring
+Non bastava esserci messi l'obbiettivo della ricerca costante della qualità e 
+chiarezza del design. Poco a poco, il nostro sistema era diventato complesso, 
+le modifiche costavano di più e non potevo evitare di pensare che ci fosse 
+qualcosa di sbagliato mentre guardavo il codice, l'organizzazione dei diversi 
+moduli, o addirittura la composizione interna di qualche algoritmi. 
 
-[TODO]
+A quanto pare, il nostro progetto, al crescere in dimensione e complessità 
+diventava vittima del fenomeno noto come software decay. La nostra intesa ``
+buona progettazione'' fatta dall'inizio veniva poco a poco storpia.
 
-%
+L'approccio di sviluppo iniziale basato sulla REPL si era rivelato eccezionale 
+per alcuni aspetti, in speciale nella fase iniziale del progetto dove la 
+necessità di capire era predominante rispetto alle preoccupazioni sulla 
+qualità del codice. Una volta che avevamo superato le limitazioni iniziale dei 
+problemi e dati di partenza, il sistema è cresciuto velocemente con l'aggiunta 
+delle funzionalità di integrazione dei dati, ulteriori validazioni, interazioni 
+con il database e funzionalità di segnalazione. Cresceva in complessità. 
+
+Anche se spesso i singoli pezzi/moduli erano fatti bene, con un opportuno 
+isolamento, il codice sembrava quello che viene chiamato \textit{ravioli code}
+\footnote{TODO: comparare ravioli e spaghetti}, 
+cioè fatto da piccoli pezzettini bene isolati e modularizzati ma la cui 
+interrelazione componeva un sistema ancora caotico e senza ordine.
+
+Sentivo ovunque i \textit{code smells}
+\footnote{letteralmente ``puzza del codice''}, cioè sintomi sul programma che indicavano 
+possibilmente la presenza di problemi più profondi. Tra la percezione dei 
+\textit{code smells} e la capacità di trovare le loro radici esiste però una
+grossa differenza, e l'esperienza e pratica è ciò che molto spesso ci rende
+in grado di stabilire il diagnostico completo.
+
+Mi chiedevo che cosa ci fosse di sbagliato, leggendo il codice e studiando il 
+funzionamento del sistema ripetitivamente, senza riuscire però
+a nominare i problemi. Mi mancava. Mi mancava l'esperienza, il know-how pratico
+di qualcuno che ne avesse già imparato a fare questo stesso mestiere: guardare al 
+proprio \textit{codebase} e diagnosticare la ``puzza''. 
+
+Incominciava a dominarmi la paura di modificare il codice, di aggiungere o 
+togliere funzionalità. Per compensare mi è venuta l'idea di aggiungere più test
+al sistema, per assicurarmi che coprissero la maggior parte di casi possibili.
+Con la complessità acquisita, non riuscivamo più a cogliere cosa doveva fare 
+ogni pezzo del sistema e come si relazionavano. Una cosa che ci ha aiutato è
+stata l'elaborazione di qualche \textit{activity diagram} per almeno renderci 
+esplicito ad altissimo livello i principali flussi di esecuzione del programma. 
+
+Ho resistito alla tentazione di aggiungere test per compensare questi difetti,
+prima perché mi sembrava sbagliato compensare problemi di \textit{design} (che
+addirittura non riuscivo ancora a capire) con l'aggiunta
+di test, ma in secondo luogo perché la maggior parte di questi test verrebbe
+tautologica, serviva a poco o copriva aspetti già coperti da altri. 
+Sentivo ancora che incominciavamo a fallire, una follia.
+
+Non potevo evitare di pensare a quanto mancasse al team un membro più esperto,
+qualcuno che avesse già vissuto quella difficoltà e avesse imparato 
+da qualcun'altro o addirittura a partire da uno sforzo proprio! 
+Mi sono accorto però che se qualcuno poteva riuscirci da solo, potevo provare
+anch'io, e chi sa un giorno sarei stato io ad aiutare qualcuno in una situazione 
+simile? E allo stesso tempo la sensazione di aver bisogno di un maestro da farci
+vedere come procedere era costante.
+
+
+\section{100 Programmatori in Cerca di Esperienza}
+
+In mancanza di questa figura all'interno del team, mi chiedevo in che altro modo 
+avrei potuto acquisire quell'esperienza. Il primo tentativo che ho considerato un
+successo parziale è stato quello di cercare i concetti teorici della 
+``buona progettazione'' e in particolare sono finito a rileggermi ancora una 
+volta i principali materiali disponibili sui principi SOLID\footnote{TODO}. 
+
+Dei principi SOLID, il \textit{Single Responsibility Principle}
+è stato quello più utile, in quanto averlo visitato e utilizzato la sua luce
+per rileggere ancora una volta il nostro \textit{codebase}, ha comportato 
+modifiche significative di tipo strutturale, sia a livello di singolo 
+algoritmo che a livello di modulo / classe.
+
+Per applicarlo, ho seguito un suggerimento di ... L'idea è quella di guardare
+le classi o metodi esistenti e cercare di sintetizzare in una frase quale sia
+la sua responsabilità. In seguito, si deve cercare di contare quante volte la
+congiunzione ``e'' e ``oppure'' compaiono. Un numero elevato di queste 
+congiunzioni va considerato come un forte indizio che quella classe o metodo
+gestisce più di quanto ne deve.
+
+Anche se inizialmente in concetto è stato concepito con granularità di classe,
+ho cercato di applicarlo a diversi livelli. 
+
+\section*{Un esempio pratico}
+
+Un esempio pratico in cui l'SRP ha contribuito in due granularità diverse è la
+classe chiamata DataUpdater, inizialmente responsabile per l'aggiornamento 
+delle informazioni sui palazzi e sulle stanze provenienti dalle fonti testuali 
+(file CSV). La sua interfaccia era costituita da due principali 
+metodi, update\_buildings e update\_rooms (aggiorna palazzi e stanze 
+rispettivamente).
+
+Entrambi questi metodi erano parzialmente definiti, nel senso che, cercando già
+a priori un design di qualità, gli avevamo concepiti come
+\textit{template methods}\footnote{
+Pattern comportamentale che permette di 
+definire la struttura di un algoritmo lasciando alle sottoclassi il compito di 
+implementarne alcuni passi come preferiscono. In questo modo si può ridefinire 
+e personalizzare parte del comportamento nelle varie sottoclassi senza dover 
+riscrivere più volte il codice in comune. I punti di ``aggancio'' perché le 
+sottoclassi possano ridefinire questi comportamenti vengono detti 
+\textit{hook methods}.
+},
+delegando parte del compito/lavoro a degli \textit{hook methods} sovrascritti
+dalle sottoclassi.
+
+In conseguenza DataUpdater era superclasse di due classi più specializzate: 
+EdiliziaDataUpdater e EasyRoomDataUpdater, che, attraverso il polimorfismo,
+sovrascrivevano questi \textit{hook methods} opportuni per aggiungere 
+il \textit{know-how} specifico a seconda della provenienza dei dati. 
+Come esempio sta la validazione degli identificativi dei palazzi: 
+dati provenienti dal dipartimento di Edilizia presentavano due
+tipologie di formato diverse, uno nuovo e \textit{standard} e un altro 
+\textit{legacy}, cioè utilizzato in passato ma che dovevamo mantenere per
+questioni di compatibilitàà, mentre quelli usati da EasyRoom avevano un solo formato.
+
+In sostanza, il \textit{class diagram} era come segue\footnote{Per semplicità ho ommesso
+metodi e attributi privati}:
+
+[TODO \textit{Class Diagram} iniziale]
+
+Alla stesura della sua ``frase di responsabilità'', ho ottenuto il seguente: 
+``Gestire la validazione, aggiornamenti, integrazione dei dati sulle stanze 
+e/o palazzi e conseguente inserimento in database''. 
+Dalla lunghezza della frase e dalla quantità di 
+congiunzioni, ho concluso che si trattava di una classe da venir spezzata.
+Si trattava di una classe considerevolmente lunga, e sicuramente ne gestiva almeno
+due responsabilità distinte.
+
+Approfittando l'ereditarietà multipla fornita da Python, la separazione più netta
+era stata quella di dividere DataUpdater in due classi, 
+BuildingDataUpdater e RoomDataUpdater, facendo si che EdiliziaDataUpdater 
+e EasyRoomDataUpdater ereditassero da entrambe. Un altra possibilità 
+sarebbe quella di favorire la composizione invece di usare l'ereditarietà. 
+Ho scelto per l'ereditarietà per due motivi: non avevamo richieste di 
+cambiamenti a \textit{runtime}, e non esistevano metodi o attributi 
+in comune utilizzati da BuildingDataUpdater e RoomDataUpdater, il che garantiva 
+che non ci sarebbero nessun dei noti problemi di \textit{method resolution 
+order} che nascono in contesti di ereditarietà multipla. Da questo cambiamento
+siamo passati al seguente \textit{class diagram}:
+
+[TODO \textit{Class diagram} dopo separazione]
+
+Dopo aver sistemato i bug introdotti da questo cambiamento e rilevati 
+correttamente dalla nostra suite di test, a quel punto avevo due 
+``frasi di responsabilità'' in mano:
+
+\begin{itemize}
+  \item RoomDataUpdater: ``Gestire la validazione, aggiornamenti, 
+  integrazione dei dati delle stanze e inserimento in database''
+  \item BuildingDataUpdater: ``Gestire la validazione, aggiornamenti, 
+  integrazione dei dati dei palazzi e inserimento in database''
+\end{itemize}
+
+Non ero soddisfatto. Avevo messo su il mio ``cappello del refactoring'', e non
+lo volevo togliere (mi stava bene :D). Ho incominciato con RoomDataUpdater,
+e ho provato ulteriori suddivisioni, cercando dei pattern 
+da applicare e sono riuscito a fare un paio di prove. Alla fine di questa
+serie di modifiche avevo raggiunto qualcosa che mi sembrava più ``modulare''.
+Metto la parola modulare tra virgolette perché quello che avevo fatto in realtà
+era stato frammentare quel flusso di esecuzione in una quantità elevata di
+piccole classi che incapsulavano poca o nessuna unità logica di 
+esecuzione. Il flusso dell'algoritmo era stato spezzato in modo che la sua
+comprensione era praticamente impossibile.
+
+La mia fortuna è che si trattava di fine giornata quando ho dichiarato 
+``compiuta'' quell'impresa. Ero stanco e dovevo ancora risistemare un paio
+di test di unità che fallivano in conseguenza di quel refactoring perché
+testavano l'esecuzione precedente in modo vincolato all'implementazione.
+Il giorno dopo, ansioso per il primo \textit{commit} mattinale,
+al guardare ciò che avevo fatto ho sentito: puzzava. Mi sono messo a leggere
+ancora altri concetti di Progettazione Software, e un po' per caso ho riletto
+sul concetto di \textit{Cohesion}\footnote{La coesione è una misura di 
+quanto strettamente correlate siano le varie funzionalità messe a disposizione 
+da un singolo modulo (o classe). Si intende come una buona qualità in 
+software quando un modulo o classe è considerato coeso. Da non confondere
+con il termine \textit{coupling}, che sta ad indicare un accoppiamento
+fra moduli/classi non necessario eche genera più dipendenze e difficoltà
+per il cambiamento, e di solito è considerato come un aspetto negativo.}.
+
+Nel tentativo di applicare il principio della \textit{singola} responsabilità
+in modo praticamente fanatico, avevo violato la coesione logica e anche
+temporale di quell'algoritmo. Il motivo per cui il metodo update\_rooms
+incapsulava quella sequenza di passi era funzionale, logico. Per inserire 
+una stanza la dovevo prima pulire (formattando meglio le stringhe, ad esempio)
+e validare (non dovevo inserire stanze che non godessero, ad esempio, di un
+identificativo del palazzo a cui appartiene). In seguito avrei preparato il
+formato verso il database, inviato i dati e, una volta che i dati originali
+di questa sorgente finissero memorizzati \textbf{correttamente}, avrei dovuto 
+procedere con la parte di integrazione con altre sorgenti già presenti. 
+
+Era un modulo in cui gli elementi godevano di coesione di tipo:
+\begin{itemize}
+  \item Funzionale, perché miravano a risolvere uno stesso problema.
+  \item Sequenziale perché ogni \textit{step} dipendeva del successo e usava 
+  l'output di quello precedente.
+  \item Di comunicazione perché lavoravano sugli stessi dati.
+  \item Procedurale e temporale perché dovevano essere eseguiti in un preciso
+ordine.
+\end{itemize}
+
+In altre parole, era giusto che tutto ciò fosse localizzato, in modo coeso, 
+all'interno della stessa classe. Ancora una volta l'argomento ``Progettazione
+Software'' mi ha fatto capire quanto sia importante analizzare ogni caso
+in modalità ad hoc, cercando di ottenere un equilibrio instabile tra concetti
+diversi e come una loro applicazione ingenua può portarli pure a contraddirsi.
+
+Ma non ero ancora soddisfatto. C'era qualcosa che, ancora, non andava bene!
+
+\section*{Granularità diversa}
+
+[ Adesso: come ho applicato SRP con granularità di singolo algoritmo e le
+conseguenze che ha avuto su RoomDataUpdater ]
+
+Una volta che il file csv di stanze veniva letto, alla classe DataUpdater 
+veniva delegato il lavoro di eseguire veramente l'aggiornamento, con 
+la chiamata del metodo statico update\_rooms, che riceveva appunto la 
+lista di informazioni da processare e finalmente inserire nel database. 
+Abbiamo sintetizzato un algoritmo che prevvedeva alla validazione, 
+pulizia e integrazione dei dati con le altre sorgenti già presenti in database (ad esempio le piante 
+architettoniche). Tale algoritmo funzionava bene e godeva di una minima quantità
+di test di unità e di accettazione. 
+
+Il codice però
+L'algoritmo risultante funzionava bene ma era lungo e difficile da capire.
+
+
+
+
+--------------
+
+Alla fine ho trovato un libro che mi ha cambiato il modo di vedere il problema 
+già dalla prefazione.
+
+
+Si trattava del libro ``Refactoring - TODO'', di Martin Fowler, sviluppatore, 
+autore e \textit{public speaker} per cui provo una sincera ammirazione,
+specialmente per il suo modo teorico-pratico di affrontare la programmazione. 
+Avevo già sentito parlare del libro in precedenza, e avendo già letto un paio 
+di articoli e seguito qualche speech dell'autore, mi ero interessato e 
+ho deciso di incominciare a leggerlo. 
+
+Alla \textit{Foreword} scritta da Erich Brooch
+\footnote{TODO: dire chi è erich brooch} sentivo di aver trovato un punto di 
+riferimento, una luce in fondo al tunnel. Ho trovato una definizione più precisa
+di refactoring, e, più importante, ricorrenti incentivi alla sua 
+\textbf{pratica continua}, a prescindere degli ostacoli naturali (management, 
+l'impressione che non porti a niente di nuovo, molto sforzo per nessun valore
+percepibile dall'esterno, eccetera).
+
+Mi sono accorto di un banale errore che avevamo commesso, e mi 
+sentivo ingenuo per quello: cercando sempre la ``buona progettazione'', 
+abbiamo applicato principi e ragionamenti all'inserimento di nuove 
+funzionalità, moduli e classi. Basandoci su estensiva sperimentazione, 
+avevamo progettato bene ogni modulo / sistema prima di implementarlo, e ci
+siamo preoccupati di rielaborare ognuno di loro per un po' di tempo.
+
+Però, anche se inizialmente concepito con particolare cura della chiarezza, 
+il codice veniva modificato con piccole correzioni e estensioni di 
+comportamento. In questo naturale ciclo di vita di rielaborazione, 
+trasformazioni, il design iniziale, complessivo, si perdeva, si appannava. 
+Applicando l'attenzione per un buon design alle nuove funzionalità, ci 
+dimenticavamo a volte di riadeguare meglio quelle già esistenti, ce lo 
+eravamo dimenticati!
+
+\section*{Dare nome ai problemi}
+
+Sono arrivato alla conclusione
+
+
+buona progettazione não é só a priori, mas também com refactoring, continuos refactoring porca madonna!
+(TODO: Dire che in letteratura / in quel libro ho trovato la figura che prima volevo: la voce dell'esperienza hahahah )
+(TODO: prima pensavo a grandi cambiamenti strutturali, cose che avrebbero ``risolto'' il problema del design. Loro invece parlano di piccoli step.)
+(TODO: dopo aver applicato ho applicato anche ai test, e alla fine corretto la quantità di test tautologici aggiunti in precedenza)
+(TODO: usare la repl non è sabagliato, ma alla fine ho concluso che per ogni fase / momento ci vuole anche un workflow diverso!)
+(TODO: esempio di floormerger, l'unico caso in cui non sentivo la puzza, e perché? (cit. riga 53 delle note sul libro))
+(TODO: questo modo di scrivere troppo narrativo può essere un problema?)
+(Com'è bello avere l'occasione di riflette sul proprio codice, sui propri test! Perché non me lo fanno fare al lavoro? xD)
 %
 
 %
@@ -373,4 +651,3 @@ Seiden, Josh, Replacing Requirements with Hypotheses, speach, \url{http://www.sl
 \end{thebibliography}
 % 
 \end{document}
-py
