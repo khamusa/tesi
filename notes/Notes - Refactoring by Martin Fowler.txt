@@ -1,0 +1,66 @@
+Notes - Refactoring by Martin Fowler
+
+Foreword by Erich Brooch
+
+Preface
+
+"Refactoring is the process of changing a software system in such a way that it does not alter the external behavior of the code yet improves its internal structure. It is a disciplined way to clean up code that minimizes the chances of introducing bugs. In essence when you refactor you are improving the design of the code ater it has been written.""
+
+- Over the time well designed code tend to decay (sinks from engineering to hacking). We think as design->code. Refactoring is the opposite, and allows us to rework bad designed code into well-designed. The reverse of the normal notion of software decay.
+
+- Design occurs continuously during development. You learn from building the system how to improve the design. The resulting interaction leads to a program with a design that stays good as development continues.
+
+- Importance of doing refactoring methodically, in a controlled and efficient ways, to avoid the introduction of bugs.
+
+Two leading proponents of refactoring: Ward Cunningham and Kent Beck. Ralph Johnson (University of Illinois). Bill Opdyke (first detailed written work on refactoring in his doctoral thesis). John Brand and Don Robert (they wrote a refactoring browser for Smalltalk programs).
+
+
+Chapter 1
+==========
+
+- "There's nothing wrong with a quick and dirty simple program. But if this is a representative fragment of a more complex system, then I have some real problems with this program. That long statement routine in the Customer class does far too much. Many of the things that it does should really be done by the other classes."
+
+- "Compilers doesn't care [...], and humans do care. A poorly designed system is hard to change. Hard because it is hard to figure out where the changes are needed. If it is hard to figure out what to change, tehre is a strong chance that the programmer will make a mistake and introduce bugs".
+
+- About code duplication: "The problem with copying and pasting code comes when you have to change it later. If you are writing a program that you don't expect to change, then cut and paste is fine. If the program is long lived and likely to change, then cut and paste is a menace."
+
+- "You may be tempted to make the fewest possible changes to the program; after all, it works fine. Remember the old engineering adage: "if it ain't broke, don't fix it." The program may not be broken, but it does hurt. It is making your life more difficult because you find it hard to make the changes your users want. This is where refactoring comes in."
+
+TIP:
+"""When you find you have to add a feature to a program, and the program's code is not structured in a convenient way to add the feature, first refactor the program to make it easy to add the feature, then add the feature."""
+
+The first step in refactoring
+
+- "is always the same. I need to build a solid set of tests for that section of code" [...] "I'm still human and still make mistakes. Thus I need solid tests."
+
+- "They either say "OK," meaning that all the strings are identical to the reference strings, or they prin a list of failures: lines that turned out differently. The tests are thus self-checking. It is vital to make tests self-checking."
+
+- First step is to find a "logical clump of code and use __Extract Method__"
+
+Extraction of a method:
+"First I need to look in the fragment for any variables that are local in scope to the method we are looking at, the local variables and parameters. This segment of code uses two: each and thisAmount. Of these, "each" is not modified by the code but "thisAmount" is modified. Any non-modified variable I can pass in as a parameter. Modified variables need more care. If there is only one, I can return it. The temp is initialized to 0 each time around the loop and is not altered until the switch gets to it. So I can just assign the result."
+
+- "It's the kind of silly mistake that I often make, and it can be a pain to track down. [...] Fortunately it was easy to find in this case, because the change was so small and I had a good set of tests. Here is hte essence of the refactoring process, illustrated by accident. Because each change is so small, any errors are very easy to find. You don't spend a long time debugging, even if you are as careless as I am."
+
+(Si potrebbe correlare questi concetti alla motivazione per l'uso della REPL? "80% of what I write, I write wrong")
+
+--> "Refactoring change the programs in small steps. If you make a mistake, it is easy to find the bug"
+
+"Is renaming worth the effort? Absolutely. Good code should communicate what it is doing clearly, and variable names are a key to clear code."
+
+"Any fool can write code that a computer can understand. GOod programmers write cod that humans can understand."
+
+Code that communicates its purpose is very important. I often refactor when I'm reading source code. That way as I gain understanding about the program, I embed that understanding into the code for later so I don't forget what I learned.
+
+"This immediately raises my suspicions that the method is on the wrong object. In most cases a method should be on the"
+ object whose data it uses, thus the method should be moved to the rental. Ti di this I use Move Method."
+----> Me: but what about SRP? If I just follow this convention I can think about a dozen cases where I'll end with extremely fat models/classes! (Is a fat model a design issue)? 
+
+Pages 25/26 describes a refactoring techinque he called "Replace temp with query", the removal of a temporary variable since its value wouldn't change anymore, replacing its usage by direct method calls. As I see some benefit on reducing the amount of intermediate states of the program (makes for a less bug-prone code), recalculating the value of the variable at every call may not always be a good option, performance-wide.
+
+It stands out he actually consider those questions:
+
+"I like to get rid of temporary variables such as this as much as possible. Temps are often a problem in that they cause a lot of parameters to be passed around when they don't have to be. You can easily lose track of what they are there for. They are particularly insidious in long methods. Of course there is a performance price to pay; here the charge is now calculated twice. But it is easy to optimize that in the rental class, and you can optimize much more effectively when the code is properly factored. I'll talk more about that issue later in Refactoring and Performance on page 69." -- Well, I agree :)
+
+
+
