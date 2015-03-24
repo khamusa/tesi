@@ -71,7 +71,12 @@
 %			PREFAZIONE
 %
 \prefacesection{Prefazione}
-Ciao! Ci vuole scrivere una prefazione!
+
+Durante la scrittura della relazione ho provato ad essere il più preciso possibile sia nel racconto del processo di sviluppo del progetto a cui ho partecipato sia nelle conseguenti riflessioni.
+
+Ho provato a includere il massimo possibile di dettagli e contenuti, sotto la condizione che fossero coerenti con l'argomento scelto per la tesi. Il progetto del tirocinio, però, è stato molto più ampio di quanto qua riesco a riportare sotto un unico filo logico. Mi viene allora la necessità di dire che tanto è stato lasciato fuori, tante nuove conclusioni e apprendistati che si sono verificati lungo tutti i mesi di progettazione e sviluppo.
+
+Tra questi argomenti stanno le riflessioni sull'organizzazione di un team autogestito, senza nessuna tipo di gerarchia netta, le conseguenti difficoltà e come siamo stati in grado di superarle, e sulla (per noi) nuova esperienza di \textit{pair programming}. Sul filo più pratico, lascio fuori tante delle curiose sfide tecniche e decisioni che abbiamo preso, qualche particolarmente interessante soluzione per l'integrazione dei dati ... TO BE CONTINUED...
 %
 %
 %			ORGANIZZAZIONE
@@ -272,7 +277,7 @@ Non abbiamo scelto esplicitamente nessuna di queste metodologie di lavoro, piutt
 
 Un esempio su cui abbiamo utilizzato questa strategia è l'estrazione delle stanze, e in seguito le etichette e testi associati a loro, in modo da poter identificare, ad esempio, dove si trovasse la ``Aula Beta'' sulla piantina, o quali stanze rappresentavano dei Bagni, studi o uffici, cioè le categorie delle stanze.
 
-La lettura delle stanze è stata poco problematica, e con l'uso della REPL siamo riusciti a ottenere a piccoli passi i codici per estrarre le stanze e le etichette. Si noti che con la REPL partivamo alla esplorazione, mirando a una comprensione maggiore del problema e dei dati, e finivamo per risolvere il problema. In questo modo non era più possibile scrivere i test \textit{a priori}, invalidando uno dei punti cardine dell'uso sistematico del TDD.
+La lettura delle stanze è stata poco problematica, e con l'uso della REPL siamo riusciti a ottenere a piccoli passi i codici pppppppppppppppper estrarre le stanze e le etichette. Si noti che con la REPL partivamo alla esplorazione, mirando a una comprensione maggiore del problema e dei dati, e finivamo per risolvere il problema. In questo modo non era più possibile scrivere i test \textit{a priori}, invalidando uno dei punti cardine dell'uso sistematico del TDD.
 
 Le difficoltà maggiori sono sorte nell'associare le etichette alle relative stanze. L'unico vincolo fra le etichette di una stanza e il suo disegno era la loro relativa posizione, senza nessun vincolo a livello sintattico. Abbiamo allora utilizzato un algoritmo che, dato un poligono S (stanza) e un punto P nello spazio (punto di ancoraggio dell'etichetta testuale), rispondeva alla domanda ``Il punto P è dentro il poligono S?''. Si tratta di un algoritmo particolarmente interessante e concettualmente semplice, chiamato \textit{Ray Casting Algorithm}\footnote{Una chiara spiegazione è presente su Wikipedia: \url{http://en.wikipedia.org/wiki/Point_in_polygon\#Ray_casting_algorithm}}.
 
@@ -306,12 +311,12 @@ Con l'aiuto della REPL abbiamo scoperto che molto spesso determinate sorgenti av
 
 La REPL ci ha permesso anche di stabilire che su un impressionante 99\% dei piani era possibile trovare almeno una stanza, utilizzando il suo codice identificativo, che venisse rintracciata in tutte e tre sorgenti (piantine, informazioni testuali dell'edilizia e informazioni testuali di Easyroom), e allora la presenza di quella stanza ci dava un'informazione ortogonale ai piani delle diverse sorgenti. Sapendo in quale piano una stanza veniva rimappata per sorgente ci dava una forte indicazione di come quei piani dovrebbero venir relazionati. L'unico problema che rimaneva erano i casi estremi, in cui due stanze di uno stesso piano su una sorgente venivano rimappate su piani diversi in un'altra sorgente, o quando per qualche piano nessuna associazione di stanza con le altre sorgenti era possibile. L'algoritmo finale che abbiamo concepito gestisce tutti i possibili casi, e se ne accorge quando non riesce a trovare un'associazione fra piani di due o più sorgenti. 
 
-In questo modo all'utente vengono segnalati i conflitti, sia quelli che abbiamo risolto in modo automatico che quelli la cui risoluzione non è possibile. Con l'uso di questa strategia e una serie di eurisitche per renderla più efficiente, siamo stati in grado di associare il 99\% dei piani correttamente. L'1\% che avanza è costituito da precisamente tre casi, due dei quali si presenta solo a causa di un errore di battitura dei dati originali (stanze identificate in modo sbagliato), e comunque vengono tutti e tre segnalati per la revisione dell'utente. 
+In questo modo all'utente vengono segnalati i conflitti, sia quelli che abbiamo risolto in modo automatico che quelli la cui risoluzione non è possibile. Con l'uso di questa strategia e una serie di euristiche per renderla più efficiente, siamo stati in grado di associare il 99\% dei piani correttamente. L'1\% che avanza è costituito da precisamente tre casi, due dei quali si presenta solo a causa di un errore di battitura dei dati originali (stanze identificate in modo sbagliato), e comunque vengono tutti e tre segnalati per la revisione dell'utente. 
 
 
-\section{La naturale migrazione verso un approccio prototipale}
+\section{La naturale sovrapposizione con un approccio prototipale}
 
-Molti componenti dell'applicazione finale sono nati a partire da questi esperimenti con la REPL, incentivando un approccio alla progettazione di tipo prototipale. 
+Molti componenti dell'applicazione finale sono nati a partire da questi esperimenti con la REPL, avvicinando la nostra modalità operativa a un approccio di progettazione di tipo prototipale. 
 
 Il principale vantaggio era quello di poter conoscere la natura dei problemi o i limiti e le potenzialità delle nostre scelte algoritmiche, senza dover pagare un prezzo troppo alto se mai fosse necessario tornare in dietro. Fino a questo punto non si trattava di design di software, ma di sola esplorazione e comprensione. A misura che riuscivamo ad avere implementazioni soddisfacenti per ogni funzionalità, le incorporavamo al \textit{codebase} principale e proseguivamo verso l'esplorazione di ulteriori limiti e possibilità.
 
@@ -319,7 +324,7 @@ Da queste versioni prototipali ottenute dalla sperimentazione, ottenevamo versio
 
 Col il nostro obbiettivo per la ricerca continua della buona progettazione, una volta capito meglio il \textit{wicked problem} in questione, lo sviluppo doveva proseguire in una di due possibili strade: scartare il prototipo per rifarlo da capo, o rielaborarlo. Mantenere la versione originale senza ripulirla e testarla non era una scelta possibile, specialmente a lungo termine. 
 
-Dati i tempi stretti, nella maggior parte dei casi abbiamo optato per la rielaborazione del prototipo esistente e non per il suo scarto, poiché era evidente che una nuova versione fatta da zero avrebbe avuto molto in comune con il prototipo in mano. Nella rielaborazione, ci siamo assicurati di:
+Dati i tempi stretti, nella maggior parte dei casi abbiamo optato per la rielaborazione del prototipo esistente e non per il suo scarto, poiché era evidente che una nuova versione fatta da zero avrebbe avuto molto in comune con il prototipo in mano. Infatti questa è la maggior differenza del nostro approccio a quelli prototipali più comuni, in cui si cerca di trattare i prototipi in modo usa-e-getta. Nella rielaborazione, ci siamo assicurati di:
 
 \begin{itemize}
 	\item Ripensare le interfacce utilizzando una metodologia per il \textit{refactoring} ispirata al TDD: ignoravamo quella già esistente e partivamo dalla stesura di test contro l'interfaccia che considerassimo ideale. Da questi test proseguivamo all'applicazione di successive trasformazioni all'interfaccia già implementata fino ad avere test passanti. 
@@ -348,15 +353,11 @@ Avere un insieme di test su cui ci fidavamo è stato essenziale per rendere poss
 with the same thinking we used in creating them.'' - A. Einstein
 
 
-TODO: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+[TODO]
 
+Continuous Refactoring
 
-
+[TODO]
 
 %
 %
