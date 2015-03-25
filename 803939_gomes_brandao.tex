@@ -32,6 +32,7 @@
 \usepackage{epigraph}
 \usepackage{enumitem}
 \usepackage{setspace}
+
 \onehalfspacing                %% <--- Better use setspace
 \setlist{noitemsep}
 % per le accentate
@@ -235,8 +236,8 @@ Una mia particolare preoccupazione in fase iniziale del progetto, era quella di 
 
 In precedenza, nella mia carriera professionista e accademica, poche sono state le opportunità in cui ho potuto pensare al design del software complessivamente. Nella maggior parte dei casi, applichiamo precetti di design a livello \textit{micro}: singolo algoritmo, singola procedura, al massimo singola classe/modulo. Molto spesso neanche quello potevo fare, dato che la preoccupazione principale era quella di sintetizzare un algoritmo funzionante e performante, oppure di esplorare una determinata tecnica o risolvere un problema pratico in un determinato orizzonte temporale. Pensare invece a un sistema più complesso, con più componenti e elementi, organizzarli a vicenda, gestire le loro dipendenze, garantire un isolamento e disaccoppiamento salutare, non va fatto sotto stretti vincoli temporali, e allora non ha mai fatto parte della mia esperienza personale. 
 
-La maggior parte della mia carriera professionista ha avuto luogo in ambito di sviluppo web, e dovevo sempre partire da un qualche \textit{framework}
-\footnote{La maggior parte della mia carriera come sviluppatore ha avuto luogo utilizzando \textit{Ruby on Rails}, un \textit{framework} noto per non solo fornire una struttura MVC, ma per essere anche fortemente \textit{opinionated}, cioè di avere le \textit{best practices} definite e incentivate in modo molto chiaro.} 
+La maggior parte della mia carriera professionista ha avuto luogo in ambito di sviluppo web, e dovevo sempre partire da un qualche \textit{framework}\footnote{
+La maggior parte della mia carriera come sviluppatore ha avuto luogo utilizzando \textit{Ruby on Rails}, un \textit{framework} noto per non solo fornire una struttura MVC, ma per essere anche fortemente \textit{opinionated}, cioè di avere le \textit{best practices} definite e incentivate in modo molto chiaro.} 
 o sistema preesistente, che mi dava già una risoluzione del \textit{design} a livello macro, di solito con l'utilizzo di pattern strutturali come MVC / MVP. A me restava più che altro rispettare le convenzioni fornite dall'ambiente di sviluppo e assicurarmi che a livello micro (metodi, classi) non causare troppi danni.
 
 Su questo progetto non avevamo una struttura di partenza, e non avevamo qualcuno all'interno del \textit{team} che ci mostrasse le soluzioni migliori. In altre parole, la mancanza di esperienza nella costruzione del (buon) software da zero rappresentava una significativa sfida didattica e pratica su questo progetto.
@@ -245,8 +246,8 @@ Su questo progetto non avevamo una struttura di partenza, e non avevamo qualcuno
 
 Per incominciare lo sviluppo avevamo l'obbiettivo di utilizzare il \textit{TDD - Test Driven Development}, un consacrato \textit{workflow} per lo sviluppo software noto per portare a soluzioni di design più semplici, pulite, disaccoppiate e testabili, tutte proprietà desiderabili da un software. Dato che sul TDD esiste già una svariata bibliografia online, lo riassumo in poche parole: consiste sostanzialmente nello scrivere i test delle nuove funzionalità prima di implementarle, seguendo un preciso flusso di lavoro (scrivo il test, lo eseguo e lo vedo fallire, implemento la funzionalità e rieseguo il test fino a farlo passare, faccio \textit{refactoring} e ricomincio con la prossima funzionalità). In questo modo è permesso allo sviluppatore testare l'interfaccia stessa delle funzioni, metodi, moduli o oggetti che dovrà sviluppare, per poi andare a riempire i dettagli.
 
-Con questo obbiettivo in mente abbiamo incominciato il progetto affrontando quello che ci sembrava l'aspetto più difficile e che allo stesso tempo più ci interessava, cioè l'estrazione dei dati delle piante architettoniche. Dovevamo allora scoprire in che modo la libreria dxfgrabber ci poteva aiutare. Naturalmente, abbiamo aperto la REPL
-\footnote{
+Con questo obbiettivo in mente abbiamo incominciato il progetto affrontando quello che ci sembrava l'aspetto più difficile e che allo stesso tempo più ci interessava, cioè l'estrazione dei dati delle piante architettoniche. Dovevamo allora scoprire in che modo la libreria dxfgrabber ci poteva aiutare. Naturalmente, abbiamo aperto la REPL\footnote{
+
   REPL - \textit{Read Eval Print Loop}. Si tratta di un ambiente di programmazione interattivo che ci permette di inserire comandi del rispettivo linguaggio di programmazione ed avere il risultato stampato in sequenza 
 } 
 di Python, e abbiamo incominciato ad esperimentare con la libreria e i dati.
@@ -276,7 +277,12 @@ Per evitarle dovevamo essere in grado di fare qualche assunzione, ma non riusciv
 
 In altre parole, non avremmo più partito dai test, ma da un'esplorazione sistematica del problema e dei dati, e infatti era esattamente quello che avevamo già fatto alla prima apertura della REPL per l'esplorazione della libreria utilizzata: volevamo capire meglio in che modo lo strumento ci potrebbe aiutare nella gestione dei dati. Tale approccio ci ha consentito gestire meglio l'incertezza, sostituendo le assunzioni per ipotesi da testare.
 
-In uno \textit{speech} nell'Agile UX NYC 2012, Joshua Seiden discorre sul rimpiazzare i \textit{requirements} con ipotesi quando sviluppando per un ambiente caratterizzato dall'incertezza: \textit{``When you\'re in production, building to known standard, you want requirements. When you\'re in an environment of uncertainty, you want hypotheses.''} (Seiden, 2012).
+In uno \textit{speech} nell'Agile UX NYC 2012, Joshua Seiden discorre sul rimpiazzare i \textit{requirements} con ipotesi quando sviluppando per un ambiente caratterizzato dall'incertezza: 
+
+\begin{quote}
+When you're in production, building to known standard, you want requirements. 
+When you're in an environment of uncertainty, you want hypotheses.\cite{seiden2012}.
+\end{quote}
 
 L'autore sottolinea che molto spesso i \textit{requirements} nascondono forti assunzioni sugli effetti dei cambiamenti, e la tecnica suggerita di esprimerli in forma di ipotesi è utile nell'esplicitare l'incertezza. Un approccio simile abbiamo adottato nel gestire le assunzioni che facevamo sui nostri dati, attraverso la definizione di soglie di errore come delle ipotesi di soddisfacibilità dei nostri requisiti.
 
@@ -318,11 +324,11 @@ Il prototipo/bozza differisce da una versione finale a volte per aspetti di comp
 
 Non abbiamo scelto esplicitamente nessuna di queste metodologie di lavoro, piuttosto ci siamo fatti guidare dalla natura dei problemi e dei dati da trattare. 
 
-\section*{\textit{Esempi pratici}}
+\section{\textit{Esempio pratico dell'uso della sperimentazione e REPL}}
 
 Un esempio su cui abbiamo utilizzato questa strategia è l'estrazione delle stanze, e in seguito le etichette e testi associati a loro, in modo da poter identificare, ad esempio, dove si trovasse la ``Aula Beta'' sulla piantina, o quali stanze rappresentavano dei Bagni, studi o uffici, cioè le categorie delle stanze.
 
-La lettura delle stanze è stata poco problematica, e con l'uso della REPL siamo riusciti a ottenere a piccoli passi i codici pppppppppppppppper estrarre le stanze e le etichette. Si noti che con la REPL partivamo alla esplorazione, mirando a una comprensione maggiore del problema e dei dati, e finivamo per risolvere il problema. In questo modo non era più possibile scrivere i test \textit{a priori}, invalidando uno dei punti cardine dell'uso sistematico del TDD.
+La lettura delle stanze è stata poco problematica, e con l'uso della REPL siamo riusciti a ottenere a piccoli passi i codici per estrarre le stanze e le etichette. Si noti che con la REPL partivamo alla esplorazione, mirando a una comprensione maggiore del problema e dei dati, e finivamo per risolvere il problema. In questo modo non era più possibile scrivere i test \textit{a priori}, invalidando uno dei punti cardine dell'uso sistematico del TDD.
 
 Le difficoltà maggiori sono sorte nell'associare le etichette alle relative stanze. L'unico vincolo fra le etichette di una stanza e il suo disegno era la loro relativa posizione, senza nessun vincolo a livello sintattico. Abbiamo allora utilizzato un algoritmo che, dato un poligono S (stanza) e un punto P nello spazio (punto di ancoraggio dell'etichetta testuale), rispondeva alla domanda ``Il punto P è dentro il poligono S?''. Si tratta di un algoritmo particolarmente interessante e concettualmente semplice, chiamato \textit{Ray Casting Algorithm}\footnote{Una chiara spiegazione è presente su Wikipedia: \url{http://en.wikipedia.org/wiki/Point_in_polygon\#Ray_casting_algorithm}}.
 
@@ -392,12 +398,10 @@ Avere un insieme di test su cui ci fidavamo è stato essenziale per rendere poss
 
 % 
 %			CAPITOLO 4 ?
-\chapter{Continuous Refactoring}
+\chapter{Un Primo Contatto con il \textit{Software Decay}}
 
 ``We cannot solve the problems we have created
 with the same thinking we used in creating them.'' - A. Einstein
-
-\section{La completa e totale disperazione}
 
 A un certo punto dello sviluppo mi sono accorto che incominciavamo a fallire. 
 Gli algoritmi funzionavano, il programma eseguiva i suoi compiti, ma il
@@ -410,8 +414,9 @@ qualcosa di sbagliato mentre guardavo il codice, l'organizzazione dei diversi
 moduli, o addirittura la composizione interna di qualche algoritmi. 
 
 A quanto pare, il nostro progetto, al crescere in dimensione e complessità 
-diventava vittima del fenomeno noto come software decay. La nostra intesa ``
-buona progettazione'' fatta dall'inizio veniva poco a poco storpia.
+diventava vittima del fenomeno noto come \textit{software decay}.
+La nostra intesa `` buona progettazione'' fatta 
+dall'inizio veniva poco a poco storpia.
 
 L'approccio di sviluppo iniziale basato sulla REPL si era rivelato eccezionale 
 per alcuni aspetti, in speciale nella fase iniziale del progetto dove la 
@@ -421,14 +426,8 @@ problemi e dati di partenza, il sistema è cresciuto velocemente con l'aggiunta
 delle funzionalità di integrazione dei dati, ulteriori validazioni, interazioni 
 con il database e funzionalità di segnalazione. Cresceva in complessità. 
 
-Anche se spesso i singoli pezzi/moduli erano fatti bene, con un opportuno 
-isolamento, il codice sembrava quello che viene chiamato \textit{ravioli code}
-\footnote{TODO: comparare ravioli e spaghetti}, 
-cioè fatto da piccoli pezzettini bene isolati e modularizzati ma la cui 
-interrelazione componeva un sistema ancora caotico e senza ordine.
-
-Sentivo ovunque i \textit{code smells}
-\footnote{letteralmente ``puzza del codice''}, cioè sintomi sul programma che indicavano 
+Sentivo ovunque i \textit{code smells}\footnote{
+letteralmente ``puzza del codice''}, cioè sintomi sul programma che indicavano 
 possibilmente la presenza di problemi più profondi. Tra la percezione dei 
 \textit{code smells} e la capacità di trovare le loro radici esiste però una
 grossa differenza, e l'esperienza e pratica è ciò che molto spesso ci rende
@@ -455,6 +454,13 @@ di test, ma in secondo luogo perché la maggior parte di questi test verrebbe
 tautologica, serviva a poco o copriva aspetti già coperti da altri. 
 Sentivo ancora che incominciavamo a fallire, una follia.
 
+\section{Tre Programmatori in Cerca di Esperienza}
+
+\textit{
+(Nota dell'autore: qualsiasi allusione a Pirandello in questo
+sottotitolo non è frutto di coincidenza)
+}
+
 Non potevo evitare di pensare a quanto mancasse al team un membro più esperto,
 qualcuno che avesse già vissuto quella difficoltà e avesse imparato 
 da qualcun'altro o addirittura a partire da uno sforzo proprio! 
@@ -463,32 +469,48 @@ anch'io, e chi sa un giorno sarei stato io ad aiutare qualcuno in una situazione
 simile? E allo stesso tempo la sensazione di aver bisogno di un maestro da farci
 vedere come procedere era costante.
 
-
-\section{100 Programmatori in Cerca di Esperienza}
-
 In mancanza di questa figura all'interno del team, mi chiedevo in che altro modo 
-avrei potuto acquisire quell'esperienza. Il primo tentativo che ho considerato un
-successo parziale è stato quello di cercare i concetti teorici della 
-``buona progettazione'' e in particolare sono finito a rileggermi ancora una 
-volta i principali materiali disponibili sui principi SOLID\footnote{TODO}. 
+avrei potuto acquisire quell'esperienza. Il primo tentativo 
+che considero sia stato un successo parziale è stato quello di 
+cercare i concetti teorici della ``buona progettazione'' 
+e in particolare sono finito a rileggermi ancora una volta 
+i principali materiali disponibili sui principi SOLID\footnote{
+SOLID è un acronimo per i cinque principi basici della programmazione
+orientata ad oggetti proposti da Robert C. Martin. I principi sono Single
+responsibility, Open-closed, Liskov substitution, 
+Interface segregation e Dependency inversion.
+}. 
 
-Dei principi SOLID, il \textit{Single Responsibility Principle}
+Dei principi SOLID, l'SRP (\textit{Single Responsibility Principle})
 è stato quello più utile, in quanto averlo visitato e utilizzato la sua luce
 per rileggere ancora una volta il nostro \textit{codebase}, ha comportato 
 modifiche significative di tipo strutturale, sia a livello di singolo 
 algoritmo che a livello di modulo / classe.
 
-Per applicarlo, ho seguito un suggerimento di ... L'idea è quella di guardare
+Per capire le responsabilità di ogni classe/metodo, ho utilizzato un
+suggerimento di Sandi Metz nel libro ``Practical object-oriented 
+design in Ruby: an agile primer'':
+
+\begin{quote}
+``Another way to hone in on what a class is actually doing is to attempt 
+to describe it in one sentence. Remember that a class should do 
+the smallest possible useful thing. That thing ought to be simple 
+to describe. If the simplest description you can devise uses the word ``and,'' 
+the class likely has more than one responsibility. If it uses the word ``or,'' 
+then the class has more than one responsibility and they aren’t 
+even very related.''\cite{metz2013}
+\end{quote}
+
+L'idea è quella di guardare
 le classi o metodi esistenti e cercare di sintetizzare in una frase quale sia
-la sua responsabilità. In seguito, si deve cercare di contare quante volte la
-congiunzione ``e'' e ``oppure'' compaiono. Un numero elevato di queste 
-congiunzioni va considerato come un forte indizio che quella classe o metodo
-gestisce più di quanto ne deve.
+la sua responsabilità. In seguito, si deve cercare di contare quante volte le
+congiunzioni ``e'' e ``oppure'' compaiono. Secondo Sandi Metz, la presenza di
+una unica di queste congiunzioni è già sufficiente per concludere che
+quella classe ha più di una responsabilità. Pronto, adesso avevo un
+principio guida per aiutarmi, a partire dall'analisi sistematica del codice,
+a trovare l'origine dei \textit{code smells}.
 
-Anche se inizialmente in concetto è stato concepito con granularità di classe,
-ho cercato di applicarlo a diversi livelli. 
-
-\section*{Un esempio pratico}
+\section{Esempio pratico di \textit{refactoring} guidato dall'SRP}
 
 Un esempio pratico in cui l'SRP ha contribuito in due granularità diverse è la
 classe chiamata DataUpdater, inizialmente responsabile per l'aggiornamento 
@@ -519,27 +541,30 @@ Come esempio sta la validazione degli identificativi dei palazzi:
 dati provenienti dal dipartimento di Edilizia presentavano due
 tipologie di formato diverse, uno nuovo e \textit{standard} e un altro 
 \textit{legacy}, cioè utilizzato in passato ma che dovevamo mantenere per
-questioni di compatibilitàà, mentre quelli usati da EasyRoom avevano un solo formato.
+questioni di compatibilità, mentre quelli usati da EasyRoom avevano un solo formato.
 
-In sostanza, il \textit{class diagram} era come segue\footnote{Per semplicità ho ommesso
-metodi e attributi privati}:
+In sostanza, il \textit{class diagram} era come segue\footnote{Per 
+semplicità ho omesso metodi e attributi privati}:
 
 [TODO \textit{Class Diagram} iniziale]
 
-Alla stesura della sua ``frase di responsabilità'', ho ottenuto il seguente: 
-``Gestire la validazione, aggiornamenti, integrazione dei dati sulle stanze 
-e/o palazzi e conseguente inserimento in database''. 
-Dalla lunghezza della frase e dalla quantità di 
-congiunzioni, ho concluso che si trattava di una classe da venir spezzata.
-Si trattava di una classe considerevolmente lunga, e sicuramente ne gestiva almeno
-due responsabilità distinte.
+Alla stesura della ``frase di responsabilità'' per DataUpdater, ho ottenuto il seguente: 
+``Gestire la validazione e aggiornamento dei dati delle stanze 
+e/o palazzi in database e far partire la procedura di integrazione
+con le altre sorgenti''. 
+Dalla lunghezza della frase e della classe stessa e dalla quantità di 
+congiunzioni, ho concluso che si trattava di una classe da venir 
+spezzata. Si trattava di una classe considerevolmente lunga, 
+e sicuramente ne gestiva almeno due responsabilità distinte.
 
 Approfittando l'ereditarietà multipla fornita da Python, la separazione più netta
 era stata quella di dividere DataUpdater in due classi, 
 BuildingDataUpdater e RoomDataUpdater, facendo si che EdiliziaDataUpdater 
 e EasyRoomDataUpdater ereditassero da entrambe. Un altra possibilità 
-sarebbe quella di favorire la composizione invece di usare l'ereditarietà. 
-Ho scelto per l'ereditarietà per due motivi: non avevamo richieste di 
+sarebbe quella di favorire la composizione invece di usare l'ereditarietà\footnote{
+\textit{Favor composition over inheritance} - un altro principio di design del software.
+}. 
+Ho deciso per l'ereditarietà per due motivi: non avevamo richieste di 
 cambiamenti a \textit{runtime}, e non esistevano metodi o attributi 
 in comune utilizzati da BuildingDataUpdater e RoomDataUpdater, il che garantiva 
 che non ci sarebbero nessun dei noti problemi di \textit{method resolution 
@@ -553,16 +578,22 @@ correttamente dalla nostra suite di test, a quel punto avevo due
 ``frasi di responsabilità'' in mano:
 
 \begin{itemize}
-  \item RoomDataUpdater: ``Gestire la validazione, aggiornamenti, 
-  integrazione dei dati delle stanze e inserimento in database''
-  \item BuildingDataUpdater: ``Gestire la validazione, aggiornamenti, 
-  integrazione dei dati dei palazzi e inserimento in database''
+  \item RoomDataUpdater: ``Gestire la validazione e aggiornamento dei dati delle
+  stanze in database e far partire la procedura di integrazione
+con le altre sorgenti''
+  \item BuildingDataUpdater: ``Gestire la validazione e aggiornamento dei dati 
+  dei palazzi in database e far partire la procedura di integrazione
+con le altre sorgenti''
 \end{itemize}
 
-Non ero soddisfatto. Avevo messo su il mio ``cappello del refactoring'', e non
-lo volevo togliere (mi stava bene :D). Ho incominciato con RoomDataUpdater,
+Le frasi continuavano grandi, ma adesso la responsabilità era stata divisa
+esattamente a metà. Una classe gestiva una tipologia di dati, un 
+altra classe l'altra. Ma non ero soddisfatto. 
+
+Avevo messo su il mio ``cappello del refactoring'', e non
+lo volevo toglierlo (mi stava bene :D). Ho incominciato con RoomDataUpdater,
 e ho provato ulteriori suddivisioni, cercando dei pattern 
-da applicare e sono riuscito a fare un paio di prove. Alla fine di questa
+da applicare e sono riuscito a fare un paio di modifiche. Alla fine di questa
 serie di modifiche avevo raggiunto qualcosa che mi sembrava più ``modulare''.
 Metto la parola modulare tra virgolette perché quello che avevo fatto in realtà
 era stato frammentare quel flusso di esecuzione in una quantità elevata di
@@ -570,33 +601,48 @@ piccole classi che incapsulavano poca o nessuna unità logica di
 esecuzione. Il flusso dell'algoritmo era stato spezzato in modo che la sua
 comprensione era praticamente impossibile.
 
-La mia fortuna è che si trattava di fine giornata quando ho dichiarato 
+La mia fortuna è che si trattava di fine giornata quando avevo dichiarato 
 ``compiuta'' quell'impresa. Ero stanco e dovevo ancora risistemare un paio
 di test di unità che fallivano in conseguenza di quel refactoring perché
-testavano l'esecuzione precedente in modo vincolato all'implementazione.
-Il giorno dopo, ansioso per il primo \textit{commit} mattinale,
-al guardare ciò che avevo fatto ho sentito: puzzava. Mi sono messo a leggere
-ancora altri concetti di Progettazione Software, e un po' per caso ho riletto
-sul concetto di \textit{Cohesion}\footnote{La coesione è una misura di 
+testavano l'esecuzione precedente in modo vincolato all'implementazione, e
+allora ho deciso di lasciare la conferma (\textit{commit}) 
+di quelle modifiche verso il nostro sistema di \textit{versioning}
+per il giorno dopo.
+La mattina successiva, ansioso per il primo \textit{commit} del giorno,
+al guardare ciò che avevo fatto ho sentito: puzzava, e un altra volta non
+capivo il motivo.
+Mi sono messo a rivisitare altri concetti di Progettazione 
+Software, cercando qualcosa che mi
+aiutasse a capire perché, dopo aver applicato così sistematicamente l'SRP
+avevo un ulteriore impressione che ci fosse qualcosa di sbagliato.
+
+\section{La Redenzione Attraverso il Concetto di \textit{Cohesion}}
+Un po' per caso sono arrivato a rileggere informazioni
+sul concetto di \textit{Cohesion}\footnote{
+La coesione è una misura di 
 quanto strettamente correlate siano le varie funzionalità messe a disposizione 
 da un singolo modulo (o classe). Si intende come una buona qualità in 
 software quando un modulo o classe è considerato coeso. Da non confondere
-con il termine \textit{coupling}, che sta ad indicare un accoppiamento
-fra moduli/classi non necessario eche genera più dipendenze e difficoltà
-per il cambiamento, e di solito è considerato come un aspetto negativo.}.
-
+con il termine \textit{coupling}, che sta ad indicare un accoppiamento non 
+necessario fra moduli/classi diversi e che genera più dipendenze e difficoltà
+per il cambiamento, e di solito è considerato come un aspetto negativo.
+}.
 Nel tentativo di applicare il principio della \textit{singola} responsabilità
 in modo praticamente fanatico, avevo violato la coesione logica e anche
-temporale di quell'algoritmo. Il motivo per cui il metodo update\_rooms
+temporale dell'algoritmo di partenza. Il motivo per cui il metodo update\_rooms
 incapsulava quella sequenza di passi era funzionale, logico. Per inserire 
 una stanza la dovevo prima pulire (formattando meglio le stringhe, ad esempio)
 e validare (non dovevo inserire stanze che non godessero, ad esempio, di un
-identificativo del palazzo a cui appartiene). In seguito avrei preparato il
+identificativo del palazzo a cui appartenevano). In seguito avrei preparato il
 formato verso il database, inviato i dati e, una volta che i dati originali
 di questa sorgente finissero memorizzati \textbf{correttamente}, avrei dovuto 
-procedere con la parte di integrazione con altre sorgenti già presenti. 
+fare una richiesta a un altra classe che avrebbe eseguito 
+l'integrazione con altre sorgenti dati già presenti. 
 
-Era un modulo in cui gli elementi godevano di coesione di tipo:
+Il compito funzionale delle mie classi sotto analisi era di gestire il 
+flusso degli aggiornamenti, la catena di passi necessari.
+Erano classi in cui gli elementi godevano di coesione di tipo:
+
 \begin{itemize}
   \item Funzionale, perché miravano a risolvere uno stesso problema.
   \item Sequenziale perché ogni \textit{step} dipendeva del successo e usava 
@@ -607,34 +653,169 @@ ordine.
 \end{itemize}
 
 In altre parole, era giusto che tutto ciò fosse localizzato, in modo coeso, 
-all'interno della stessa classe. Ancora una volta l'argomento ``Progettazione
-Software'' mi ha fatto capire quanto sia importante analizzare ogni caso
+all'interno della stessa classe. Ancora una volta mi è rimasto evidente
+quanto sia importante analizzare ogni caso
 in modalità ad hoc, cercando di ottenere un equilibrio instabile tra concetti
-diversi e come una loro applicazione ingenua può portarli pure a contraddirsi.
+diversi che, applicati ingenuamente arrivano pure a contraddirsi.
+Non ci sono regole d'oro o operazioni che portino necessariamente
+a un buon \textit{design}, per questo, infatti, parliamo di principi
+e concetti invece di ``regole'', o \textit{code smells} invece di errori.
 
+Ho concluso allora che il criterio suggerito da Sandi Metz 
+per capire se ci sono più responsabilità in una stessa classe era
+un po' estremo, e che più spesso conviene analizzare caso a caso. La
+strategia di sintetizzare le responsabilità in una unica frase
+è comunque utile nel renderle evidenti.
+
+Avevo allora giustificato l'unione di quelle componenti all'interno della
+stessa classe per il principio della coesione.
 Ma non ero ancora soddisfatto. C'era qualcosa che, ancora, non andava bene!
 
-\section*{Granularità diversa}
+\section{L'SRP con granularità diversa}
 
-[ Adesso: come ho applicato SRP con granularità di singolo algoritmo e le
-conseguenze che ha avuto su RoomDataUpdater ]
+La definizione del Single \textit{Responsibilty Principle} più accettata
+parla esplicitamente di classe. Più precisamente è definita nei seguenti 
+termini: ``A class should have only one reason to change''\cite{bobmartin2003}.
 
-Una volta che il file csv di stanze veniva letto, alla classe DataUpdater 
+Avendo capito meglio e anche nella pratica cosa effettivamente 
+quest'affermazione significa, ho provato ad estendere la sua applicazione
+non solo con granularità di classe, ma anche a livello di singolo 
+metodo/algoritmo.
+
+Una volta che il file CSV con le informazioni testuali dei palazzi
+veniva letto, alla classe BuildingDataUpdater 
 veniva delegato il lavoro di eseguire veramente l'aggiornamento, con 
-la chiamata del metodo statico update\_rooms, che riceveva appunto la 
+la chiamata del metodo statico update\_buildings, che riceveva appunto la 
 lista di informazioni da processare e finalmente inserire nel database. 
-Abbiamo sintetizzato un algoritmo che prevvedeva alla validazione, 
-pulizia e integrazione dei dati con le altre sorgenti già presenti in database (ad esempio le piante 
-architettoniche). Tale algoritmo funzionava bene e godeva di una minima quantità
+Come detto in precedenza, l'algoritmo sintetizzato prevedeva tutto il 
+flusso per l'aggiornamento: validazione, pulizia e richiesta dell'integrazione
+dei dati con le altre sorgenti già presenti in database (ad esempio le piante 
+architettoniche). Tale algoritmo funzionava bene e godeva di una buona quantità
 di test di unità e di accettazione. 
 
-Il codice però
-L'algoritmo risultante funzionava bene ma era lungo e difficile da capire.
+Il codice era funzionante ma era lungo e difficile da capire, e lo stesso
+capitava anche per il metodo update\_rooms su RoomDataUpdater.
+Dovevano gestire più aspetti ad ogni singolo \textit{step}:
+validare (e eventualmente segnalare all'utente inconsistenze), formattare i
+dati, memorizzarli, richiedere l'integrazione.
+
+Analizzando la struttura di questi metodi e chiedendomi delle loro
+responsabilità, ho concluso che la causa del \textit{code smell} non
+era effettivamente a livello di classe ma del metodo stesso. 
+Mancavano basiche applicazioni dei principi di \textit{Object Orientation},
+estrazione di codici duplicati in metodi dedicati e una convenzione
+di \textit{naming} delle variabili che ne favorisse la comprensione
+del codice.
+
+Avevo deciso allora di metterli a posto, ma non volevo rischiare di
+ripetere l'errore precedente di frammentarli troppo. Per questo motivo, e
+anche per il fatto che si trattavano di implementazioni molto fragili,
+caratterizzate dalla costruzione di molti stati intermedi temporanei e
+da una logica molto procedurale, ho deciso di eseguire questa
+operazione di \textit{refactoring} a piccoli passi, apoggiandomi sui
+test che avevamo già scritto per garantire che le modifiche riportate
+non danneggiassero il comportamento originale del metodo.
+
+Volevo evitare di innescare grossi contenuti di codice, ma sembra opportuno
+inserire la versione originale e la versione finale del metodo update\_buildings
+per illustrare la differenza. Si noti che per questo discorso non è necessario
+capire il funzionamento o la logica della versione originale, ma più che
+altro compararne la leggibilità (e dimensione!) rispetto alla versione ripulita. 
+Per brevità ho accorciato le stringhe di stampa, 
+dato che sono spesso messaggi lunghi e pieni di dettagli all'utente 
+finale, e per chiarezza ho aggiunti commenti (non presenti nell'originale) 
+riga per riga.
+
+\newpage\newgeometry{left=3cm, right=2.5cm}\pythonexternal[caption=Versione iniziale del metodo update\_buildings,frame=tlrb,numbers=left]{code_samples/building_data_updater_before.py}
+
+Non ci vuole molto per capire quanti problemi sussistono nel 
+codice sopra, e per questo motivo evito di comentarlo e passo 
+subito alla visione della versione finale:
+
+\newpage\pythonexternal[caption=Versione finale del metodo update\_buildings,frame=tlrb]{code_samples/building_data_updater_after.py}
+
+Da notare le seguenti proprietà di questo \textit{refactoring}:
+\begin{itemize}
+  \item Il metodo update\_buildings compie ora il ruolo
+  di scheletro dell'esecuzione. Essendo piccolo, ci sta in una sola
+  pagina di codice e permette con uno sguardo di cogliere il flusso.
+  \item L'esplicitare dello scheletro aiuta nel trovare
+   eventuali problemi concettuali che dipendano dall'ordine
+   delle operazioni.
+  \item I nomi significativi dei metodi illustrano bene il loro 
+  ruolo funzionale all'interno del flusso. 
+  \item Ogni \textit{step} coincide con una chiamata di metodo, 
+  che viene incapsulato e isolato. Cambiamenti della logica di
+  lavoro, come ad esempio quella di validazione dei dati in input,
+  da ora in poi avvengono in modo isolato, riducendo
+  sostanzialmente il costo delle modifiche.
+  \item Limita la profondità dell'indentazione (significativa in Python) 
+  che rendeva la comprensione del metodo più difficile.
+  \item Il rinominare della variabile di iterazione ``b'' a ``b\_data'' rende
+  più chiaro il suo scopo (sono i dati letti da inviare al database) 
+  e la differenzia dalla variabile building (che è un oggetto della
+  classe Building, un ODM\footnote{\textit{Object-Document Mapper}} Model che
+  rappresenta i documenti in database da aggiornare/inserire. 
+\end{itemize}
+
+L'incapsulamento all'interno di metodi piccoli e isolati dal resto della
+logica applicativa è particolarmente importante per i seguenti aspetti:
+
+\begin{itemize}
+  \item Metodi più piccoli sono, in linea di principio, più facili 
+  da capire e allora è più probabile 
+  che eventuali errori emergano in fase di lettura di codice,
+  e che l'attività di \textit{debugging} diventi anche più semplice.
+  \item Aumenta la \textit{testability} dell'algoritmo complessivo, in quanto
+  ci fornisce un ulteriore strategia per il \textit{testing}: 
+  per verificare la correttezza del metodo principale 
+  possiamo procedere in modalità \textit{divide and conquer}, 
+  testando i singoli \textit{metodi} (\textit{divide}) 
+  che lo compongono, e poi verificando che le
+  chiamate interagiscano nel modo corretto (\textit{conquer}).
+  \item Essendo più piccoli, possono lavorare su un sottoinsieme 
+  di informazioni e richiedere allora meno \textit{setup} 
+  di strutture dati e contesti per l'esecuzione dei test. Di conseguenza
+  su ogni singolo metodo, a parità di tempo e sforzo, vengono testati
+  più casi e aspetti.
+\end{itemize}
+
+Per garantire che ogni aggiornamento di
+file CSV rappresentasse uno \textit{snapshot}, ovvero che se un giorno un
+palazzo venisse rimosso dal ``catalogo''\footnote{
+Può sembrare strano che un palazzo venga rimosso, ma ce ne sono casi in cui
+succede, come ad esempio palazzi che non sono di proprietà dell'università
+ma vengono rintracciati e allora possono in futuro non più venir utilizzati. 
+Dovevamo inoltre gestire eventuali errori, come ad esempio inserimenti duplicati
+con codici identificativi sbagliati, casi in cui bisogna rimuovere il duplicato
+o sbagliato.
+}
+verrebbe cancellato anche dal nostro database, avevamo pensato a un algoritmo
+che procedeva in modalità \textit{mark and sweep}: prima marcavamo tutti i palazzi
+che erano stati contemplati in questo \textit{snapshot}, e, una volta
+finiti gli aggiornamenti di tutti i palazzi, cancellavamo quelli
+che non erano stati marcati. Si tratta allora di un algoritmo a due passi,
+in cui il primo va fatto all'interno del ciclo for di aggiornamento, e il 
+secondo alla fine. L'estrazione di questi step in metodi dedicati
+rende anche questa correlazione esplicita dal nome conferito ai metodi:
+\_mark\_building\_as\_updated e \_destroy\_unmarked\_buildings.
+
+Queste modifiche favoriscono ulteriori refactoring per 
+aumentare la leggibilità: i successivi cambiamenti possono 
+essere limitati allo scopo del metodo stesso (ad esempio, 
+se vogliamo dare un nome più significativo a una variabile, 
+dovremo cambiarla soltanto all'interno del metodo - le modifiche sono
+contenute). Ciò ha reso i singoli metodi significativamente piccoli e
+semplici, a tal punto che mi permetto di omettere il loro codice sorgente,
+dato che non contribuiscono per questo discorso.
+
+\section{Conclusioni sull'esempio pratico di refactoring}
+Alla fine ho finito l'attività di \textit{refactoring} di
 
 
 
 
---------------
+-------------- Parte sotto non ancora pronta! ---------
 
 Alla fine ho trovato un libro che mi ha cambiato il modo di vedere il problema 
 già dalla prefazione.
@@ -647,8 +828,13 @@ Avevo già sentito parlare del libro in precedenza, e avendo già letto un paio
 di articoli e seguito qualche speech dell'autore, mi ero interessato e 
 ho deciso di incominciare a leggerlo. 
 
-Alla \textit{Foreword} scritta da Erich Brooch
-\footnote{TODO: dire chi è erich brooch} sentivo di aver trovato un punto di 
+Alla \textit{Foreword} scritta da Erich Gamma\footnote{
+Erich Gamma (nato nel 1961 a Zurigo) è un ingegnere del software e
+coautore dell'influente libro di Software Engineering ``Design Patterns: 
+Elements of Reusable Object-Oriented Software'' e ha dato numerosi contributi
+teorici e pratici (ha creato il framework per il testing JUnit insieme
+a Kent Beck) sull'argomento.}
+sentivo di aver trovato un punto di 
 riferimento, una luce in fondo al tunnel. Ho trovato una definizione più precisa
 di refactoring, e, più importante, ricorrenti incentivi alla sua 
 \textbf{pratica continua}, a prescindere degli ostacoli naturali (management, 
@@ -675,11 +861,11 @@ eravamo dimenticati!
 Sono arrivato alla conclusione
 
 
-buona progettazione não é só a priori, mas também com refactoring, continuos refactoring porca madonna!
-(TODO: Dire che in letteratura / in quel libro ho trovato la figura che prima volevo: la voce dell'esperienza hahahah )
-(TODO: prima pensavo a grandi cambiamenti strutturali, cose che avrebbero ``risolto'' il problema del design. Loro invece parlano di piccoli step.)
-(TODO: dopo aver applicato ho applicato anche ai test, e alla fine corretto la quantità di test tautologici aggiunti in precedenza)
-(TODO: usare la repl non è sabagliato, ma alla fine ho concluso che per ogni fase / momento ci vuole anche un workflow diverso!)
+buona progettazione não é só a priori, mas também com refactoring, continuos refactoring!
+(TODO: Conclusioni: in letteratura / in quei libri ho trovato la figura che prima volevo: la voce dell'esperienza )
+(TODO: Conclusioni: prima pensavo a grandi cambiamenti strutturali, cose che avrebbero ``risolto'' il problema del design. Loro invece parlano di piccoli step.)
+(TODO: Conclusioni: dopo aver applicato ho applicato anche ai test, e alla fine corretto la quantità di test tautologici aggiunti in precedenza)
+(TODO: Conclusioni: usare la repl non è sabagliato, ma alla fine ho concluso che per ogni fase / momento ci vuole anche un workflow diverso!)
 (TODO: esempio di floormerger, l'unico caso in cui non sentivo la puzza, e perché? (cit. riga 53 delle note sul libro))
 (TODO: questo modo di scrivere troppo narrativo può essere un problema?)
 (Com'è bello avere l'occasione di riflette sul proprio codice, sui propri test! Perché non me lo fanno fare al lavoro? xD)
@@ -690,9 +876,15 @@ buona progettazione não é só a priori, mas também com refactoring, continuos
 %
 \begin{thebibliography}{00}
 %
+\bibitem{bobmartin2003}
+Martin, Robert C.. ``Agile Software Development, Principles, Patterns, and Practices'', 2003.
+
+\bibitem{metz2013}
+Metz, Sandi. Practical object-oriented design in Ruby : an agile primer, 2013.
+
 \bibitem{seiden2012}
 Seiden, Josh, Replacing Requirements with Hypotheses, speach, \url{http://www.slideshare.net/jseiden/2012-feb-25-agile-ux-nyc-seiden-requirements-to-hypotheses?from=ss_embed}, 2012.
-%
+
 \end{thebibliography}
 % 
 \end{document}
