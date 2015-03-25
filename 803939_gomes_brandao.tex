@@ -38,12 +38,57 @@
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 
+% side by side
+\usepackage{listings}
+\usepackage{parcolumns}
+
+% Default fixed font does not support bold face
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+
+% Code coloring
+\usepackage{color}
+
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{110,110,110}
+\definecolor{red}{RGB}{160,0,0}
+\definecolor{blue}{RGB}{10,10,170}
+\definecolor{green}{RGB}{0,150,0}
+
+% Python style for highlighting
+\newcommand\pythonstyle{\lstset{
+language=Python,
+numberstyle=\fontsize{8pt}{8pt}\selectfont,
+basicstyle=\ttfamily\fontsize{8pt}{8pt}\selectfont,
+otherkeywords={self},             % Add keywords here
+emph={MyClass,__init__},          % Custom highlighting
+keywordstyle=\color{keywords},
+commentstyle=\color{comments},
+stringstyle=\color{blue},
+frame=tb,                         % Any extra options here
+showstringspaces=false            % 
+}}
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+\pythonstyle
+\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+\pythonstyle
+\lstinputlisting[#1]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythonstyle\lstinline!#1!}}
 
 %Figure con bordo
 \usepackage{float}
 \floatstyle{boxed}
 \restylefloat{figure}
-
 
 %
 \newtheorem{myteor}{Teorema}[section]
