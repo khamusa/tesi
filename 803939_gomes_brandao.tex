@@ -100,6 +100,7 @@ showstringspaces=false            %
 %			TITOLO
 %
 \begin{document}
+\renewcommand{\baselinestretch}{1.3}
 \title{Progettazione di un'applicazione e conseguenze di un approccio
 ``continuos refactoring''}
 \author{Samuel Gomes Brandão}
@@ -706,7 +707,7 @@ etichette corrette sarebbero quelle indicate dal numero 1004. Quelle
 di numero 1005 sono riferite al piccolo rettangolo indicato (in questo
 particolare caso, ma non sempre) dalla linea uscente, e si tratta di
 un ``Cavedio Porta Impianti'', cioè uno spazio per il passaggio dei cavi}
-    \label{fig:dxf_chaos}
+    \label{fig:dxf_room_labels}
 \end{figure}
 
 In seguito la REPL ci ha permesso di capire quanto buona effettivamente fosse
@@ -1216,14 +1217,21 @@ dato che sono spesso messaggi lunghi e pieni di dettagli all'utente
 finale, e per chiarezza ho aggiunti commenti (non presenti nell'originale) 
 riga per riga.
 
-\newpage\newgeometry{left=3cm, right=2.5cm}\pythonexternal[caption=Versione
+\newgeometry{left=3cm, right=2.5cm}
+\mbox{
+\pythonexternal[caption=Versione
 iniziale del metodo update\_buildings,frame=tlrb,numbers=left]{code_samples/building_data_updater_before.py}
+}
 
 Non ci vuole molto per capire quanti problemi sussistono nel 
 codice sopra, e per questo motivo evito di commentarlo e passo 
 subito alla visione della versione finale:
 
-\newpage\pythonexternal[caption=Versione finale del metodo update\_buildings,frame=tlrb]{code_samples/building_data_updater_after.py}
+\mbox{
+\pythonexternal[caption=Versione finale del metodo update\_buildings,frame=tlrb]{code_samples/building_data_updater_after.py}
+}
+
+\restoregeometry
 
 Da notare le seguenti proprietà di questo \textit{refactoring}:
 \begin{itemize}
