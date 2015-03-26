@@ -909,7 +909,8 @@ Si trattava del noto fenomeno del \textit{Software Decay}, che purtroppo
 non avevamo prima anticipato.
 
 % 
-%			CAPITOLO 4 ?
+%
+%
 \chapter{Un Primo Contatto con il \textit{Software Decay}}
 
 \begin{quote}
@@ -979,7 +980,7 @@ in questo sottotitolo non è puramente casuale)
 
 Non potevo evitare di pensare a quanto mancasse al team un membro più esperto,
 qualcuno che avesse già vissuto quella difficoltà e avesse imparato 
-da qualcun'altro o addirittura a partire da uno sforzo proprio! 
+da qualcun altro o addirittura a partire da uno sforzo proprio! 
 Mi sono accorto però che se qualcuno poteva riuscirci da solo, potevo provare
 anch'io, e chi sa un giorno sarei stato io ad aiutare qualcuno in una situazione 
 simile? E allo stesso tempo la sensazione di aver bisogno di un maestro da farci
@@ -1387,13 +1388,13 @@ modifiche più significative.
 
 Da ciò segue l'importanza di avere un approccio sistematico al 
 \textit{refactoring}, e che studiare le sue modalità e casi di applicazione
-è una forte componente dell'esperienza di uno sviluppatore. Inoltre,ç partendo
+è una forte componente dell'esperienza di uno sviluppatore. Inoltre, partendo
 dal \textit{refactoring} sentivo che le mie capacità di \textit{design}
 miglioravano. Ad ogni classe rielaborata mi sentivo leggermente più
 capace di sentire i \textit{code smells} ma anche di capire 
 che cosa li generava.
 
-Essendomi particolarmente interessato per l'argomento, ho trovato un libro 
+Essendomi particolarmente interessato all'argomento, ho trovato un libro 
 che mi ha cambiato il modo di vedere il problema già dalla prefazione.
 
 Si trattava del libro ``Refactoring: Improving the Design of
@@ -1406,8 +1407,8 @@ Già alla \textit{Foreword} scritta da Erich Gamma\footnote{
 Erich Gamma (nato nel 1961 a Zurigo) è un ingegnere del software e
 coautore dell'influente libro di Software Engineering ``Design Patterns: 
 Elements of Reusable Object-Oriented Software'' e ha dato numerosi contributi
-teorici e pratici (ha creato il framework per il testing JUnit insieme
-a Kent Beck) sull'argomento.
+teorici e pratici (ad esempio ha creato il framework per il testing 
+JUnit insieme a Kent Beck) sull'argomento.
 }
 sentivo di aver trovato un punto di riferimento, e mi sono stupito di
 vedere che molte delle conclusioni a cui ero arrivato dopo
@@ -1447,8 +1448,8 @@ code retain its shape.''
 }
 \end{quote}
 
-Riflettendo su quei nuovi contenuti, mi sono accorto del
-banale errore che avevamo commesso, e mi 
+Riflettendo su queste idee, mi sono accorto del
+(primo) banale errore che avevo commesso, e mi 
 sentivo ingenuo per quello: cercando sempre la ``buona progettazione'', 
 abbiamo applicato principi e ragionamenti all'inserimento di nuove 
 funzionalità, moduli e classi. Basandoci su estensiva sperimentazione, 
@@ -1463,8 +1464,46 @@ trasformazioni, il design iniziale, complessivo, si perdeva, si appannava.
 Applicando l'attenzione per un buon design alle nuove funzionalità, ci 
 siamo dimenticati di riadeguare quelle già esistenti!
 
-Si noti inoltre il rilievo dato da Fowler nell'ultima frase citata
-all'idea di \textit{Refactoring Regolare}. Su questo aspetto ne discute
+Il secondo errore commesso è stato quello di frammentare eccessivamente la
+classe BuildingDataUpdater durante il suo refactoring. Mi ero messo l'obbiettivo
+di ``rimuovere di una volta per tutte'' i \textit{code smells} su quella classe,
+e allora mi sono messo a fare grossi cambiamenti. La verità è che l'unico
+grosso cambiamento strutturale che era veramente necessario era quello di separare
+DataUpdater in due classi distinte per l'aggiornamento delle stanze e dei 
+palazzi, e poi eseguire operazioni più piccole di refactoring più localizzato:
+la maggior parte erano estrazioni di metodi.
+
+A rispetto della dimensione dei passi in fase di refactoring, Fowler, in
+riferimento a un esempio presentato, è abbastanza chiaro:
+
+\begin{quote}
+La lezione più importante di questo esempio è il ritmo del refactoring:
+testare, piccola modifica, testare, piccola modifica, testare. È questo
+ritmo che permette al refactoring di procedere velocemente
+e con sicurezza\cite{fowler2002}
+
+\flushright\textit{(Traduzione mia, originale in inglese\footnote{
+``The most important lesson from this example is the rhythm of refactoring:
+test, small change, test, small change, test, small change. It is that
+rhythm that allows refactoring to move quickly and safely''
+})
+}
+\end{quote}
+
+Quando parla di sicurezza, Fowler si riferisce all'importanza dei test,
+nel garantire che le modifiche apportate non generino nuovi errori
+su un codice che prima era funzionante. Da questa esperienza che vi ho
+raccontato aggiungerei che il procedere a piccoli passi ci conferisce
+anche un ulteriore livello di sicurezza: sulle modifiche nel design. 
+A piccoli passi le trasformazioni avvengono in modo incrementale,
+e allora esiste una maggior probabilità che ce ne accorgiamo nel momento
+giusto se le modifiche ci hanno già portato al punto desiderato. 
+Non posso dire che non avrei commesso quell'errore se avessi avanzato
+a piccoli passi, ma di sicuro ci sarebbe una maggiore probabilità che
+non dovessi arrivare alla mattina successiva per accorgermi.
+
+Si noti inoltre il rilievo dato da Fowler all'idea di 
+\textit{Refactoring Regolare}. Su questo aspetto ne discute
 ancora:
 
 \begin{quote}
@@ -1486,8 +1525,8 @@ and refactoring helps you do that other thing''
 }
 \end{quote}
 
-Assumendo allora che questo approccio di \textbf{continuous refactoring}
-portato in avanti fin dall'inizio di un progetto, sono 
+Assumendo allora che questo approccio di \textbf{continuous refactoring} venga
+portato in avanti sin dall'inizio di un progetto, sono 
 assolutamente d'accordo con tale affermazione. Con questo 
 sforzo continuo e inerente all'attività di implementare nuove 
 funzionalità o estendere quelle esistenti,
@@ -1501,14 +1540,14 @@ cumulativo della perdita di struttura del codice ha già causato
 troppi danni. A quel punto bisogna fermarsi, separare del tempo 
 ed eseguire l'attività di refactoring a piena autonomia.
 
-Vorrei sottolineare che esiste una netta differenza tra i due contesti
+Vorrei sottolineare che c'è una netta differenza tra le due modalità
 di refactoring. Nel primo caso, quando si esegue il refactoring come
 parte del processo di sviluppo stesso, si parla di refactoring per adeguare
 il codice esistente a delle richieste che dobbiamo implementare di immediato,
 e allora ne conosciamo già. Saranno appunto queste richieste a guidare 
 i passi del refactoring: in che modo rielaborare il codice già esistente
 per far si che l'aggiunta/estensione delle richieste funzionalità porti
-a ugualmente o più elegante? Su questa tipologia di refactoring,
+a ugualmente o più elegante design? Su questa tipologia di refactoring,
 Martin Fowler fornisce un lungo compendio di esempi pratici e di diverse
 tecniche nel riferito libro\cite{fowler2003}.
 
@@ -1516,7 +1555,8 @@ L'altro caso, cioè, quando decidiamo che lo stato attuale del codice
 richiede un impegno dedicato di refactoring, non abbiamo richieste esplicite
 da guidare le nostre trasformazioni. Le richieste invece tendono ad essere
 piuttosto generali, come ``migliorare la leggibilità del codice'', ``ridurre
-le dipendenze'', ``disaccoppiare moduli'', eccettera.
+le dipendenze'', ``disaccoppiare moduli'', ``aumentare la testabilità'',
+eccettera.
 
 In questi casi diventa problematico, specialmente in visione di un
 \textit{codebase} significativo, decidere da dove partire e scegliere
@@ -1540,7 +1580,7 @@ nella scelta delle modifiche da operare e bilanciando in parte la
 difficoltà di capire i problemi di design dovuta alla mancanza di un'esperienza
 più SOLIDa (non per caso in maiuscole).
 
-\chapter{Conclusione}
+\chapter{Conclusioni}
 
 Sono arrivato alla conclusione
 
@@ -1551,47 +1591,38 @@ precedenti. Questo è stato possibile soltanto per il fatto che sono
 partito da riflessioni proprie, da uno sforzo lungo per capire i 
 difetti di quel design, da tentativi pratici senza, appunto, 
 la presenza di qualcuno che mi guidasse. In seguito a tanti tentativi
-falliti o con successo soltanto parziale, e allora tanta riflessione
+falliti o con successo soltanto parziale, e allora significativa riflessione
 pratica, la letteratura e la teoria sull'argomento mi hanno aiutato a 
-portare il ragionamento in avanti.
+portare il ragionamento in avanti, a fare i salti di qualità
+necessari.
 
-Una volta sono riuscito a compiere questi passi, ho cercato di riapplicare
+La riflessione sulla letteratura mi ha anche aiutato a capire il 
+motivo per cui inizialmente avevo sbagliato nei tentativi di refactoring,
+frammentando troppo il flusso di esecuzione del codice 
+in diversi moduli/classi, cioè la necessità
+di procedere a piccoli passi, riflettendo su ogni
+cambiamento una volta compiuto e assicurandoci della sua correttezza con
+l'esecuzione dell'insieme di test dedicati. 
+
+Una volta che sono riuscito a compiere questi passi, ho cercato di riapplicare
 il metodo utilizzando altri concetti. Mi rimane comunque la certezza che
 mantenere un buon \textit{design} del software è un'abilità che viene acquisita
 con esperienza, e con uno sforzo continuo. Non basta un ottimo design a
-priori, perché questo viene fatalmente eroso man mano riceve modifiche
-e nuove funzionalità. 
+priori, perché questo viene fatalmente eroso man mano che riceve modifiche
+e nuove funzionalità. Non basta neanche la voglia di mantenerlo, ci vuole
+anche un \textit{know-how} la cui assimilazione non è direttamente 
+proporzionale al tempo o allo sforzo impiegato, ma procede in modi irregolari.
+
+Ciò che abbiamo fatto come team, in seguito a questi episodi, è stato appunto
+dare dignità di processo all'attività di refactoring, inserendola all'interno
+del nostro flusso di lavoro. Questo progetto ha servito come applicazione 
+pratica di tanti concetti che avevamo già studiato durante il nostro percorso
+di studi, e, nel mio caso particolare, penso che ne abbia contribuito 
+significativamente per farmi assorbire in modo più profondo qualche dei
+principi di Progettazione Software.
 
 
-buona progettazione não é só a priori, mas também com refactoring,
-continuos refactoring!
-(TODO: Conclusioni: in letteratura / in quei libri ho trovato la
-figura che prima volevo: la voce dell'esperienza )
-(TODO: Conclusioni: prima pensavo a grandi cambiamenti strutturali,
-cose che avrebbero ``risolto'' il problema del design. Loro invece
-parlano di piccoli step.)
 
-\begin{quote}
-La lezione più importante di questo esempio è il ritmo del refactoring:
-testare, piccola modifica, testare, piccola modifica, testare. È questo
-ritmo che permette al refactoring di procedere velocemente
-e con sicurezza\cite{fowler2002}
-
-\flushright\textit{(Traduzione mia, originale in inglese\footnote{
-``The most important lesson from this example is the rhythm of refactoring:
-test, small change, test, small change, test, small change. It is that
-rhythm that allows refactoring to move quickly and safely''
-})
-}
-\end{quote}
-
-Quando parla di sicurezza, Fowler si riferisce all'importanza dei test,
-nel garantire che le modifiche apportate non generino nuovi errori
-su un codice che prima era funzionante. Da questa esperienza che vi ho
-raccontato concludo inoltre che il procedere a piccoli passi ci conferisce
-anche sicurezza sulle modifiche nel design. A piccoli passi esiste una
-maggior probabilità che ce ne accorgiamo quando il refactoring è già
-sufficiente. Io invece avevo fatto quelle modifiche giganti, blah blha blah
 
 (TODO: Conclusioni: dopo aver applicato ho applicato anche ai test, e
 alla fine corretto la quantità di test tautologici aggiunti in precedenza)
@@ -1602,6 +1633,11 @@ puzza, e perché? (cit. riga 53 delle note sul libro))
 (TODO: questo modo di scrivere troppo narrativo può essere un problema?)
 (Com'è bello avere l'occasione di riflette sul proprio codice, sui
 propri test! Perché non me lo fanno fare al lavoro? xD)
+
+In letteratura ho trovato il riscontro che sentivo di aver bisogno per
+poter sviluppare le mie proprie idee e capacità. Ciò rinforza a me
+l'idea di aver scelto una professione in cui non si deve mai smettere
+di studiare. Ma quello lo sapevamo già.
 %
 
 %
