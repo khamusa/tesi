@@ -526,7 +526,17 @@ funzionale o semantico, come nell'esempio citato per le porte.
   }
 con cui il file veniva organizzato. La grande maggioranza di questi
 file seguiva uno standard preciso per il \textit{naming} dei
-\textit{layers}: c'era un \textit{layer} ``PORTE'', un \textit{layer} ``RM\$'' che conteneva i poligoni delle stanze, un \textit{layer} ``FINESTRE'', e così via. Ma in qualche file, Il layer ``PORTE'' potrebbe chiamarsi ``PORTA'', le finestre potrebbero essere state inserite insieme alle murature nel \textit{layer} ``MURI'', mentre il \textit{layer} ``SCALE'' era vuoto con le scale disegnate insieme alle stanze su ``RM\$''. Sul \textit{layer} delle porte, a volte trovavamo le porte disegnate come linee e archi sparsi, a volte raggruppate all'interno di oggetti composti (chiamati \textit{Insert}, una specie di gruppo di oggetti), e lo stesso valeva per le finestre e le scale. 
+\textit{layers}: c'era un \textit{layer} ``PORTE'', un \textit{layer} 
+``RM\$'' che conteneva i poligoni delle stanze, un \textit{layer}
+``FINESTRE'', e così via. Ma in qualche file, Il layer ``PORTE''
+potrebbe chiamarsi ``PORTA'', le finestre potrebbero essere state
+inserite insieme alle murature nel \textit{layer} ``MURI'', mentre
+il \textit{layer} ``SCALE'' era vuoto con le scale disegnate
+insieme alle stanze su ``RM\$''. Sul \textit{layer} delle porte,
+a volte trovavamo le porte disegnate come linee e archi sparsi,
+a volte raggruppate all'interno di oggetti composti (chiamati
+\textit{Insert}, una specie di gruppo di oggetti), e lo stesso 
+valeva per le finestre e le scale. 
 
 Con morfologie talmente eterogenee da trattare, in che modo avremmo
 potuto incominciare il lavoro su questi dati/file utilizzando il TDD?
@@ -628,7 +638,9 @@ degli approcci di esplorazione utilizzati verso un'implementazione funzionante.
 
 È imprescindibile che l'esplorazione avvenga nell'ambiente stesso su
 cui avverrà l'implementazione. Per questo motivo abbiamo utilizzato la
-REPL, con l'interprete python bpython\footnote{\url{http://www.bpython-interpreter.org/}}, che fornisce diverse funzionalità utili per un approccio del genere:
+REPL, con l'interprete python bpython\footnote{
+\url{http://www.bpython-interpreter.org/}}, che fornisce diverse
+ funzionalità utili per un approccio del genere:
 
 \begin{itemize}
   \item Colorazione del codice per facilitarne la comprensione
@@ -827,7 +839,8 @@ Da queste versioni prototipali ottenute dalla sperimentazione,
 ottenevamo versioni più elaborate eseguendo delle continue trasformazioni e
 operazioni di \textit{refactoring}. Perché funzionasse correttamente, le prove
 sulla REPL dovevano essere estremamente veloci, e allora le attività di design
-e \textit{testing} non erano la priorità. In questa fase di \textit{refactoring} dovevamo sanare queste eventuali deficienze.
+e \textit{testing} non erano la priorità. In questa fase di \textit{refactoring} 
+dovevamo sanare queste eventuali deficienze.
 
 Col il nostro obbiettivo per la ricerca continua della buona
 progettazione, una volta capito meglio il \textit{wicked problem} in
@@ -1256,8 +1269,7 @@ riga per riga.
 
 \newgeometry{left=3cm, right=2.5cm}
 \mbox{
-\pythonexternal[caption=Versione
-iniziale del metodo update\_buildings,frame=tlrb,numbers=left]{code_samples/building_data_updater_before.py}
+\pythonexternal[caption=Versione iniziale del metodo update\_buildings,frame=tlrb,numbers=left]{code_samples/building_data_updater_before.py}
 }
 
 Non ci vuole molto per capire quanti problemi sussistono nel 
