@@ -259,8 +259,6 @@ dalle piantine edili.
 \chapter{Attività Preliminari}
 \label{cap2}
 
-\epigraph{Experience is simply the name we give our mistakes}{Oscar Wilde}
-
 La prima sfida per lo sviluppo di un progetto è quella di capire i
 requisiti e i problemi coinvolti. A seconda della tipologia di
 progetto, ciò può richiedere tempo e dedicazione considerevole. Molto
@@ -881,17 +879,18 @@ Questo \textit{workflow} fece si che nessun componente prototipale
 rimanesse intoccato per molto tempo. In conseguenza dell'aggiunta di
 nuove funzionalità o di cambiamenti del codice esistente, per ad
 esempio gestire più casi, le componenti venivano rielaborate,
-ritrasformate e pulite. In sostanza, il \textit{refactoring} di pezzi
-preesistenti diventò parte essenziale del processo di sviluppo, e per
-renderlo possibile abbiamo dato più importanza ai \textit{non
-regression test} e a una modularità e incapsulamento che ci permettessero di
+ritrasformate e pulite. In sostanza, l'estensione di pezzi
+preesistenti diventò il punto di partenza essenziale del
+processo di sviluppo, e per renderlo possibile abbiamo dato più 
+importanza ai \textit{non regression test} e a una 
+modularità e incapsulamento che ci permettessero di
 cambiare il codice con sufficiente confidenza. 
 
 Avere un insieme di test su cui ci fidavamo è stato essenziale per
 rendere possibile e veloce lo sviluppo in queste modalità. Un aspetto
 interessante da discutere è proprio questo: in che modo aumentare il
 grado di affidabilità fornito da una \textit{suite} di test?
-
+[TODO: PARLERÒ DI TESTABILITY?]
 
 
 % 
@@ -1360,16 +1359,21 @@ aiutato a riportare ulteriori \textit{refactoring} di tipo strutturale
 su altre classi, senza però compiere l'errore commesso nella 
 prima applicazione.
 
+
+%
+%
+%
+%
 \chapter{Refactoring continuo e guidato}
 
-Analizzando queste esperienze, ho concluso che l'aver utilizzato un o più
+Analizzando queste esperienze, ho concluso che l'aver utilizzato uno o più
 concetti esplicitamente per l'analisi del codice mi ha permesso di
 cambiare l'approccio, lo sguardo, e mi ha reso capace di eseguire
-modifiche significative.
+modifiche più significative.
 
 Da ciò segue l'importanza di avere un approccio sistematico al 
 \textit{refactoring}, e che studiare le sue modalità e casi di applicazione
-è una forte componente dell'esperienza di uno sviluppatore. Inoltre, partendo
+è una forte componente dell'esperienza di uno sviluppatore. Inoltre,ç partendo
 dal \textit{refactoring} sentivo che le mie capacità di \textit{design}
 miglioravano. Ad ogni classe rielaborata mi sentivo leggermente più
 capace di sentire i \textit{code smells} ma anche di capire 
@@ -1389,7 +1393,8 @@ Erich Gamma (nato nel 1961 a Zurigo) è un ingegnere del software e
 coautore dell'influente libro di Software Engineering ``Design Patterns: 
 Elements of Reusable Object-Oriented Software'' e ha dato numerosi contributi
 teorici e pratici (ha creato il framework per il testing JUnit insieme
-a Kent Beck) sull'argomento.}
+a Kent Beck) sull'argomento.
+}
 sentivo di aver trovato un punto di riferimento, e mi sono stupito di
 vedere che molte delle conclusioni a cui ero arrivato dopo
 duri processi di tentativi, errori e riflessioni, venivano formalizzate
@@ -1399,7 +1404,7 @@ Ho trovato una definizione più precisa di refactoring, e, più importante,
 ricorrenti incentivi alla sua 
 \textbf{pratica continua}, a prescindere degli ostacoli naturali (management, 
 l'impressione che non porti a niente di nuovo, molto sforzo per nessun valore
-percepibile dall'esterno, eccetera). Un concetto a cui ero già arrivato
+percepibile dall'esterno, eccetera). Un idea su cui avevo appena riflesso
 ma che Martin Fowler ha molto bene sintetizzato è quello descritto nel
 seguente paragrafo:
 
@@ -1409,8 +1414,8 @@ cambiano il codice - modifiche per realizzare obiettivi immediati o modifiche
 fatte senza una comprensione complessiva del design del codice - il codice
 perde la sua struttura. Diventa più difficile capire il design leggendo
 il codice. [...] La perdita di struttura del codice ha un effetto cumulativo.
-Quanto più difficile è vedere il design the codice, più difficile è 
-preservarlo, e più rapidamente esso decade. \textit{Refactoring} continuo aiuta
+Quanto più difficile è vedere il design del codice, più difficile è 
+preservarlo, e più rapidamente esso decade. \textit{Refactoring} regolare aiuta
 il codice a mantenere la sua forma. \cite{fowler2002} 
 
 \flushright
@@ -1428,7 +1433,7 @@ code retain its shape.''
 }
 \end{quote}
 
-Riflettendo su quei nuovi contenuti, mi sono accorto di un 
+Riflettendo su quei nuovi contenuti, mi sono accorto del
 banale errore che avevamo commesso, e mi 
 sentivo ingenuo per quello: cercando sempre la ``buona progettazione'', 
 abbiamo applicato principi e ragionamenti all'inserimento di nuove 
@@ -1442,10 +1447,86 @@ questi metodi venivano modificati con piccole correzioni e estensioni di
 comportamento. In questo naturale ciclo di vita di rielaborazione, 
 trasformazioni, il design iniziale, complessivo, si perdeva, si appannava. 
 Applicando l'attenzione per un buon design alle nuove funzionalità, ci 
-dimenticavamo a volte di riadeguare meglio quelle già esistenti, ce lo 
-eravamo dimenticati!
+siamo dimenticati di riadeguare quelle già esistenti!
 
-\section*{Dare nome ai problemi}
+Si noti inoltre il rilievo dato da Fowler nell'ultima frase citata
+all'idea di \textit{Refactoring Regolare}. Su questo aspetto ne discute
+ancora:
+
+\begin{quote}
+In quasi tutti i casi, mi oppongo all'idea di separare tempo da dedicare
+al refactoring. Dal mio punto di vista refactoring non è un'attività a cui
+si dedica un tempo preciso. Refactoring è qualcosa che si fa tutto il tempo
+in piccole raffiche. Non si decide di fare il refactoring, ma se lo fa
+perché si vuole fare qualcos'altro, e fare il refactoring ci aiuta a 
+fare quella cosa\cite{fowler2002}.
+
+\flushright
+\textit{(Traduzione mia, originale in inglese\footnote{
+``In almost all cases, I'm opposed to setting aside time for refactoring.
+In my view refactoring is not an activity you set aside time to do.
+Refactoring is something you do all the time in little bursts. You don't
+decide to refactor, you refactor because you want to do something else,
+and refactoring helps you do that other thing''
+})
+}
+\end{quote}
+
+Assumendo allora che questo approccio di \textbf{continuous refactoring}
+portato in avanti fin dall'inizio di un progetto, sono 
+assolutamente d'accordo con tale affermazione. Con questo 
+sforzo continuo e inerente all'attività di implementare nuove 
+funzionalità o estendere quelle esistenti,
+garantiamo che ad ogni passo il \textit{design} del codice non solo viene
+mantenuto come migliorato.
+
+Nella mia opinione esiste però un caso in cui separare del tempo preciso 
+per fare il refactoring è necessario. Si tratta del caso specifico che
+ho esperimentato: quando se ne accorge un po' tardi che l'effetto 
+cumulativo della perdita di struttura del codice ha già causato
+troppi danni. A quel punto bisogna fermarsi, separare del tempo 
+ed eseguire l'attività di refactoring a piena autonomia.
+
+Vorrei sottolineare che esiste una netta differenza tra i due contesti
+di refactoring. Nel primo caso, quando si esegue il refactoring come
+parte del processo di sviluppo stesso, si parla di refactoring per adeguare
+il codice esistente a delle richieste che dobbiamo implementare di immediato,
+e allora ne conosciamo già. Saranno appunto queste richieste a guidare 
+i passi del refactoring: in che modo rielaborare il codice già esistente
+per far si che l'aggiunta/estensione delle richieste funzionalità porti
+a ugualmente o più elegante? Su questa tipologia di refactoring,
+Martin Fowler fornisce un lungo compendio di esempi pratici e di diverse
+tecniche nel riferito libro\cite{fowler2003}.
+
+L'altro caso, cioè, quando decidiamo che lo stato attuale del codice
+richiede un impegno dedicato di refactoring, non abbiamo richieste esplicite
+da guidare le nostre trasformazioni. Le richieste invece tendono ad essere
+piuttosto generali, come ``migliorare la leggibilità del codice'', ``ridurre
+le dipendenze'', ``disaccoppiare moduli'', eccettera.
+
+In questi casi diventa problematico, specialmente in visione di un
+\textit{codebase} significativo, decidere da dove partire e scegliere
+quali modifiche porteranno al maggior beneficio, dato che comunque
+nei contesti pratici il tempo disponibile a un'attività del genere è 
+anche limitato.
+
+Nella mia particolare esperienza, i criteri utilizzati per guidare la scelta
+di quali refactoring eseguire e su quali classi/moduli farlo, sono stati i
+principi SOLID di cui ho prima parlato, con prevalenza dell'SRP. L'SRP è
+stato il più utile perché molto spesso ho percepito che operare modifiche
+sul codice in termini di riduzione delle responsabilità di ogni classe
+rendeva più evidente problemi legati agli altri aspetti, come addirittura
+il Liskov Substitution Principle. Definire bene le responsabilità di una classe
+padre e delle sue classi figlio esplicitava la natura della relazione che
+doveva sussistere fra di loro, e, di conseguenza, quali logiche funzionali
+violavano l'LSP. 
+
+Nel mio caso sento che questa strategia abbia funzionato bene, aiutandomi
+nella scelta delle modifiche da operare e bilanciando in parte la
+difficoltà di capire i problemi di design dovuta alla mancanza di un'esperienza
+più SOLIDa (non per caso in maiuscole).
+
+\chapter{Conclusione}
 
 Sono arrivato alla conclusione
 
