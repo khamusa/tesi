@@ -33,6 +33,7 @@
 \usepackage{enumitem}
 \usepackage{setspace}
 
+\expandafter\def\expandafter\quote\expandafter{\quote\singlespacing}
 \onehalfspacing                %% <--- Better use setspace
 \setlist{noitemsep}
 % per le accentate
@@ -154,6 +155,13 @@ il più spesso possibile, ma ho comunque mantenuto molti termini in inglese.
 Prevalentemente sono termini tecnici, e, in occasione del primo utilizzo,
 cerco di fornire una piccola descrizione e/o traduzione come nota a piè di
 pagina.
+
+Ci sono però un paio di citazioni che mi aiutano a illustrare determinati
+ragionamenti, che sono state ottenute a partire da letteratura in inglese.
+Ho inserito allora una mia traduzione degli opportuni brani, e indicato
+a piè di pagina la versione originale in inglese che ho utilizzato. In questo
+modo rimane al lettore la possibilità di capire meglio in originale
+o disambiguare la traduzione.
 
 Ho provato a tenere il flusso di lettura leggero, senza troppo carico
 teorico o di definizioni (anche per compensare la difficoltà di esprimere
@@ -577,8 +585,16 @@ sul rimpiazzare i \textit{requirements} con ipotesi quando sviluppando
 per un ambiente caratterizzato dall'incertezza: 
 
 \begin{quote}
-When you're in production, building to known standard, you want requirements. 
-When you're in an environment of uncertainty, you want hypotheses.\cite{seiden2012}.
+Quando si sta in produzione, sviluppando su standard predefiniti, si vogliono
+i requisiti. Quando si sta in un ambiente di incertezza, si vogliono
+ipotesi.\cite{seiden2012}
+
+\flushright
+\textit{(Traduzione mia, originale in inglese\footnote{
+``When you're in production, building to known standard, you want requirements. 
+When you're in an environment of uncertainty, you want hypotheses.''
+})
+}
 \end{quote}
 
 L'autore sottolinea che molto spesso i \textit{requirements}
@@ -980,20 +996,28 @@ suggerimento di Sandi Metz nel libro ``Practical object-oriented
 design in Ruby: an agile primer'':
 
 \begin{quote}
+Un altro modo per concentrarsi su che cosa una classe sta veramente facendo
+è provare a descriverla in una sola sentenza. Ricordarsi che una classe deve
+fare soltanto la più piccola cosa utile possibile. Questa cosa dev'essere
+semplice da descrivere. Se la descrizione più semplice che si riesce a
+ottenere usa la congiunzione ``e'' la classe ha probabilmente più di una
+responsabilità. Se utilizza la congiunzione ``o'', allora la classe
+possiede più di una responsabilità e non sono nemmeno molto correlate. \cite{metz2013}
+\flushright
+\textit{(Traduzione mia, originale in inglese\footnote{
 ``Another way to hone in on what a class is actually doing is to attempt 
 to describe it in one sentence. Remember that a class should do 
 the smallest possible useful thing. That thing ought to be simple 
 to describe. If the simplest description you can devise uses the word ``and,'' 
 the class likely has more than one responsibility. If it uses the word ``or,'' 
 then the class has more than one responsibility and they aren’t 
-even very related.''\cite{metz2013}
+even very related.''})
+}
 \end{quote}
 
-L'idea è quella di guardare
-le classi o metodi esistenti e cercare di sintetizzare in una frase quale sia
-la sua responsabilità. In seguito, si deve cercare di contare quante volte le
-congiunzioni ``e'' e ``oppure'' compaiono. Secondo Sandi Metz, la presenza di
-una unica di queste congiunzioni è già sufficiente per concludere che
+Si noti che secondo Sandi Metz, la presenza di
+una unica di queste congiunzioni nella ``frase di responsabilità''
+è già sufficiente per concludere che
 quella classe ha più di una responsabilità. Pronto, adesso avevo un
 principio guida per aiutarmi, a partire dall'analisi sistematica del codice,
 a trovare l'origine dei \textit{code smells}.
@@ -1165,8 +1189,12 @@ Ma non ero ancora soddisfatto. C'era qualcosa che, ancora, non andava bene!
 
 La definizione del Single \textit{Responsibilty Principle} più accettata
 parla esplicitamente di classe. Più precisamente è definita nei seguenti 
-termini:
-\textit{``A class should have only one reason to change''\cite{bobmartin2003}}.
+termini: ``Una classe deve avere al massimo una ragione per cambiare''\cite{bobmartin2003}
+\textit{
+(Traduzione mia, originale in inglese\footnote{
+  ``A class should have only one reason to change''
+}).
+}
 
 Avendo capito meglio e anche nella pratica cosa effettivamente 
 quest'affermazione significa, ho provato ad estendere la sua applicazione
@@ -1385,8 +1413,11 @@ propri test! Perché non me lo fanno fare al lavoro? xD)
 \begin{thebibliography}{00}
 %
 \bibitem{bobmartin2003}
-Martin, Robert C.. ``Agile Software Development, Principles, Patterns,
-and Practices'', 2003.
+Martin, Robert C.. Agile Software Development, Principles, Patterns,
+and Practices, 2003.
+
+\bibitem{fowler2002}
+Fowler, Martin. Refactoring: Improving the Design of Existing Code, 2002.
 
 \bibitem{metz2013}
 Metz, Sandi. Practical object-oriented design in Ruby : an agile primer, 2013.
