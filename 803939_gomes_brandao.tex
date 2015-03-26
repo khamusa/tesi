@@ -1074,7 +1074,14 @@ questioni di compatibilità, mentre quelli usati da EasyRoom avevano un solo for
 In sostanza, il \textit{class diagram} era come segue\footnote{Per 
 semplicità ho omesso metodi e attributi privati}:
 
-[TODO \textit{Class Diagram} iniziale]
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=280pt]{class_diagram_dataupdater_before.png}
+    \caption{Si noti che in Python non sussistono veri vincoli di protezione
+    sui livelli di accesso. Metodi privati sono indicati semplicemente con
+    un underscore all'inizio, e rappresentano una convenzione.}
+    \label{fig:class_diagram_dataupdater_before}
+\end{figure}
 
 Alla stesura della ``frase di responsabilità'' per DataUpdater, ho
 ottenuto il seguente: 
@@ -1101,7 +1108,20 @@ che non ci sarebbero nessun dei noti problemi di \textit{method resolution
 order} che nascono in contesti di ereditarietà multipla. Da questo cambiamento
 siamo passati al seguente \textit{class diagram}:
 
-[TODO \textit{Class diagram} dopo separazione]
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=340pt]{class_diagram_dataupdater_after.png}
+    \caption{La separazione di DataUpdater in due classi diverse. Si noti
+    che i metodi delle sottoclassi sono esattamente gli stessi. L'unico metodo
+    duplicato è \_is\_valid\_b\_id(building\_id), che è astratto
+    su RoomDataUpdater. L'ho aggiunto al diagramma per correttezza 
+    sintatica dato che viene chiamato dal metodo update\_rooms. La semantica
+    richiesta del metodo è ovviamente la stessa in entrambe le classi.
+    In Python, essendoci il \textit{duck typing}, non è mandatoria la
+    dichiarazione di metodi astratti. 
+    }
+    \label{fig:class_diagram_dataupdater_after}
+\end{figure}
 
 Dopo aver sistemato i bug introdotti da questo cambiamento e rilevati 
 correttamente dalla nostra suite di test, a quel punto avevo due 
@@ -1270,19 +1290,16 @@ finale, e per chiarezza ho aggiunti commenti (non presenti nell'originale)
 riga per riga.
 
 \newgeometry{left=3cm, right=2.5cm}
-\mbox{
+\newpage
 \pythonexternal[caption=Versione iniziale del metodo update\_buildings,frame=tlrb,numbers=left]{code_samples/building_data_updater_before.py}
-}
+\newpage
+
 
 Non ci vuole molto per capire quanti problemi sussistono nel 
 codice sopra, e per questo motivo evito di commentarlo e passo 
 subito alla visione della versione finale:
 
-\mbox{
 \pythonexternal[caption=Versione finale del metodo update\_buildings,frame=tlrb]{code_samples/building_data_updater_after.py}
-}
-
-\restoregeometry
   
 Da notare le seguenti proprietà di questo \textit{refactoring}:
 \begin{itemize}
@@ -1309,6 +1326,7 @@ Da notare le seguenti proprietà di questo \textit{refactoring}:
   classe Building, un ODM\footnote{\textit{Object-Document Mapper}} Model che
   rappresenta i documenti in database da aggiornare/inserire. 
 \end{itemize}
+\restoregeometry
 
 L'incapsulamento all'interno di metodi piccoli e isolati dal resto della
 logica applicativa è particolarmente importante per i seguenti aspetti:
@@ -1621,6 +1639,19 @@ pratica di tanti concetti che avevamo già studiato durante il nostro percorso
 di studi, e, nel mio caso particolare, penso che ne abbia contribuito 
 significativamente per farmi assorbire in modo più profondo qualche dei
 principi di Progettazione Software.
+
+
+
+
+(TODO: Conclusioni: dopo aver applicato ho applicato anche ai test, e
+alla fine corretto la quantità di test tautologici aggiunti in precedenza)
+(TODO: Conclusioni: usare la repl non è sabagliato, ma alla fine ho
+concluso che per ogni fase / momento ci vuole anche un workflow diverso!)
+(TODO: esempio di floormerger, l'unico caso in cui non sentivo la
+puzza, e perché? (cit. riga 53 delle note sul libro))
+(TODO: questo modo di scrivere troppo narrativo può essere un problema?)
+(Com'è bello avere l'occasione di riflette sul proprio codice, sui
+propri test! Perché non me lo fanno fare al lavoro? xD)
 
 In letteratura ho trovato il riscontro che sentivo di aver bisogno per
 poter sviluppare le mie proprie idee e capacità. Ciò rinforza a me
