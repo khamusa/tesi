@@ -244,15 +244,21 @@ identificando la localizzazione di stanze rilevanti e la categoria
 funzionale delle altre stanze.
 \end{itemize}
 
+A questi si aggiungono altri compiti meno significativi o riconducibili a uno
+di questi, come, ad esempio, l'elaborazione grafica delle piante estratte
+come immagine. Per ciò che riguarda gli obbiettivi sopra elencati, per 
+motivi di brevità mi concentrerò sugli aspetti di estrazione dati
+dalle piantine edili, accennando soltanto il lavoro sui dati di origine
+testuale e il lavoro di integrazione.
 
-TODO - CAMBIARE:
-Su questa relazione descrivo il processo di sviluppo della suddetta
-applicazione da zero, con particolare rilievo alla ricerca della buona
-progettazione e all'utilizzo di una modalità operativa che ho chiamato
-\textit{“continuos refactoring”} \footnote{Si veda il capitolo
-\ref{cap3}}. Per quanto riguarda i compiti sopra, per motivi di
-brevità mi concentrerò di più sugli aspetti di estrazione dati
-dalle piantine edili.
+Per gli aspetti tecnici, ho scelto di concentrarmi di più alle
+metodologie di sviluppo che abbiamo utilizzato. 
+Particolari riflessioni vengono fatte su
+aspetti di \textit{design} del software, e principalmente sull'attività
+di \textit{refactoring} come parte inerente al flusso di lavoro.
+A questo concetto do il nome di \textit{“continuos refactoring”} 
+\footnote{Si veda il capitolo \ref{cap4} e principalmente il capitolo\ref{cap5}}.
+
 
 % 
 % 
@@ -324,7 +330,7 @@ spazi di ristorazione, eccetera.
 In sostanza, il lavoro di integrazione consisteva nel far confluire in
 prima istanza i dati testuali dei dipartimenti di Sistemi Informativi
 e Edilizia. Si trattava allora di relazionare informazioni sui palazzi
-e sulle aule didattiche. Il risultato di questa operazione, dovevamo
+e sulle aule didattiche. Il risultato di questa operazione dovevamo
 correlare con le informazioni presenti nelle piantine edili. Lo scopo
 finale è quello di avere un ulteriore set di dati disponibile, con la
 pretesa di essere più preciso e di averne più informazioni delle
@@ -352,16 +358,29 @@ disponevano sono state disegnate in formato cartaceo e solo posteriormente
 trasferite in formato digitale, quando la costruzione dell'edificio era già
 finita. Sono inoltre state fatte e raccolte lungo periodi significativi,
 create da persone diverse, e perciò è difficile mantenere degli
-\textit{standard} nella loro rappresentazione digitale. Ovviamente nel
-processo di trasferimento da cartaceo a digitale dettagli vengono persi e
+\textit{standard} nella loro rappresentazione digitale. Ovviamente, nel
+processo di trasferimento da cartaceo a digitale, dettagli vengono persi,
 errori vengono introdotti, e le versioni digitali non passano per la stessa
 meticolosa verifica di quelle utilizzate per la costruzione degli edifici. 
 
 Da questo segue una nuova sfida: prima ancora di procedere all'integrazione,
 dovrebbe esserci un efficace meccanismo di validazione dei dati di partenza.
-Questo è diventato un ulteriore valore dell'applicazione, cioè la capacità di
+Questo è diventato un valore aggregato all'applicazione, cioè la capacità di
 fornire un'analisi della correttezza sintattica dei file in input, permettendo
 un valido \textit{feedback} per ulteriori miglioramenti e correzioni manuali.
+
+Una volta che abbiamo superato le barriere più significative per l'estrazione 
+dei dati e riuscivamo effettivamente ad inserirli nel nostro 
+database, abbiamo potuto fare un ulteriore passo rispetto a 
+queste validazioni di dati: avendo altri dati a cui 
+comparare, le operazioni di validazione acquisivano anche un significato
+semantico. Infatti, alla fine del progetto abbiamo sviluppato in parallelo
+un altro programma in grado di analizzare lo stato del database 
+e fornire un lungo e comprensivo \textit{output} sulla 
+qualità e quantità dei dati, e sui risultati dell'integrazione delle 
+diverse sorgenti. Ci forniva anche delle medie campionarie che ci hanno 
+garantito un maggiore livello di confidenza nello scegliere le
+strategie per l'estrazione o ulteriore elaborazione dei dati.
 
 \section*{Nessuna assunzione}
 
@@ -369,7 +388,7 @@ La molle di dati era significativa, in speciale per i file DXF: più di
 700, ognuno con dimensione media di 4.5Mb, e casi estremi di fino a
 44Mb. Questi file contenevano tutte le informazioni edili: tubature,
 finestre, porte, scale, sezioni dei palazzi, disegno dei muri,
-cortili, terrazze, eccetera. Ci è stato poco tempo di analisi di quei
+cortili, terrazze, eccetera. Ci è bastato poco tempo nell'analizzare quei
 dati per capire che l'unico modo di giudicarne la loro qualità sarebbe
 stato incominciando con la loro estrazione e imparando durante il
 processo. Queste caratteristiche hanno determinato tanti aspetti dello
@@ -431,63 +450,84 @@ su coordinate geografiche, presenza di forte comunità, documentazione
 chiara e completa e la diversità di librerie aggiuntive disponibili,
 abbiamo scelto MongoDB come DBMS di riferimento.
 
+\section{Partire da Zero}
+
+Una mia particolare preoccupazione in fase iniziale del progetto, era
+quella di garantire la costante e ricorrente ricerca per la buona
+progettazione. A parte i vantaggi ovvi per il prodotto finale di un
+approccio del genere, avevo lo scopo personale di sanare un mio
+\textit{gap} tecnico: sentivo che le mie conoscenze di (buona)
+progettazione del Software erano molto spesso di carattere teorico. 
+Mi mancava l'assimilazione pratica dei principali concetti e avevo
+l'impressione che questo \textit{gap} fosse abbastanza comune tra gli altri
+studenti del mio stesso anno. Mi sembra anche ragionevole, dato che il
+perfezionamento di questo tipo di abilità avviene in modo più
+significativo soltanto attraverso confronto dello studio teorico con
+l'applicazione pratica. Su questo aspetto ho trovato un forte contributo nello
+sviluppo di questo progetto.
+
+In precedenza, nella mia carriera professionale e accademica, poche
+sono state le opportunità in cui ho potuto pensare al design del
+software complessivamente. Prevalentemente applicavo i precetti 
+di design a livello \textit{micro}: singolo algoritmo,
+singola procedura, al massimo singola classe/modulo. Ma spesso
+neanche quello potevo fare, dato che la preoccupazione principale era
+quella di sintetizzare un algoritmo funzionante e performante, oppure
+di esplorare una determinata tecnica o risolvere un problema pratico in un
+determinato orizzonte temporale molto preciso.
+
+In ambito accademico sento che il rilievo maggiore è sempre stato 
+dato alla performance e al rispetto di vincoli pratici e in poche
+occasioni ci siamo concentrati sulle tecniche per l'organizzazione
+più strutturale del software. Ovviamente, questo è un discorso
+molto generale e queste caratteristiche sono anche comprensibili data
+la quantità di argomenti da esplorare nel poco tempo disponibile
+su un corso di studi di una laurea triennale.
+
+Pensare a un sistema più complesso, con più componenti e elementi, 
+organizzarli e coordinarli, gestire le loro
+dipendenze, garantire un isolamento e disaccoppiamento salutare, non sono
+compiti da affrontare sotto gli stretti vincoli temporali che hanno 
+caratterizzato la maggior parte della mia esperienza accademica o professionale. 
+
+Per quanto riguarda la mia esperienza professionale, la parte più
+significativa ha avuto luogo in ambito di sviluppo web, 
+e spesso partivo da qualche
+\textit{framework}\footnote{
+	La maggior parte della mia carriera come sviluppatore ha avuto luogo
+	utilizzando \textit{Ruby on Rails}, un \textit{framework} noto per non
+	solo fornire una struttura MVC, ma per essere anche fortemente
+	\textit{opinionated}, cioè di avere le \textit{best practices}
+	definite e incentivate in modo molto chiaro.
+} 
+o sistema preesistente, che mi forniva già una struttura base
+per il \textit{design} a livello macro, 
+di solito con l'utilizzo di pattern strutturali come MVC / MVP.
+A me restava più che altro rispettare le convenzioni fornite dall'ambiente di
+sviluppo e assicurarmi di, a livello \textit{micro} (metodi, classi), non
+causare troppi danni.
+
+Sul progetto Spazi Unimi non avevamo una struttura simile preesistente, e non
+avevamo qualcuno all'interno del \textit{team} che ci mostrasse le
+soluzioni migliori. Perciò, molto abbiamo discusso per superare la
+sfida della costruzione del software da zero. In questo senso,
+mi sento fortunato di aver potuto partecipare a un processo
+così intenso, e sono grato per l'opportunità di averlo fatto affianco
+ai colleghi Diego Costantino e Paolo Venturi. 
+
+Nei prossimi capitoli vi racconto una piccola parte di tutto questo ricco
+processo.
+
 % 
 % 
 %			CAPITOLO 3
 \chapter{Svolgimento delle Attività}
 \label{cap3}
 
-Una mia particolare preoccupazione in fase iniziale del progetto, era
-quella di garantire la costante e ricorrente ricerca per la buona
-progettazione, prima, durante e dopo l'implementazione delle
-funzionalità. A parte i vantaggi ovvi per il prodotto finale di un
-approccio del genere, avevo lo scopo personale di sanare un mio
-\textit{gap} tecnico: sentivo che le mie conoscenze di (buona)
-progettazione del Software erano molto spesso di carattere teorico, e
-mi mancava allora l'assimilazione pratica dei principali concetti. Nella mia
-opinione l'esistenza di questo \textit{gap} è abbastanza comune tra gli altri
-studenti del mio stesso anno. Infatti, il perfezionamento di questo tipo di
-abilità può soltanto avvenire al confronto dello studio teorico con
-l'applicazione pratica, e in questo ho trovato un forte contributo nello
-sviluppo di questo lavoro.
-
-In precedenza, nella mia carriera professionista e accademica, poche
-sono state le opportunità in cui ho potuto pensare al design del
-software complessivamente. Nella maggior parte dei casi, applichiamo
-precetti di design a livello \textit{micro}: singolo algoritmo,
-singola procedura, al massimo singola classe/modulo. Molto spesso
-neanche quello potevo fare, dato che la preoccupazione principale era
-quella di sintetizzare un algoritmo funzionante e performante, oppure
-di esplorare una determinata tecnica o risolvere un problema pratico in un
-determinato orizzonte temporale. Pensare invece a un sistema più complesso,
-con più componenti e elementi, organizzarli a vicenda, gestire le loro
-dipendenze, garantire un isolamento e disaccoppiamento salutare, non va fatto
-sotto stretti vincoli temporali, e allora non ha mai fatto parte della mia
-esperienza personale. 
-
-La maggior parte della mia carriera professionista ha avuto luogo in
-ambito di sviluppo web, e dovevo sempre partire da un qualche
-\textit{framework}\footnote{
-La maggior parte della mia carriera come sviluppatore ha avuto luogo
-utilizzando \textit{Ruby on Rails}, un \textit{framework} noto per non
-solo fornire una struttura MVC, ma per essere anche fortemente
-\textit{opinionated}, cioè di avere le \textit{best practices}
-definite e incentivate in modo molto chiaro.} 
-o sistema preesistente, che mi dava già una risoluzione del \textit{design} a
-livello macro, di solito con l'utilizzo di pattern strutturali come MVC / MVP.
-A me restava più che altro rispettare le convenzioni fornite dall'ambiente di
-sviluppo e assicurarmi che a livello \textit{micro} (metodi, classi) non
-causare troppi danni.
-
-Su questo progetto non avevamo una struttura di partenza, e non
-avevamo qualcuno all'interno del \textit{team} che ci mostrasse le
-soluzioni migliori. In altre parole, la mancanza di esperienza nella
-costruzione del (buon) software da zero rappresentava una significativa sfida
-didattica e pratica su questo progetto.
 
 \section{\textit{La scelta di un \textit{workflow}: partire con il TDD}}
 
-Per incominciare lo sviluppo avevamo l'obbiettivo di utilizzare il
+Per incominciare lo sviluppo ci siamo messi l'obbiettivo di utilizzare il
 \textit{TDD - Test Driven Development}, un consacrato \textit{workflow} per lo
 sviluppo software noto per portare a soluzioni di design più semplici, pulite,
 disaccoppiate e testabili, tutte proprietà desiderabili da un software. Dato
@@ -496,7 +536,8 @@ parole: consiste sostanzialmente nello scrivere i test delle nuove
 funzionalità prima di implementarle, seguendo un preciso flusso di lavoro
 (scrivo il test, lo eseguo e lo vedo fallire, implemento la funzionalità e
 rieseguo il test fino a farlo passare, faccio \textit{refactoring} e
-ricomincio con la prossima funzionalità). In questo modo è permesso allo
+ricomincio l'iterazione con la prossima funzionalità). 
+In questo modo è permesso allo
 sviluppatore testare l'interfaccia stessa delle funzioni, metodi, moduli o
 oggetti che dovrà sviluppare, per poi andare a riempire i dettagli.
 
@@ -506,11 +547,10 @@ stesso tempo più ci interessava, cioè l'estrazione dei dati delle
 piante architettoniche. Dovevamo allora scoprire in che modo la
 libreria dxfgrabber ci poteva aiutare. Naturalmente, abbiamo
 aperto la REPL\footnote{
-
-  REPL - \textit{Read Eval Print Loop}. Si tratta di un ambiente di
-programmazione interattivo che ci permette di inserire comandi del
-rispettivo linguaggio di programmazione ed avere il risultato
-stampato in sequenza 
+	REPL - \textit{Read Eval Print Loop}. Si tratta di un ambiente di
+	programmazione interattivo che ci permette di inserire comandi del
+	rispettivo linguaggio di programmazione ed avere il risultato
+	stampato in sequenza. 
 } 
 di Python, e abbiamo incominciato ad esperimentare con la libreria e i dati.
 
@@ -519,17 +559,18 @@ interpretare le sue informazioni e restituirci un oggetto che
 rappresentasse il suo contenuto. Ci forniva la lista di entità
 grafiche/geometriche (linee, segmenti, cerchi, raggruppamenti di
 oggetti) e i testi, o etichette, tutto rispettando i 
-\textit{layers}
-  \footnote{
-    I \textit{layers} sono strati diversi su cui gli elementi del file
-vengono collocati. Servono a raggruppare elementi diversi per scopo
-funzionale o semantico, come nell'esempio citato per le porte.
-  }
-con cui il file veniva organizzato. La grande maggioranza di questi
-file seguiva uno standard preciso per il \textit{naming} dei
+\textit{layers}\footnote{
+	I \textit{layers} sono strati diversi su cui gli elementi del file
+	vengono collocati. Servono a raggruppare elementi diversi per scopo
+	funzionale o semantico, come nell'esempio citato per le porte.
+}
+con cui il file veniva organizzato. 
+
+La grande maggioranza di questi
+file sembrava seguire uno standard preciso per il \textit{naming} dei
 \textit{layers}: c'era un \textit{layer} ``PORTE'', un \textit{layer} 
 ``RM\$'' che conteneva i poligoni delle stanze, un \textit{layer}
-``FINESTRE'', e così via. Ma in qualche file, Il layer ``PORTE''
+``FINESTRE'', e così via. Ma in qualche file, Il \textit{layer} ``PORTE''
 potrebbe chiamarsi ``PORTA'', le finestre potrebbero essere state
 inserite insieme alle murature nel \textit{layer} ``MURI'', mentre
 il \textit{layer} ``SCALE'' era vuoto con le scale disegnate
@@ -539,34 +580,85 @@ a volte raggruppate all'interno di oggetti composti (chiamati
 \textit{Insert}, una specie di gruppo di oggetti), e lo stesso 
 valeva per le finestre e le scale. 
 
-Con morfologie talmente eterogenee da trattare, in che modo avremmo
-potuto incominciare il lavoro su questi dati/file utilizzando il TDD?
-Una delle qualità del TDD sta nel fatto che molto spesso, quando non
-si sa come incominciare l'implementazione di una funzionalità, si è in
+\section{Questionare il TDD}
+
+Avevamo una grossa molle di dati, ma quanto più li esploravamo più
+eccezioni riuscivamo a trovare per le regole che avevamo 
+identificato. A questo punto, abbiamo incominciato a chiederci se
+il TDD sarebbe stato adeguato per la natura dei problemi che
+dovevamo affrontare.
+
+Una delle pratiche difficoltà del TDD è riuscire a convincere un eventuale
+\textit{manager} orientato ai risultati immediati che ne valga la pena. 
+Il motivo è semplice: di immediato il TDD tende a rallentare 
+il processo di sviluppo. I suoi benefici sorgono a lungo termine, 
+sotto forma di un \textit{design} del software più consistente,
+mantenibile, chiaro. Spesso i test scritti per guidare 
+la progettazione aggiungono anche valore posteriore 
+come \textit{non regression test}. Riassumendo, 
+il TDD ha un costo immediato ma tende a pagarsi a lungo
+termine in forma di un \textit{design} di qualità superiore, e questo
+sembra abbastanza evidente per la maggior parte degli sviluppatori.
+
+È noto in ambito informatico il fenomeno caratterizzato
+dalla difesa quasi religiosa delle tecnologie utilizzate da un
+particolare gruppo di sviluppatori. Lo stesso ho potuto
+osservare rispetto al TDD con determinata regolarità e intensità.
+Uno sviluppatore che si dichiari
+sfavorevole al TDD, che affermi di non utilizzarlo tutto il tempo o 
+nella sua forma più tradizionale deve prepararsi a venir 
+contraddetto in poco tempo\footnote{
+	Uno di questi episodi ha (per fortuna!)
+	portato a una epica discussione fra David Heinemeier Hansson,
+	Martin Fowler e Kent Beck: 
+	\url{http://martinfowler.com/articles/is-tdd-dead/}
+}.
+	
+Ovviamente queste sono mie particolari osservazioni senza nessuna
+pretesa di avere valore scientifico. Il mio obbiettivo nel
+richiamare questo aspetto è quello di discutere su possibili
+contesti in cui i benefici di utilizzare il TDD possono non bilanciare
+in tempo sufficientemente abile i suoi costi. 
+
+Nel nostro caso, l'eterogeneità dei dati da trattare rappresentava 
+una notevole sfida per la scrittura dei test. Una delle qualità 
+del TDD sta nel fatto che molto spesso, quando non si sa 
+come incominciare a implementare una funzionalità, si è in
 grado di scrivere almeno i test che andranno a testarla. Nel nostro
-caso, anche se studiassimo i dati a lungo, che assunzioni potevamo
-veramente fare? E allora che tipologia di test avremmo potuto scrivere
-inizialmente per guidarci lo sviluppo? Con queste domande abbiamo concluso che
-l'applicazione sistematica del TDD avrebbe portato all'utilizzo di almeno una
-delle seguenti strategie per la scrittura dei test iniziali:
+caso, la difficoltà di fare assunzioni su come i dati di input 
+si dovrebbero presentare faceva si che nessun test scritto 
+ci sembrasse ragionevole. I nostri tentativi generavano casi di 
+test che si basavano su assunzioni che non eravamo in grado di 
+dimostrare. Le poche che abbiamo provato si sono rilevate composte 
+più da eccezioni che da regole.
+
+Per poter procedere con l'utilizzo del TDD come guida dello sviluppo,
+abbiamo percepito che, ad ogni iterazione, avremo dovuto
+procedere in uno di questi modi:
 
 \begin{itemize}
-  \item Basarsi sui file VERI, rischiando di ottenere implementazioni
-che funzionassero soltanto per casi simili, suite di test troppo lenti
-test poco affidabili.
-  \item Basarsi su una quantità enorme di dati fittizi, cercando di
-coprire molti casi, ma scrivendo dei test fragili e potenzialmente più
-numerosi di quanto fosse ragionevole, specialmente per la loro manutenzione.
-  \item Basarsi su usi complessi di \textit{mock} per limitare la
-quantità di dati fittizi e isolare piccoli casi da trattare. Poco
-pratico perché i piccoli casi da trattare continuavano ad aumentare a
-seconda che esploravamo più file.
+  \item Basandoci sui file veri. Usando molti file avremo suite di test
+  eccessivamente lente (I/O di file di dimensione significativa),
+  usando pochi avremo affidabilità insufficiente. 
+  \item Basandoci su una quantità significativa di oggetti \textit{mock} 
+  per poter stimolare una quantità significativa di casi, 
+  senza dover pagare gli eccessivi tempi di I/O dei file veri. 
+  La difficoltà stava nell'elaborazione dei casi specifici di test: o 
+  sarebbero casi fittizi e di conseguenza non avremmo potuto giudicarne 
+  l'affidabilità, oppure avremmo dovuto esplorare i file veri in modo
+  sistematico per poter ottenere riferimenti di casi veri da trattare.
 \end{itemize}
 
-Per evitarle dovevamo essere in grado di fare qualche assunzione, ma
+In entrambi i casi i vantaggi del TDD calavano al passo che il costo 
+aumentava: per poter scrivere un caso di test per testare la prima estrazione
+ci verrebbe richiesto uno sforzo molto alto. La stesura di un singolo 
+caso di test consisteva già un costo alto da pagare in questo momento,
+perché era circondata da incertezze.
+
+Analizzando le opzioni, ci rimaneva soltanto una possibilità: cercare di
+ridurre l'incertezza. Avevamo bisogno di fare qualche assunzione, ma
 non riuscivamo a trovare proprietà che venissero rispettate nel 100\%
-dei casi. Abbiamo capito un aspetto imprescindibile per un lavoro così
-complicato, su dati così eterogenei: non dovevamo cercare il 100\%.
+dei casi. L'unica via di uscita sarebbe dimenticarci dell'ideale 100\%.
 Non l'avremmo mai raggiunto. Ci serviva, invece, una soglia ammissibile di
 errore, la possibilità di segnalarli all'utente o superarli attraverso qualche
 euristica particolare. Sorsero allora i seguenti obbiettivi, per ogni
@@ -575,11 +667,11 @@ funzionalità / problema in considerazione:
 \begin{itemize}
   \item Definire la soglia di errore ammissibile.
   \item Superare la maggior parte possibile di errori, con uso di
-euristiche diverse per coprire più casi possibili.
+euristiche diverse selezionate in modo il più complementare possibile.
   \item Rilevare errori non risolubili per rendere possibile
 all'utente la loro correzione manuale. In questo modo, anche se non
 riuscivamo a soddisfare la soglia di errore ammissibile, avremmo
-sviluppato un sistema che tende in futuro a migliorare.
+sviluppato un sistema in grado di riconoscere le proprie limitazioni.
 \end{itemize}
 
 In altre parole, non avremmo più partito dai test, ma da un'esplorazione
@@ -913,6 +1005,7 @@ non avevamo prima anticipato.
 %
 %
 \chapter{Un Primo Contatto con il \textit{Software Decay}}
+\label{cap4}
 
 \begin{quote}
 ``We cannot solve the problems we have created
@@ -1399,6 +1492,7 @@ prima applicazione.
 %
 %
 \chapter{Refactoring continuo e guidato}
+\label{cap5}
 
 Analizzando queste esperienze, ho concluso che l'aver utilizzato uno o più
 concetti esplicitamente per l'analisi del codice mi ha permesso di
