@@ -525,7 +525,7 @@ processo.
 \label{cap3}
 
 
-\section{\textit{La scelta di un \textit{workflow}: partire con il TDD}}
+\section{La scelta di un \textit{workflow}: partire con il TDD}
 
 Per incominciare lo sviluppo ci siamo messi l'obbiettivo di utilizzare il
 \textit{TDD - Test Driven Development}, un consacrato \textit{workflow} per lo
@@ -583,7 +583,7 @@ valeva per le finestre e le scale.
 \section{Questionare il TDD}
 
 Avevamo una grossa molle di dati, ma quanto più li esploravamo più
-eccezioni riuscivamo a trovare per le regole che avevamo 
+eccezioni trovavao per le regole che pensavamo aver 
 identificato. A questo punto, abbiamo incominciato a chiederci se
 il TDD sarebbe stato adeguato per la natura dei problemi che
 dovevamo affrontare.
@@ -608,14 +608,15 @@ Uno sviluppatore che si dichiari
 sfavorevole al TDD, che affermi di non utilizzarlo tutto il tempo o 
 nella sua forma più tradizionale deve prepararsi a venir 
 contraddetto in poco tempo\footnote{
-	Uno di questi episodi ha (per fortuna!)
+	Giusto per citarne un esempio,
+	uno di questi episodi ha (per fortuna!)
 	portato a una epica discussione fra David Heinemeier Hansson,
 	Martin Fowler e Kent Beck: 
 	\url{http://martinfowler.com/articles/is-tdd-dead/}
 }.
 	
 Ovviamente queste sono mie particolari osservazioni senza nessuna
-pretesa di avere valore scientifico. Il mio obbiettivo nel
+pretesa di valore scientifico. Il mio obbiettivo nel
 richiamare questo aspetto è quello di discutere su possibili
 contesti in cui i benefici di utilizzare il TDD possono non bilanciare
 in tempo sufficientemente abile i suoi costi. 
@@ -633,32 +634,33 @@ dimostrare. Le poche che abbiamo provato si sono rilevate composte
 più da eccezioni che da regole.
 
 Per poter procedere con l'utilizzo del TDD come guida dello sviluppo,
-abbiamo percepito che, ad ogni iterazione, avremo dovuto
+abbiamo percepito che, ad ogni iterazione, avremmo dovuto
 procedere in uno di questi modi:
 
 \begin{itemize}
   \item Basandoci sui file veri. Usando molti file avremo suite di test
   eccessivamente lente (I/O di file di dimensione significativa),
   usando pochi avremo affidabilità insufficiente. 
-  \item Basandoci su una quantità significativa di oggetti \textit{mock} 
+  \item Basandoci sull'uso di \textit{mock} 
   per poter stimolare una quantità significativa di casi, 
   senza dover pagare gli eccessivi tempi di I/O dei file veri. 
-  La difficoltà stava nell'elaborazione dei casi specifici di test: o 
+  La difficoltà stava nell'elaborazione dei casi di test: o 
   sarebbero casi fittizi e di conseguenza non avremmo potuto giudicarne 
   l'affidabilità, oppure avremmo dovuto esplorare i file veri in modo
   sistematico per poter ottenere riferimenti di casi veri da trattare.
 \end{itemize}
 
-In entrambi i casi i vantaggi del TDD calavano al passo che il costo 
-aumentava: per poter scrivere un caso di test per testare la prima estrazione
-ci verrebbe richiesto uno sforzo molto alto. La stesura di un singolo 
-caso di test consisteva già un costo alto da pagare in questo momento,
-perché era circondata da incertezze.
+In entrambi i casi i vantaggi del TDD si sminuivano di fronte al costo della
+scrittura dei casi di test. Per testare la prima estrazione
+ci sarebbe richiesto uno sforzo molto alto perché eravamo
+circondati da incertezze.
 
-Analizzando le opzioni, ci rimaneva soltanto una possibilità: cercare di
-ridurre l'incertezza. Avevamo bisogno di fare qualche assunzione, ma
+\section{Abbracciare l'incertezza}
+
+Analizzando le opzioni, l'unica possibilità era cercare di
+trattare l'incertezza. Avevamo bisogno di fare qualche assunzione, ma
 non riuscivamo a trovare proprietà che venissero rispettate nel 100\%
-dei casi. L'unica via di uscita sarebbe dimenticarci dell'ideale 100\%.
+dei casi. La via di uscita sarebbe dimenticarci dell'ideale 100\%.
 Non l'avremmo mai raggiunto. Ci serviva, invece, una soglia ammissibile di
 errore, la possibilità di segnalarli all'utente o superarli attraverso qualche
 euristica particolare. Sorsero allora i seguenti obbiettivi, per ogni
@@ -682,8 +684,8 @@ potrebbe aiutare nella gestione dei dati. Tale approccio ci ha consentito
 gestire meglio l'incertezza, sostituendo le assunzioni per ipotesi da testare.
 
 In uno \textit{speech} nell'Agile UX NYC 2012, Joshua Seiden discorre
-sul rimpiazzare i \textit{requirements} con ipotesi quando sviluppando
-per un ambiente caratterizzato dall'incertezza: 
+sul rimpiazzare i \textit{requirements} con ipotesi quando sviluppiamo
+per ambienti caratterizzati dall'incertezza: 
 
 \begin{quote}
 Quando si sta in produzione, sviluppando su standard predefiniti, si vogliono
@@ -710,7 +712,13 @@ della loro validazione, dalla quale volevamo ricavare un percentuale
 di soddisfacibilità (quale percentuale dei dati totali soddisfa
 positivamente o negativamente l'ipotesi in questione).
 
-\section{\textit{Experimentation Driven Development}}
+\section{\textit{Experimentation Driven}}
+
+Dalla necessità di conoscere meglio il dominio dei nostri dati e
+di testare le nostre ipotesi siamo stati portati a un ciclo di sviluppo
+che ho chiamato \textit{Experimentation Driven Development}. 
+Si noti che il suo scopo non è il \textit{design} del software,
+e che questo modo di procedere non si oppone all'uso del TDD, ad esempio. 
 
 Per \textit{Experimentation Driven Development} intendo una modalità
 pratica di sviluppo del \textit{software} che attraverso l'esplorazione
@@ -750,6 +758,9 @@ trasformare i dati per vederne determinati risultati, tornare in
 dietro e riprovare con strategie diverse.
 \end{itemize}
 
+Infatti è considerevolmente più difficile l'esecuzione di questo approccio
+senza tecnologie che riducano i ritardi all'ottenimento
+di \textit{feedback}, come ad esempio tempi di compilazione eccessivi.
 Il nostro \textit{workflow} basico era composto dai seguenti passi,
 eseguiti in modo iterativo:
 
@@ -757,7 +768,7 @@ eseguiti in modo iterativo:
 	\item Comprendere teoricamente la natura del problema
 	\item Utilizzare la REPL per conoscere meglio i dati e le sfide
 implementative, analizzando la numerosità totale degli input e la
-quantità di casi che soddisfano  qualche insieme di proprietà desiderate.
+quantità di casi che soddisfano qualche insieme di proprietà desiderate.
 	\item Creare/salvare codice che permetta o la risoluzione del
 problema (in termini di soglie ammissibili) o l'esecuzione di test
 significativi sulle funzionalità da implementare.
@@ -777,29 +788,52 @@ Non abbiamo scelto esplicitamente nessuna di queste metodologie di
 lavoro, piuttosto ci siamo fatti guidare dalla natura dei problemi e
 dei dati da trattare. 
 
-\section{\textit{Esempio pratico dell'uso della sperimentazione e REPL}}
+\section{La risoluzione dei problemi come conseguenza della loro comprensione}
 
-Un esempio su cui abbiamo utilizzato questa strategia è l'estrazione
-delle stanze, e in seguito le etichette e testi associati a loro, in
-modo da poter identificare, ad esempio, dove si trovasse la ``Aula
-Beta'' sulla piantina, o quali stanze rappresentavano dei Bagni, studi
-o uffici, cioè le categorie delle stanze.
+Uno dei principali obbiettivi del nostro progetto era l'integrazione
+semantica delle piante architettoniche. Ciò significa che oltre ad
+essere in grado di ottenere il disegno dei piani, volevamo
+identificare le stanze in modo da poter fornire informazioni sulla loro
+destinazione d'uso. 
 
-La lettura delle stanze è stata poco problematica, e con l'uso della
-REPL siamo riusciti a ottenere a piccoli passi i codici per estrarre
-le stanze e le etichette. Si noti che con la REPL partivamo alla
-esplorazione, mirando a una comprensione maggiore del problema e dei
-dati, e finivamo per risolvere il problema. In questo modo non era più
-possibile scrivere i test \textit{a priori}, invalidando uno dei punti
-cardine dell'uso sistematico del TDD.
+Era un nostro interesse essere in grado di dire a un utente
+dove si trovasse la specifica Aula/stanza del suo interesse all'interno
+di un palazzo, oppure informare la localizzazione di stanze a seconda
+della categoria di cui l'utente avesse bisogno. In altre parole, 
+associare alla pianta architettonica
+stanze specifiche (esempi: ``Aula Beta'', ``Aula 206'', ``Stanza P116'')
+oppure riconoscere le loro categorie, tipologie o 
+destinazione (esempi: Bagni, Ascensori, Sale Lauree, Sale Informatiche,
+Biblioteche, ecc).
 
-Le difficoltà maggiori sono sorte nell'associare le etichette alle
+L'ottenimento del formato (disegno) delle stanze è stato poco 
+problematico. Abbiamo incominciato l'esplorazione 
+con l'unico obbiettivo di comprendere meglio i dati e
+il problema, e di conseguenza abbiamo prodotto la soluzione.
+Partendo sempre dalla REPL siamo riusciti a 
+ottenere, a piccoli passi, i codici per portare avanti quelle
+estrazioni. 
+
+A questo punto non era più
+possibile scrivere i test \textit{a priori}, e allora non ha senso
+dire che abbiamo fatto il TDD o che fosse stato necessario.
+Abbiamo elaborato i
+test posteriormente, per aumentare la confidenza 
+ad ogni risultato conquistato e permetterci di proseguire con
+l'esplorazione senza rischiare di invalidare
+quelli precedenti. A mio modo di vedere partire con il TDD in questo caso
+avrebbe rallentato lo sviluppo iniziale.
+
+\section{Prendere decisioni dalla REPL: un esempio pratico}
+
+Le difficoltà tecniche maggiori sono sorte nell'associare le etichette alle
 relative stanze. L'unico vincolo fra le etichette di una stanza e il
-suo disegno era la loro relativa posizione, senza nessun vincolo a
+suo disegno era la loro relativa posizione, senza altre indicazioni a
 livello sintattico. Abbiamo allora utilizzato un algoritmo che, dato
-un poligono S (stanza) e un punto P nello spazio (punto di ancoraggio
-dell'etichetta testuale), rispondeva alla domanda ``Il punto P è
-dentro il poligono S?''. Si tratta di un algoritmo particolarmente
+un poligono S (stanza) e un punto P nello stesso spazio di riferimento
+(punto di ancoraggio dell'etichetta testuale), rispondeva 
+alla domanda ``Il punto P è dentro il poligono S?''.
+Si tratta di un algoritmo particolarmente
 interessante e concettualmente semplice, chiamato \textit{Ray Casting
 Algorithm}\footnote{Una chiara spiegazione è presente su Wikipedia:
 \url{http://en.wikipedia.org/wiki/Point_in_polygon\#Ray_casting_algorithm}}.
@@ -821,35 +855,95 @@ più complicato in termini algoritmici.
 \begin{figure}[h]
     \centering
     \includegraphics[width=300pt]{03-dxf-stanza-etichette-fuori.jpg}
-    \caption{Esempio di stanza con più etichette al suo interno. Le
-etichette corrette sarebbero quelle indicate dal numero 1004. Quelle
-di numero 1005 sono riferite al piccolo rettangolo indicato (in questo
-particolare caso, ma non sempre) dalla linea uscente, e si tratta di
-un ``Cavedio Porta Impianti'', cioè uno spazio per il passaggio dei cavi}
+    \caption{Esempio di stanza con più etichette al suo interno. L'etichetta 
+    corretta è quella indicata dal numero 1004. Quella di numero 1005 è
+    riferita al piccolo rettangolo indicato (in questo particolare caso,
+    ma non sempre è così) dalla linea uscente, e si tratta di
+	un ``Cavedio Porta Impianti'', cioè uno spazio per il passaggio dei cavi.
+	}
     \label{fig:dxf_room_labels}
 \end{figure}
 
-In seguito la REPL ci ha permesso di capire quanto buona effettivamente fosse
-la nostra soluzione. L'algoritmo riusciva ad associare etichette con un
-\textit{recall} del 94\% delle stanze, con una \textit{precision} sul 89\%.
-Avevamo in mano, dall'uso della REPL, una soluzione che sembrava quasi
-soddisfacente. Non avevamo il 90\% desiderato ma eravamo abbastanza vicini. 
+Avevamo stabilito l'ipotesi d'interesse e dovevamo allora testarla.
+Utilizzando la REPL, abbiamo analizzato tutti i file e ottenuto
+la quantità esatta di stanze con etichette associate. Sul totale di
+stanze rappresentava circa il 96\%, e questo ci ha fatto intuire che
+la nostra ipotesi poteva effettivamente essere verificata.
+Avevamo in mano, dall'uso della REPL, una soluzione che sembrava 
+soddisfacente. Non eravamo sicuri di avere il 90\% di \textit{precision}
+desiderato ma sembrava abbastanza vicino. Restava stimare allora
+la correttezza.
 
-Abbiamo allora lanciato una nuova ipotesi: se scartiamo qualche
+Purtroppo definire la correttezza sarebbe stato un lavoro manuale. Facendolo,
+ci sembrava ancora ragionevole la nostra ipotesi. Abbiamo identificato errori,
+ma in media erano pochi. Era però un lavoro molto lento.
+
+Per evitare di dover analizzare più di 700 file manualmente,
+abbiamo allora lanciato una nuova ipotesi: se scartiamo qualche
 tipologie specifiche di stanze che ai nostri scopi sono di minore
 importanza, riusciremo ad aumentare la precisione relativa al 90\%
 desiderato, al patto di ridurre il percentuale di \textit{recall}.
 
+Nell'esempio sopra il nostro algoritmo poteva sbagliare o decidere 
+correttamente con uguale probabilità: dipendeva soltanto di quale 
+delle due etichette venisse considerata prima in confronto al 
+poligono della stanza. Decidendo di non considerare l'etichetta 
+1005 per il fatto che si tratta di un ``cavedio porta impianti'' 
+(codice VNS02 associato) l'unica possibilità sarebbe stata
+la risposta corretta. Avevamo identificato tanti altri casi simili, e
+ce ne aspettavamo che ci fossero altri.
+
+La scelta di queste categorie non partiva solo dal fatto che a noi
+interessavano meno. Abbiamo cercato di sceglierle
+in modo intelligente. Il problema delle etichette si verificava
+quando stanze molto piccole o strette erano presenti,
+perché era quello il motivo per cui le etichette finivano all'interno del
+poligono di un'altra stanza, come nell'esempio sopra 
+del ``cavedio porta impianti''.
+
+Tra le categorie che avevamo selezionato da scartare c'erano anche 
+gli ascensori, i bagni e le scale.
+Tra tutte queste, però, solo il ``cavedio'' sembrava effettivamente
+trascurabile ai nostri scopi.
+
 Con l'uso della REPL abbiamo eseguito delle prove veloci manipolando i
 codici già esistenti in modo che scartassero soltanto le etichette di
-tipo ``cavedio'' e infatti siamo arrivati a un' \textit{recall} del
-93\% con 90\% di precisione stimata.
+tipo ``cavedio'', con lo scopo di misurarne gli effetti.
+Il risultato è stato positivo: c'è stato un
+trascurabile calo nel tasso di \textit{recall} (infatti pochissimi casi
+di cavedio avevano l'etichetta posizionata correttamente all'interno del
+piccolo poligono relativo), e un aumentare del percentuale di stanze
+di altre categorie più rilevanti che prima venivano associate 
+all'etichetta sbagliata.
 
-Infatti, durante lo sviluppo, l'uso della REPL per l'esplorazione di
-questi dati prima dell'effettiva sintesi degli algoritmi e scrittura
-del codice ci ha permesso di affrontare i problemi in modo più
-efficiente. Ci permetteva velocemente di capire caratteristiche comuni
-o analizzare attributi dei dati e provare alternative, per poi migrare
+In un momento successivo ci siamo accorti che non dovevamo necessariamente
+scartare altre categorie, come corridoi o ascensori. Ci bastava definire un
+ordine di priorità: analizzare tutte le stanze e cercare di associare solo
+le etichette note per indicare locali di dimensione ragionevole (aule, aule
+informatiche, sale lauree, sale studio, biblioteche, ecc), e solo in un 
+secondo momento cercare di associare le categorie di locali più piccoli ai
+poligoni non ancora associati. L'ipotesi era semplice: la probabilità
+che le categorie della prima analisi generassero errori
+era molto più piccola, assumendo che il posizionamento delle etichette
+era stato fatto da esseri umani, e che allora per stanze di dimensione
+significativa dovrebbero essere collocate al loro interno.
+
+Con l'uso della REPL abbiamo invece scoperto che tale approccio non era
+necessario: la differenza nella qualità dell'associazione era molto
+bassa. Da ciò abbiamo concluso che la soluzione precedente, con grande
+probabilità, soddisfaceva già la nostra precisione desiderata del 90\%.
+Non era giustificato allora la complessità aggiunta in termine di 
+codice, e allora abbiamo mantenuto soltanto lo scarto della 
+categoria ``Cavedio porta impianti''.
+
+Questo è un esempio di una metodologia che abbiamo utilizzato più volte, in
+speciale nell'affrontare l'estrazione e comprensione dei dati originati
+dalle piantine architettoniche.
+Sono casi in cui l'uso della REPL per l'esplorazione prima
+dell'effettiva scelta degli algoritmi ci ha permesso
+di affrontare i problemi in modo più efficiente e con più
+sicurezza. Ci permetteva velocemente di capire caratteristiche comuni
+o analizzare attributi dei dati per provare alternative, e poi migrare
 quelle conclusioni verso un'implementazione effettiva. Creando
 ipotesi, dimostrando che coprissero i casi prevalenti e aggiungendo in
 seguito euristiche per l'inclusione di più casi specifici, siamo riusciti ad
@@ -867,9 +961,17 @@ termini assoluti sarebbe stato sbagliato farlo.
 
 L'ultimo vantaggio di questa metodologia è quello di garantire un
 rapido \textit{feedback} per le strategie adottate. Di certo non tanto
-rapido quanto una suite di test, ma nel contesto in cui la scrittura
+rapido e riproducibile quanto una suite di test, 
+ma nel contesto in cui la scrittura
 dei test sarebbe stata problematica, l'uso della REPL ha agevolato
 significativamente la valutazione manuale e l'ottenimento di statistiche.
+
+Vale notare che è un approccio iterativo e incrementale. Si cerca di partire
+dalle ipotesi che giudichiamo porteranno ai migliori risultati immediati
+e di aggiungere successive ipotesi che considerino casi complementari. Si 
+ferma quando la precisione raggiunta viene giudicata sufficiente.
+
+\section{Il problema dell'integrazione dei piani}
 
 Un altro contesto in cui l'analisi statistica dei dati e dei file è
 stata essenziale è stato durante la fase di integrazione di informazioni sulle
@@ -915,6 +1017,11 @@ revisione dell'utente.
 
 
 \section{La naturale sovrapposizione con un approccio prototipale}
+
+
+TODO: NON USARE IL TDD HA UN PREZZO! QUALE? NON AVEVAMO UN SISTEMA
+FUNZIONANTE VERO E PROPRIO, AVEVAMO PROTOTIPI VERI E PROPRI!
+ADESSO DOVEVAMO PAGARE, E L'ABBIAMO FATTO!
 
 Molti componenti dell'applicazione finale sono nati a partire da
 questi esperimenti con la REPL, avvicinando la nostra modalità
