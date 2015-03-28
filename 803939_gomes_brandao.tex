@@ -298,7 +298,7 @@ consideriamo che ogni file contiene, oltre al disegno delle stanze, una marea
 di informazioni imprescindibili al lavoro edile (misure, tubature, passaggio
 di elettricità, porte e finestre, scale, ascensori, sezioni, ecc).
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{03-dxf-chaos.jpg}
     \caption{Esempio del contenuto di un file DWG di media complessità
@@ -521,11 +521,11 @@ processo.
 % 
 % 
 %			CAPITOLO 3
-\chapter{Svolgimento delle Attività}
+\chapter{La scelta di un \textit{workflow}}
 \label{cap3}
 
 
-\section{La scelta di un \textit{workflow}: partire con il TDD}
+\section{Partire con il TDD}
 
 Per incominciare lo sviluppo ci siamo messi l'obbiettivo di utilizzare il
 \textit{TDD - Test Driven Development}, un consacrato \textit{workflow} per lo
@@ -583,7 +583,7 @@ valeva per le finestre e le scale.
 \section{Questionare il TDD}
 
 Avevamo una grossa molle di dati, ma quanto più li esploravamo più
-eccezioni trovavao per le regole che pensavamo aver 
+eccezioni trovavamo per le regole che pensavamo aver 
 identificato. A questo punto, abbiamo incominciato a chiederci se
 il TDD sarebbe stato adeguato per la natura dei problemi che
 dovevamo affrontare.
@@ -852,7 +852,7 @@ collocata all'interno di una stanza vicina. All'occhio umano era
 semplice capire a quale stanza tale etichetta appartenesse, ma un po'
 più complicato in termini algoritmici.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=300pt]{03-dxf-stanza-etichette-fuori.jpg}
     \caption{Esempio di stanza con più etichette al suo interno. L'etichetta 
@@ -973,55 +973,113 @@ ferma quando la precisione raggiunta viene giudicata sufficiente.
 
 \section{Il problema dell'integrazione dei piani}
 
-Un altro contesto in cui l'analisi statistica dei dati e dei file è
+Un altro momento in cui l'analisi statistica dei dati e dei file è
 stata essenziale è stato durante la fase di integrazione di informazioni sulle
-stanze e piani di ogni edificio. Alla fine della lettura e estrazione, abbiamo
-scoperto che non esisteva nessun standard identificativo per i piani che
-venisse rispettato da tutte le sorgenti. Non c'era un modo diretto per
-associare due piani dello stesso palazzo su sorgenti diverse, e ciò rendeva
-l'integrazione dell'informazione delle stanze molto difficile. La difficoltà
-era quella di dire quale piano di una determinata sorgente dovrebbe coincidere
-con quale piano di un altra sorgente. 
+stanze e piani di ogni edificio. Alla fine della fase di ottenimento dei
+dati da tutte le sorgenti, abbiamo scoperto che non esisteva nessun 
+standard identificativo per i piani che venisse rispettato da tutte. 
+Non c'era un modo diretto per, dati due piani di due sorgenti diverse,
+stabilire se si riferivano allo stesso piano fisico. Ciò rendeva 
+l'integrazione dell'informazione sulle stanze molto difficile.
 
-Con l'aiuto della REPL abbiamo scoperto che molto spesso determinate
-sorgenti avevano informazioni su piani che altre sorgenti non
-conoscevano, o che addirittura Easyroom colassava nel piano terra
-spesso stanze del piano sotterraneo e del piano terra. Queste
-caratteristiche creavano degli ostacoli per l'associazione dei piani
-fra le diverse sorgenti.
+I dati ottenuti dall'Edilizia identificavano i piani con lettere e numeri, 
+(t, 1p, 2p, ecc) a seconda del caso, ma non era una convenzione unica 
+e potevano esserci più identificativi per uno stesso tipo di piano. 
+Easyroom, invece, utilizzava una convenzione molto precisa, 
+basata su numeri interi: i negativi indicavano piani sotterranei,
+lo zero il piano terra e poi in sequenza gli altri piani (1, 2, ...). 
 
-La REPL ci ha permesso anche di stabilire che su un impressionante
+La soluzione più intuitiva sarebbe quella di utilizzare una mappatura fra
+queste diverse convenzioni di identificativi. Però, esplorando
+i dati sulla REPL abbiamo scoperto casi particolari che impedivano un
+approccio del genere. Esistevano palazzi la cui struttura di piani
+secondo il dip. di Edilizia era di questo tipo:
+
+\begin{itemize}
+	\item 1º Sotterraneo
+	\item Terra
+	\item Ammezzato
+	\item 1º Piano
+	\item 2º Piano
+\end{itemize}
+
+Al posto di Ammezzato potrebbe pure essere Rialzato. In molti casi
+il piano Terra non era presente e invece c'erano sia Rialzato che
+Ammezzato. Queste distinzioni sono naturali in ambito edile, ma poco
+intuitive per l'utente normale di un sistema come Easyroom. Per questo 
+motivo, Easyroom collassava le stanze di tutti i piani ``simili'',
+come Terra, Ammezzato e Rialzato in un solo piano, di solito quello
+più intuitivo (Terra). Ci sono pure casi in cui stanze del piano 
+sotterraneo vengono dichiarate insieme a quelle del piano Terra.
+
+Inoltre abbiamo scoperto che gli identificativi dei piani di ciascuna sorgente
+erano caratterizzati da un ulteriore incertezza. La seguente 
+tabella di esempio (non esaustiva) riassume un po' la difficoltà:
+
+\begin{tabular}{ l c r }
+  \textbf{Piano}              & \textbf{Edilizia} & \textbf{Easyroom}    \\
+  Sotterraneo / 1º Interrato  & s2 / ip / 1ip     & -1                   \\
+  Seminterrato                & sa / s1 / sp      & Non considera        \\
+  Terra                       & t / tp / ra       & 0                    \\
+  Rialzato                    & ra / rap          & Non considera        \\
+  Ammezzato                   & ap                & Non considera        \\
+  Ammezzato Rialzato          & arp               & Non considera        \\
+  Primo                       & 1 / 1p / p1 / 1ap & 1                    \\
+  Secondo                     & 2p / 2 / 2ap      & 2                    \\
+\end{tabular}
+
+Considerando allora la pluralità e ambiguità di casi possibili,
+il fatto che spesso i file delle piante venivano pure identificati 
+con i codici sbagliati (ad esempio con il codice tp,
+ma che si trattavano in realtà del 1º piano e non del piano terra), 
+e il fatto che Easyroom facesse collassare stanze di piani 
+\textbf{diversi} sotto lo stesso identificativo, abbiamo dovuto 
+procedere un'altra volta con un approccio basato sulle ipotesi.
+
+Neanche l'identificazione delle stesse stanze su due sorgenti diverse
+era un'informazione sufficientemente affidabile per stabilire l'equivalenza
+dei loro rispettivi piani. C'erano \textbf{molti} casi in cui ciò 
+avrebbe generato errore. L'unica cosa che potevamo affermare effettivamente
+era che le piante architettoniche ci garantivamo almeno un raggruppamento
+corretto di stanze. Se poi si trattassero del piano 0, 1, 2 o sotterraneo
+era un altro discorso.
+
+Partendo da questa ipotesi, abbiamo cercato di rimappare non i piani, ma 
+le stanze delle due sorgenti \textbf{verso le piante architettoniche}.
+La REPL ci ha permesso di stabilire che su un impressionante
 99\% dei piani era possibile trovare almeno una stanza, utilizzando il
-suo codice identificativo, che venisse rintracciata in tutte e tre
-sorgenti (piantine, informazioni testuali dell'edilizia e informazioni
-testuali di Easyroom), e allora la presenza di quella stanza ci dava
-un'informazione ortogonale ai piani delle diverse sorgenti. Sapendo in
-quale piano una stanza veniva rimappata per sorgente ci dava una forte
-indicazione di come quei piani dovrebbero venir relazionati. L'unico problema
-che rimaneva erano i casi estremi, in cui due stanze di uno stesso piano su
-una sorgente venivano rimappate su piani diversi in un'altra sorgente, o
-quando per qualche piano nessuna associazione di stanza con le altre sorgenti
-era possibile. L'algoritmo finale che abbiamo concepito gestisce tutti i
-possibili casi, e se ne accorge quando non riesce a trovare un'associazione
-fra piani di due o più sorgenti. 
+suo codice identificativo, che venisse rintracciata in tutte e tre le
+sorgenti (piantine, informazioni testuali dell'Edilizia e informazioni
+testuali di Easyroom). 
+
+La presenza di quella stanza ci dava un'informazione ortogonale 
+alle diverse sorgenti. Sapere in quale piano una stanza veniva rimappata 
+su ogni sorgente era una forte indicazione di come quei piani potessero
+venir relazionati. Rimanevano i casi estremi, ovvero 
+le stanze di piani diversi raggruppate sullo stesso piano da Easyroom. 
+
+È stata la REPL ha fornirci la sicurezza che ci ha permesso di
+proseguire nell'implementazione dell'algoritmo finale, che gestisce tutti i
+possibili casi sopra elencati, e \textbf{se ne accorge} quando non riesce a 
+trovare un'associazione fra piani soddisfacente. 
 
 In questo modo all'utente vengono segnalati i conflitti, sia quelli
 che abbiamo risolto in modo automatico che quelli la cui risoluzione
 non è possibile. Con l'uso di questa strategia e una serie di
 euristiche per renderla più efficiente, siamo stati in grado di
-associare il 99\% dei piani correttamente. L'1\% che avanza è
-costituito da precisamente tre casi, due dei quali si presenta solo a
-causa di un errore di battitura dei dati originali (stanze identificate in
+associare il 99\% dei piani correttamente. L'errore che rimane
+è costituito da precisamente tre casi, due dei quali si presentano solo a
+causa di errore di battitura dei dati originali (stanze identificate in
 modo sbagliato), e comunque vengono tutti e tre segnalati per la
 revisione dell'utente. 
 
-
 \section{La naturale sovrapposizione con un approccio prototipale}
 
-
-TODO: NON USARE IL TDD HA UN PREZZO! QUALE? NON AVEVAMO UN SISTEMA
-FUNZIONANTE VERO E PROPRIO, AVEVAMO PROTOTIPI VERI E PROPRI!
-ADESSO DOVEVAMO PAGARE, E L'ABBIAMO FATTO!
+% TODO: NON USARE IL TDD HA UN PREZZO! QUALE? NON AVEVAMO UN SISTEMA
+% FUNZIONANTE VERO E PROPRIO, AVEVAMO PROTOTIPI VERI E PROPRI!
+% ADESSO DOVEVAMO PAGARE, E L'ABBIAMO FATTO! IL REFACTORING ALL'INTERNO
+% DEL TDD HA TANTA IMPORTANZA QUANTO LA SCRITTURA A PRIORI DEI TEST,
+% MA QUANDO SI PARLA DI TDD SI PARLA PRIMA DI TEST
 
 Molti componenti dell'applicazione finale sono nati a partire da
 questi esperimenti con la REPL, avvicinando la nostra modalità
@@ -1274,7 +1332,7 @@ questioni di compatibilità, mentre quelli usati da EasyRoom avevano un solo for
 In sostanza, il \textit{class diagram} era come segue\footnote{Per 
 semplicità ho omesso metodi e attributi privati}:
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=280pt]{class_diagram_dataupdater_before.png}
     \caption{Si noti che in Python non sussistono veri vincoli di protezione
@@ -1308,7 +1366,7 @@ che non ci sarebbero nessun dei noti problemi di \textit{method resolution
 order} che nascono in contesti di ereditarietà multipla. Da questo cambiamento
 siamo passati al seguente \textit{class diagram}:
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=340pt]{class_diagram_dataupdater_after.png}
     \caption{La separazione di DataUpdater in due classi diverse. Si noti
@@ -1844,15 +1902,15 @@ principi di Progettazione Software.
 
 
 
-(TODO: Conclusioni: dopo aver applicato ho applicato anche ai test, e
-alla fine corretto la quantità di test tautologici aggiunti in precedenza)
-(TODO: Conclusioni: usare la repl non è sabagliato, ma alla fine ho
-concluso che per ogni fase / momento ci vuole anche un workflow diverso!)
-(TODO: esempio di floormerger, l'unico caso in cui non sentivo la
-puzza, e perché? (cit. riga 53 delle note sul libro))
-(TODO: questo modo di scrivere troppo narrativo può essere un problema?)
-(Com'è bello avere l'occasione di riflette sul proprio codice, sui
-propri test! Perché non me lo fanno fare al lavoro? xD)
+% (TODO: Conclusioni: dopo aver applicato ho applicato anche ai test, e
+% alla fine corretto la quantità di test tautologici aggiunti in precedenza)
+% (TODO: Conclusioni: usare la repl non è sabagliato, ma alla fine ho
+% concluso che per ogni fase / momento ci vuole anche un workflow diverso!)
+% (TODO: esempio di floormerger, l'unico caso in cui non sentivo la
+% puzza, e perché? (cit. riga 53 delle note sul libro))
+% (TODO: questo modo di scrivere troppo narrativo può essere un problema?)
+% (Com'è bello avere l'occasione di riflette sul proprio codice, sui
+% propri test! Perché non me lo fanno fare al lavoro? xD)
 
 In letteratura ho trovato il riscontro che sentivo di aver bisogno per
 poter sviluppare le mie proprie idee e capacità. Ciò rinforza a me
