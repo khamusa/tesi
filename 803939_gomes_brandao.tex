@@ -595,7 +595,7 @@ il processo di sviluppo. I suoi benefici sorgono a lungo termine,
 sotto forma di un \textit{design} del software più consistente,
 mantenibile, chiaro. Spesso i test scritti per guidare 
 la progettazione aggiungono anche valore posteriore 
-come \textit{non regression test}. Riassumendo, 
+come \textit{regression test}. Riassumendo, 
 il TDD ha un costo immediato ma tende a pagarsi a lungo
 termine in forma di un \textit{design} di qualità superiore, e questo
 sembra abbastanza evidente per la maggior parte degli sviluppatori.
@@ -1058,10 +1058,10 @@ su ogni sorgente era una forte indicazione di come quei piani potessero
 venir relazionati. Rimanevano i casi estremi, ovvero 
 le stanze di piani diversi raggruppate sullo stesso piano da Easyroom. 
 
-È stata la REPL ha fornirci la sicurezza che ci ha permesso di
+È stata la REPL a fornirci la sicurezza che ci ha permesso di
 proseguire nell'implementazione dell'algoritmo finale, che gestisce tutti i
-possibili casi sopra elencati, e \textbf{se ne accorge} quando non riesce a 
-trovare un'associazione fra piani soddisfacente. 
+casi sopra elencati, e \textbf{se ne accorge} quando non riesce a 
+trovare un'associazione soddisfacente fra i piani. 
 
 In questo modo all'utente vengono segnalati i conflitti, sia quelli
 che abbiamo risolto in modo automatico che quelli la cui risoluzione
@@ -1073,98 +1073,129 @@ causa di errore di battitura dei dati originali (stanze identificate in
 modo sbagliato), e comunque vengono tutti e tre segnalati per la
 revisione dell'utente. 
 
-\section{La naturale sovrapposizione con un approccio prototipale}
-
-% TODO: NON USARE IL TDD HA UN PREZZO! QUALE? NON AVEVAMO UN SISTEMA
-% FUNZIONANTE VERO E PROPRIO, AVEVAMO PROTOTIPI VERI E PROPRI!
-% ADESSO DOVEVAMO PAGARE, E L'ABBIAMO FATTO! IL REFACTORING ALL'INTERNO
-% DEL TDD HA TANTA IMPORTANZA QUANTO LA SCRITTURA A PRIORI DEI TEST,
-% MA QUANDO SI PARLA DI TDD SI PARLA PRIMA DI TEST
+\section{\textit{Nota sul testare}}
 
 Molti componenti dell'applicazione finale sono nati a partire da
-questi esperimenti con la REPL, avvicinando la nostra modalità
-operativa a un approccio di progettazione di tipo prototipale. 
-
-Il principale vantaggio era quello di poter conoscere la natura dei
-problemi o i limiti e le potenzialità delle nostre scelte algoritmiche, senza
-dover pagare un prezzo troppo alto se mai fosse necessario tornare in dietro.
-Fino a questo punto non si trattava di design di software, ma di sola
-esplorazione e comprensione. A misura che riuscivamo ad avere implementazioni
-soddisfacenti per ogni funzionalità, le incorporavamo al \textit{codebase}
-principale e proseguivamo verso l'esplorazione di ulteriori limiti e possibilità.
-
-Da queste versioni prototipali ottenute dalla sperimentazione,
-ottenevamo versioni più elaborate eseguendo delle continue trasformazioni e
-operazioni di \textit{refactoring}. Perché funzionasse correttamente, le prove
-sulla REPL dovevano essere estremamente veloci, e allora le attività di design
-e \textit{testing} non erano la priorità. In questa fase di \textit{refactoring} 
-dovevamo sanare queste eventuali deficienze.
-
-Col il nostro obbiettivo per la ricerca continua della buona
-progettazione, una volta capito meglio il \textit{wicked problem} in
-questione, lo sviluppo doveva proseguire in una di due possibili
-strade: scartare il prototipo per rifarlo da capo, o rielaborarlo.
-Mantenere la versione originale senza ripulirla e testarla non era una
-scelta possibile, specialmente a lungo termine. 
-
-Dati i tempi stretti, nella maggior parte dei casi abbiamo optato per
-la rielaborazione del prototipo esistente e non per il suo scarto,
-poiché era evidente che una nuova versione fatta da zero avrebbe avuto
-molto in comune con il prototipo in mano. Infatti questa è la maggior
-differenza del nostro approccio a quelli prototipali più comuni, in
-cui si cerca di trattare i prototipi in modo usa-e-getta. Nella
-rielaborazione, ci siamo assicurati di:
-
-\begin{itemize}
-	\item Ripensare le interfacce utilizzando una metodologia per il
-\textit{refactoring} ispirata al TDD: ignoravamo quella già esistente
-e partivamo dalla stesura di test contro l'interfaccia che considerassimo
-ideale. Da questi test proseguivamo all'applicazione di successive
-trasformazioni all'interfaccia già implementata fino ad avere test passanti. 
-	\item Rilevare casi estremi ed eccezioni, testarli e poi gestirli.
-	\item Stabilire una modularità adeguata, limitando le dipendenze.
-	\item Aggiungere \textit{test coverage}, in speciale test di unità di
-tipo \textit{white box}, \textit{non regression test} e test di
-accettazione \textit{end to end}.
-\end{itemize}
-
-Rimane da dire come è stata superata la difficoltà del \textit{testing}, che
-ci aveva fatto rifiutare l'approccio iniziale del TDD. Una volta che avevamo
-affrontato la diversità dei dati con un approccio di esplorazione, avevamo
-dimostrato diverse delle nostre ipotesi, e a quel punto eravamo anche in grado
-di scrivere dei test che confrontassero il modo in cui il nostro codice si
-relazionava con quelle ipotesi. Non dovevamo più testare la funzionalità di
-per se (o i requisiti), ma le ipotesi che avevamo definito e che ci fornivano
-il margine desiderato. L'esplorazione ci ha fornito la comprensione dei
-problemi e anche la capacità di testarli.
-
-Attraverso la creazione di opportuni moduli e classi che ci permettessero di
-gestire astrazioni delle informazioni dei file DXF, e non gli elementi veri
-estratti dalla biblioteca dxfgrabber, siamo stati in grado di definire una
-quantità di test di qualità significativa, con sufficiente isolamento rispetto
-ad altre funzionalità / moduli del sistema.
-
-\section{\textit{Non regression test}}
+questi esperimenti con la REPL. Come detto in precedenza, 
+il principale vantaggio era quello di poter 
+conoscere la natura dei problemi o i limiti e le potenzialità 
+delle nostre scelte algoritmiche, senza dover pagare un prezzo 
+troppo alto se mai fosse necessario tornare in dietro.
 
 Questo \textit{workflow} fece si che nessun componente prototipale
 rimanesse intoccato per molto tempo. In conseguenza dell'aggiunta di
 nuove funzionalità o di cambiamenti del codice esistente, per ad
 esempio gestire più casi, le componenti venivano rielaborate,
-ritrasformate e pulite. In sostanza, l'estensione di pezzi
-preesistenti diventò il punto di partenza essenziale del
+ritrasformate. In sostanza, l'estensione di pezzi
+preesistenti diventò un punto essenziale del
 processo di sviluppo, e per renderlo possibile abbiamo dato più 
-importanza ai \textit{non regression test} e a una 
-modularità e incapsulamento che ci permettessero di
+importanza ai \textit{regression test} e a una 
+modularità e incapsulamento che ci permettessero di 
 cambiare il codice con sufficiente confidenza. 
 
+Rimane da dire come è stata superata la difficoltà del \textit{testing}, che
+ci aveva fatto rifiutare l'approccio iniziale del TDD. Una volta che avevamo
+affrontato la diversità dei dati con l'approccio di esplorazione, avevamo
+dimostrato diverse delle nostre ipotesi, e a quel punto eravamo anche in grado
+di scrivere dei test che confrontassero il modo in cui il nostro codice si
+relazionava con quelle ipotesi. Non dovevamo più testare la funzionalità di
+per se (o i requisiti), ma le ipotesi che avevamo definito e che ci fornivano
+il margine desiderato. 
+
+Con la costruzione delle \textit{fixtures} necessarie per testare
+le ipotesi base, e con l'aggiunta di quelle per le ipotesi complementari,
+siamo riusciti ad avere un'adeguata confidenza in termine di 
+test funzionali e principalmente di unità. L'esplorazione ci 
+ha fornito la comprensione dei
+problemi e anche la capacità di testarli.
+
+\section{\textit{Noncontinuous refactoring}: pagando gli interessi}
+
+\begin{quote}
+``Experience is simply the name we give our mistakes.'' - Oscar Wilde
+\end{quote}
+
 Avere un insieme di test su cui ci fidavamo è stato essenziale per
-rendere possibile e veloce lo sviluppo in queste modalità, ma
+garantire l'avanzamento dello sviluppo, ma
 non era sufficiente per metterci al riparo della perdita del
 design a lungo termine. Questo processo di rielaborazione di 
 codice per aggiunta di nuove funzionalità ha finito per portare 
 il nostro \textit{codebase} a un punto da cui non riuscivamo più a procedere.
 Si trattava del noto fenomeno del \textit{Software Decay}, che purtroppo
 non avevamo prima anticipato.
+
+Con un approccio incrementale, il costo degli errori sulle scelte
+algoritmiche è stato tendenzialmente contenuto, dato che li potevamo
+rilevare presto. Lo stesso non succedeva sugli errori del design.
+
+Quando si parla di TDD, si incomincia solitamente dal ``Test first'', 
+il suo lemma principale. Spiegando con un po' più di dettaglio, vengono 
+introdotti gli altri quattro passi inerenti al TDD: verificare il 
+fallimento del test, farlo passare, eseguire il refactoring, e ripetere. 
+Non può coesistere l'idea di fare il TDD e di saltare uno 
+\textbf{qualsiasi di questi step}, ma in tanto molto spesso ci si limita
+a riassumerlo sotto il lemma ``Test First''. 
+
+Dalla scrittura iniziale del test si ottiene l'orientamento per il design 
+e ovviamente il test stesso, che contribuisce alla verifica della correttezza
+e - molto importante - funziona come \textit{regression test}.
+Verificare il suo fallimento garantisce che venga effettivamente eseguito, 
+e che sia significativo, cioè che ne attesti l'assenza del
+comportamento desiderato. Farlo passare, ovviamente verifica
+l'aggiunta della funzionalità. 
+
+Tutto ciò avviene allora in modo incrementale e iterativo, inclusa 
+l'attività di refactoring. È essenziale che il \textit{refactoring} 
+abbia la stessa dignità e importanza di ogni altro passo affinché il 
+TDD sia veramente un approccio verso il \textbf{design}, e non verso 
+il \textit{testing}. Lo scopo è quello di garantire che la manutenzione 
+continua della qualità del design. Ciò dovrebbe evitare il suo decadimento
+e allora la necessità di interventi dedicati per la sua risistemazione.
+
+Gli esempi forniti fino al momento e la parte del processo raccontata
+non riguardano l'argomento del design del software, e neanche il concetto
+di ``continuous refactoring'', ma la naturale adozione di un particolare 
+\textit{workflow} per lo sviluppo. La natura di questi problemi ci ha 
+vietato l'uso sistematico del TDD, e ci ha portato all'adozione naturale 
+di altre strategie. 
+
+Non si trattava di design del software, ma di esplorazione per la 
+comprensione. A misura che riuscivamo ad avere implementazioni 
+soddisfacenti per ogni funzionalità, le incorporavamo al \textit{codebase}
+principale e proseguivamo verso l'esplorazione di ulteriori limiti 
+e possibilità.
+
+Non potendo partire dai test, avevamo concluso che il TDD non era
+l'approccio più adeguato per \textbf{quella fase dello sviluppo}. 
+Però, abbiamo dovuto pagare un alto prezzo per non esserci accorti 
+che gli altri lemmi del TDD, in speciale quello del refactoring 
+continuo, sono ugualmente importanti. Sul nostro approccio incrementale 
+basato sulla REPL e sulla sperimentazione sarebbe stata semplice 
+l'introduzione del refactoring continuo/iterativo,
+ma non l'abbiamo fatto.
+
+Per altre funzionalità, in particolare quelle successive di integrazione 
+dei dati già estratti, siamo stati in grado di applicare il TDD nella 
+sua forma più naturale. È notevole la differenza dell'output di 
+queste operazioni rispetto a quelle precedenti, che sta, nella 
+mia opinione, nella sistematica e continua applicazione del refactoring.
+
+Siamo arrivati al punto in cui la complessità del sistema era 
+cresciuta, e capire il suo flusso non era più immediato. Avevamo 
+in mano una serie di classi che, non avendo ricevuto lo sforzo 
+continuo per il loro contenimento, incominciavano a rappresentare 
+difficoltà per le modifiche o aggiunte di nuove funzionalità, al 
+passo che altri moduli ci fornivano significativa confidenza. Nella 
+mia opinione la differenza stava necessariamente nella presenza o 
+assenza del refactoring continuo.
+
+Dati i tempi stretti, nella maggior parte dei casi abbiamo optato per
+la rielaborazione dei prototipi esistenti e non per il loro scarto,
+poiché ci sembrava evidente che una nuova versione fatta da zero avrebbe avuto
+molto in comune con il prototipo in mano. Riflettendo a posteriori, vedo
+in queste decisioni un ulteriore errore: ci siamo negati l'opportunità 
+di ripensarli con uno sguardo più fresco, senza i vincoli 
+dell'incertezza che ne avevamo già affrontato. 
 
 % 
 %
@@ -1177,7 +1208,8 @@ non avevamo prima anticipato.
 with the same thinking we used in creating them.'' - A. Einstein
 \end{quote}
 
-A un certo punto dello sviluppo mi sono accorto che incominciavamo a fallire. 
+Come anticipato alla fine del capitolo precedente, a un certo punto
+dello sviluppo mi sono accorto che incominciavamo a fallire. 
 Gli algoritmi funzionavano, il programma eseguiva i suoi compiti, ma il
 codice diventava intricato e difficile da mantenere.
 
