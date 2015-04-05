@@ -60,6 +60,7 @@
 % Python style for highlighting
 \newcommand\pythonstyle{\lstset{
 language=Python,
+numbers=left,
 numberstyle=\fontsize{8pt}{8pt}\selectfont,
 basicstyle=\ttfamily\fontsize{8pt}{8pt}\selectfont,
 otherkeywords={self},             % Add keywords here
@@ -1595,11 +1596,11 @@ ripetere l'errore precedente di frammentarli troppo. Per questo motivo, e
 anche per il fatto che si trattavano di implementazioni molto fragili,
 caratterizzate dalla costruzione di molti stati intermedi temporanei e
 da una logica molto procedurale, ho deciso di eseguire questa
-operazione di \textit{refactoring} a piccoli passi, apoggiandomi sui
+operazione di \textit{refactoring} a piccoli passi, appoggiandomi sui
 test che avevamo già scritto per garantire che le modifiche riportate
 non danneggiassero il comportamento originale del metodo.
 
-\section{Conclusioni sull'esempio pratico di refactoring}
+\section{Gli effetti dell'applicazione sistematica dell'SRP}
 
 Volevo evitare di innescare grossi contenuti di codice, ma sembra opportuno
 inserire la versione originale e la versione finale del metodo update\_buildings
@@ -1613,17 +1614,19 @@ riga per riga.
 
 \newgeometry{left=3cm, right=2.5cm}
 \newpage
-\pythonexternal[caption=Versione iniziale del metodo update\_buildings,frame=tlrb,numbers=left]{code_samples/building_data_updater_before.py}
+\pythonexternal[caption=Versione iniziale del metodo update\_buildings,frame=tlrb]{code_samples/building_data_updater_before.py}
 \newpage
 \restoregeometry
 
 Non ci vuole molto per capire quanti problemi sussistono nel 
 codice sopra, e per questo motivo evito di commentarlo e passo 
-subito alla visione della versione finale:
+subito alla visione della versione finale, che esplicita i
+problemi a partire dalla loro risoluzione:
 
 \pythonexternal[caption=Versione finale del metodo update\_buildings,frame=tlrb]{code_samples/building_data_updater_after.py}
   
 Da notare le seguenti proprietà di questo \textit{refactoring}:
+
 \begin{itemize}
   \item Il metodo update\_buildings compie ora il ruolo
   di scheletro dell'esecuzione. Essendo piccolo, ci sta in una sola
@@ -1631,8 +1634,6 @@ Da notare le seguenti proprietà di questo \textit{refactoring}:
   \item L'esplicitare dello scheletro aiuta nel trovare
    eventuali problemi concettuali che dipendano dall'ordine
    delle operazioni.
-  \item I nomi significativi dei metodi illustrano bene il loro 
-  ruolo funzionale all'interno del flusso. 
   \item Ogni \textit{step} coincide con una chiamata di metodo, 
   che viene incapsulato e isolato. Cambiamenti della logica di
   lavoro, come ad esempio quella di validazione dei dati in input,
@@ -1652,16 +1653,14 @@ Da notare le seguenti proprietà di questo \textit{refactoring}:
   contemporaneamente due file diversi dividendo uno schermo standard
   in verticale. È particolarmente utile per l'attività di \textit{testing} 
   dato che la visione simultanea del test e del relativo codice testato
-  rende più esplicita la loro relazione.
-  \item Il rinominare della variabile di iterazione ``b'' a ``b\_data'' rende
-  più chiaro il suo scopo (sono i dati letti da inviare al database) 
-  e la differenzia dalla variabile building (che è un oggetto della
-  classe Building, un ODM\footnote{\textit{Object-Document Mapper}} Model che
-  rappresenta i documenti in database da aggiornare/inserire. 
+  rende più esplicita la loro relazione.  
 \end{itemize}
 
-L'incapsulamento all'interno di metodi piccoli e isolati dal resto della
-logica applicativa è particolarmente importante per i seguenti aspetti:
+Questi sono aspetti più correlati alla struttura del codice. Sono essenziali
+specialmente per garantire l'incapsulamento delle unità funzionali, rendendole
+meno dipendenti. In altre parole, favoriscono il disaccoppiamento tra i diversi
+passi della logica del dominio applicativo. Questo incapsulamento all'interno
+di metodi piccoli è particolarmente importante per i seguenti aspetti:
 
 \begin{itemize}
   \item Metodi più piccoli sono, in linea di principio, più facili 
@@ -1682,7 +1681,86 @@ logica applicativa è particolarmente importante per i seguenti aspetti:
   più casi e aspetti.
 \end{itemize}
 
-Per garantire che ogni aggiornamento di
+\section{Il codice ``auto-documentante''}
+
+Per ottenere il risultato sopra sono partito con l'estrazione di unità 
+funzionali in metodi dedicati, nominandoli nel modo che mi sembrava 
+più opportuno al momento. Una volta concluse le estrazioni, però, guardando il
+corpo del metodo principale, mi sono accorto che si poteva migliorare
+la scelta dei suddetti nomi.
+
+Durante la fase di studio e 
+rielaborazione di questo codice, ho trovato un'idea interessante 
+su cui mi sono basato, espressa da Kent Beck\footnote{
+In una partecipazione nel libro \textit{Refactoring: Improving the 
+Design of Existing Code} di Martin Fowler\cite{fowler2002}}, che 
+mi ha guidato: 
+
+\begin{quote}
+	La scelta del nome di ogni classe e del nome di ogni metodo ci fornisce
+	un'opportunità per spiegare quale sia la sua intenzione. Il corpo di
+	ogni classe o metodo spiega a sua volta come quell'intenzione è stata
+	realizzata. Se il corpo è anche scritto in termini di intenzione in
+	pezzi ancora più piccoli, si può scrivere del codice che comunichi
+	la maggior parte dell'importante informazione sulla sua propria struttura.
+	- Kent Beck in \cite{fowler2002}.
+	
+	\flushright
+	\textit{(Traduzione mia, originale in inglese\footnote{
+			``Choosing the name of each class and the name of each method gives 
+			you an opportunity to explain what you intend. The internals of the 
+			class or method explain how the intention is realized. If the 
+			internals also are written in terms of intention in yet smaller 
+			pieces, you can write code that communicates most of the important 
+			information about its own structure''
+		})
+	}
+\end{quote}
+
+In altre parole, una scelta non solo opportuna ma intelligente del nome delle
+variabili, metodi e classi porta, oltre al vantaggio ovvio della leggibilità
+del codice, a un codice ``auto-documentante''. È il codice stesso ad esprimere
+il suo scopo, senza necessità di ausili esterni, ne di commenti, ne di documenti
+formali. Gli effetti della scrittura di codice con queste qualità sono molti, 
+e a noi interessava particolarmente il fatto di rendere più facile l'adozione
+della \textit{codebase} in futuro per la continuazione del progetto.
+
+In particolare nel caso di questo refactoring, i nomi più significativi
+illustrano bene flusso funzionale e la logica applicativa incorporata.
+Inoltre, il rinominare della variabile di iterazione ``b'' a ``b\_data'' rende
+più chiaro il suo scopo (sono i dati letti da inviare al database) 
+e la differenzia dalla variabile building (che è un oggetto della
+classe Building, un ODM\footnote{\textit{Object-Document Mapper}} Model che
+rappresenta i documenti in database da aggiornare/inserire. 
+
+È ovvio che la naturale espressività di un linguaggio come Python rende
+più semplice il raggiungimento di queste caratteristiche. 
+
+Le righe 4 e 5 comunicano che i dati dei palazzi verranno validati, 
+e che quelli invalidi verranno semplicemente ignorati (\textit{continue}). 
+Se sono interessato a capire qual'è la logica di validazione, mi basta
+proseguire al metodo \_validate\_building\_data, definito 
+sulla stessa classe. Si noti che si potrebbe portare ancora avanti 
+l'espressività, sfruttando la struttura di controllo fornita da Python 
+per formare vere e proprie frasi in linguaggio naturale, con la 
+rinominazione del metodo di validazione:
+
+\begin{python}
+if not self._is_valid_building_data(b_data):
+    continue
+\end{python}
+
+È sicuramente più bello da leggere, ma la facilità di comprensione è la stessa,
+e allora mi è sembrato un cambiamento opzionale. La decisione di dove fermarsi
+va presa tenendo in considerazione il livello di espressività desiderato
+e il tempo dedicato al refactoring. Senza imporci un limite preciso rischiamo
+di stare troppo tempo ad eseguire piccoli cambiamenti che contribuiscono
+di poco. La ricerca della perfezione va contestualizzata, altrimenti diventa
+dannosa.
+
+Esiste un ultimo aspetto che vorrei sottolineare sulla scelta intelligente
+dei nomi, che ha reso esplicita la relazione fra le chiamate 
+di metodo delle righe 8 e 13. Per garantire che ogni aggiornamento di
 file CSV rappresentasse uno \textit{snapshot}, ovvero che se un giorno un
 palazzo venisse rimosso dal ``catalogo''\footnote{
 Può sembrare strano che un palazzo venga rimosso, ma ce ne sono casi in cui
@@ -1703,14 +1781,19 @@ secondo alla fine. L'estrazione di questi \textit{step} in metodi dedicati
 rende anche questa correlazione esplicita dal nome conferito ai metodi:
 \_mark\_building\_as\_updated e \_destroy\_unmarked\_buildings.
 
-Queste modifiche favoriscono ulteriori refactoring per 
-aumentare la leggibilità: i successivi cambiamenti possono 
-essere limitati allo scopo del metodo stesso (ad esempio, 
-se vogliamo dare un nome più significativo a una variabile, 
-dovremo cambiarla soltanto all'interno del metodo - le modifiche sono
-contenute). Ciò ha reso i singoli metodi significativamente piccoli e
-semplici, a tal punto che mi permetto di omettere il loro codice sorgente,
-dato che non contribuiscono al ragionamento fino a qui elaborato.
+
+\section{Conclusioni pratiche}
+
+Come abbiamo visto, l'estrazione delle unità funzionali in metodi dedicati
+favorisce l'applicazione di ulteriori refactoring in quanto ne limita 
+l'impatto attraverso l'incapsulamento delle modifiche.
+L'applicazione ripetuta e incrementale di operazioni di refactoring
+ha reso i singoli metodi significativamente più piccoli e
+semplici, rendendoli più mantenibili, disaccoppiati e testabili.
+
+I metodi estratti sono talmente semplici che mi permetto di omettere 
+il loro codice sorgente, dato che non contribuiscono al ragionamento 
+fino a qui elaborato.
 
 Ho finito l'attività di \textit{refactoring} di BuildingDataUpdater,
 applicando altri principi sui singoli metodi, cercando più che altro
@@ -1771,7 +1854,7 @@ Ho trovato una definizione più precisa di refactoring, e, più importante,
 ricorrenti incentivi alla sua 
 \textbf{pratica continua}, a prescindere degli ostacoli naturali (management, 
 l'impressione che non porti a niente di nuovo, molto sforzo per nessun valore
-percepibile dall'esterno, eccetera). Un idea su cui avevo appena riflesso
+percepibile dall'esterno, eccetera). Un'idea su cui avevo appena riflesso
 ma che Martin Fowler ha molto bene sintetizzato è quella descritta nel
 seguente paragrafo:
 
