@@ -2027,40 +2027,53 @@ più SOLIDa (non per caso in maiuscole).
 \chapter{Il refactoring come attività di \textit{design}}
 
 In ambito lavorativo, le scadenze e la pressione degli \textit{stakeholders}
-fanno si che molto spesso diventi impossibile la manutenzione continuata
-della qualità del software, a meno ovviamente di una forte resistenza 
-da parte degli sviluppatori coinvolti, il che rischia addirittura di danneggiare
+fanno sì che molto spesso diventi difficile la manutenzione 
+della qualità del software durante tutto lo sviluppo, 
+a meno ovviamente di una forte resistenza da parte degli sviluppatori 
+coinvolti, il che rischia addirittura di danneggiare
 i rapporti professionali. È allora più naturale che in questo contesto la
-preoccupazione con il design e la qualità del codice decada a misura che ci
-avviciniamo alle scadenze, esperienza che ho vissuto più volte.
+preoccupazione riguardo al design e alla qualità del codice decada 
+all'avvicinarsi delle scadenze, esperienza che anch'io ho vissuto più volte.
 
 Su questo progetto sono partito 
-con il chiaro scopo di curare bene il \textit{design}, ero
+con il preciso scopo di curare attentamente il \textit{design}. Ero
 deciso a contenere la complessità della nostra \textit{codebase}
 fin dall'inizio, per non ricadere ancora una volta in quella
 situazione. 
 
+Il concetto di \textit{design upfront} descrive l'attività di 
+progettazione del software fatta a priori alla scrittura del codice 
+stesso. Se da un lato è un'attività adeguata per determinate
+tipologie di progetti, come nei rari casi in cui sono fissati e noti tutti i
+requisiti in fase iniziale del progetto, dall'altro lato viene spesso criticata
+per presupporre che gli sviluppatori abbiano la capacità di comprendere
+tutti gli aspetti problematici senza un'estensiva attività di esplorazione. 
+Viene particolarmente criticata negli ambiti di sviluppo \textit{agile} 
+per non prevedere l'adeguazione ai cambiamenti: molte delle assunzioni
+fatte in fase di progettazione si dimostreranno false, quando saranno già
+state incorporate al \textit{design} o addirittura implementate. 
+
 \section{Il paradosso dello sviluppatore}
 
-Nel corso di questo progetto gli effetti della sistematica ma speculativa 
-rincorsa del design sono stati positivi in determinati ambiti, 
-mentre su altri ci hanno generato moduli complessi e con eccessive indirezioni. 
-Cercando di anticipare le richieste future, abbiamo predisposto una serie di
-fondazioni che poi non abbiamo effettivamente utilizzato. Abbiamo allora
+Nel corso del progetto Spazi Unimi gli effetti della sistematica
+rincorsa del design sono stati positivi in determinati ambiti, mentre 
+su altri ci hanno generato moduli complessi e con eccessive indirettezze. 
+Cercando di anticipare le richieste future, abbiamo predisposto strutture di 
+base che poi non abbiamo effettivamente utilizzato. Abbiamo 
 ottenuto più codice da mantenere, e una maggior difficoltà della 
-comprensione dei flussi di esecuzione.
+comprensione dei flussi di esecuzione. 
 
-Su questa problematicità vorrei citare le riflessioni di Kent Beck
+Su questa problematica vorrei citare le riflessioni di Kent Beck
 presentate in una sua partecipazione nel libro ``Refactoring: Improving the 
 Design of Existing Code'' di Martin Fowler\cite{fowler2002}:
 
 
 \begin{quote}
 	
-	Se si conclude il lavoro del giorno, ma se lo fa in modo che diventi 
+	Se si conclude il lavoro del giorno, ma se lo si fa in modo che diventi 
 	impossibile la conclusione di quello di domani, allora siamo stati sconfitti.
 	Da notare, però, che sappiamo cosa dobbiamo fare oggi, ma non siamo 
-	sicuri sul domani. Forze faremo questo, forze quell'altro, o forze qualcosa
+	sicuri sul domani. Forse faremo questo, forse quell'altro, o forse qualcosa
 	che non abbiamo ancora nemmeno immaginato.
 	
 	\flushright
@@ -2074,22 +2087,22 @@ Design of Existing Code'' di Martin Fowler\cite{fowler2002}:
 	}
 \end{quote}
 
-Se da un lato Kent Beck avverte contro il rischio di implementare le 
+Se da un lato Kent Beck avverte riguardo il rischio di implementare le 
 funzionalità presenti in modo che quelle future diventino irraggiungibili,
 dall'altro sottolinea che su quelle future non abbiamo nessuna certezza. 
 A questa ambiguità do il nome di ``paradosso dello sviluppatore''.
 
 Procedere nello sviluppo delle funzionalità pensando a ciò che dovremo
 sviluppare in futuro comporta un \textit{overhead} che, con
-grande probabilità, non si pagherà: infatti, le anticipazioni a che
-possiamo provvedere sono trascurabili rispetto a tutti i possibili
-cammini di sviluppo che al sistema potrebbero capitare.
+grande probabilità, non verrà compensato: infatti, data la molteplicità
+di cammini di sviluppo possibili, dobbiamo essere molto fortunati per
+trovare uno giusto.
 
 L'incertezza è un ingrediente noto in ambito software, e nasce da diversi
 aspetti, ad esempio dalla malleabilità del software che rende possibile
 i frequenti cambiamenti dei requisiti. Se da un lato può essere semplice 
 pianificare i lavori della prossima settimana, all'aumentare dell'orizzonte 
-temporale l'effetto delle previsioni si degrada velocemente. Allo 
+temporale (??) l'effetto delle previsioni si degrada velocemente. Allo 
 sviluppatore rimane equilibrarsi tra le richieste di oggi e l'incertezza
 del domani.
 
@@ -2100,8 +2113,8 @@ Kent Beck ci presenta una possibile via di uscita:
 
 \begin{quote}
 	Quando si percepisce che la decisione presa ieri non ha più senso oggi,
-	si cambia quella decisione. Allora si può fare il lavoro di oggi. Domani,
-	qualche delle comprensioni di oggi sembreranno ingenue, e allora
+	si cambia quella decisione. Quindi si può fare il lavoro di oggi. Domani,
+	alcune delle scelte di oggi sembreranno ingenue, e allora
 	dovremo cambiare anche quelle.
 	
 	\flushright
@@ -2123,13 +2136,13 @@ prese in passato, in modo da adeguare la soluzione esistente alle
 nuove richieste appena arrivate. 
 
 \begin{quote}
-	Si deve comparare questo (il refactoring) con il curato design
+	Confrontate questo (il refactoring) con il dettagliato design
 	a priori. Il design speculativo è un tentativo di includere
-	tutte le qualità positive nel sistema prima ancora che qualsiasi
+	tutte le caratteristiche positive nel sistema prima ancora che qualsiasi
 	codice sia stato scritto. Il problema di questo procedimento è
-	che è molto facile indovinare in modo sbagliato. Con il refactoring,
-	non si ha il rischio di essere completamente sbagliati. Alla fine
-	il programma si comporta sempre come all'inizio.
+	che è troppo facile prendere la decisione sbagliata. Con il refactoring,
+	non si ha il rischio di essere completamente in errore. Alla fine
+	il programma si comporta sempre come si comportava all'inizio.
 	
 	\flushright
 	\textit{(Kent Beck in \cite{fowler2002}, traduzione mia, 
@@ -2150,18 +2163,46 @@ Questo è un approccio verticale rispetto alla
 concezione tradizionale di design del software.
 Si parla di refactoring, allora, come principio cardine del
 design stesso. Non si tratta solo di correggere gli errori commessi, ma di
-accogliere l'effimerità delle scelte attuali, di sapere che, con grande
-probabilità, domani esse verranno cambiate, e che ciò è positivo per la
+accogliere l'effimerità delle scelte attuali. Si tratta di sapere che, con grande
+probabilità, domani esse verranno cambiate e che ciò è positivo per la
 qualità del software. Facciamo il design a posteriori invece che a priori.
 
 Questa coscienza ci porta a sviluppare le funzionalità di oggi nel modo
-più semplice possibile, limitando gli scarti futuri. L'aggiunta di 
-indirezione o altri livelli di astrazione va fatta dopo, quando 
-effettivamente viene verificata la necessità. L'aggiunta di
-astrazione va fatta a partire dal refactoring, 
+più semplice possibile, per limitare la quantità di codice scartato in futuro. 
+Quanto più elaborate e complesse le scelte fatte oggi,
+maggiore è, tendenzialmente, il loro sforzo implementativo. Se domani 
+dovremo scoprire che parte del lavoro fatto non è più adeguato, ci conviene
+piuttosto farlo nel modo più semplice possibile. 
+
+Un concetto simile a questo descritto è il KISS, acronimo per l'espressione
+\textit{Keep it simple stupid}, cognata nel 1960 da Kelly Johnson, ingegnere
+aeronautico americano. Johnson affermava che gli aerei progettati 
+dovevano essere riparabili facilmente da un qualsiasi meccanico,
+con pochi e semplici strumenti. Questo concetto è stato ampiamente 
+adottato nello sviluppo del software, e traduce esattamente 
+questa rincorsa della semplicità.
+Esiste anche una famosa frase sintetizzata da Brian W. Kernighan\footnote{
+Computer scientist canadese, famoso, in particolare per i contributi allo
+sviluppo di Unix e del linguaggio awk.}, che traduce
+molto bene l'importanza della semplicità nella scrittura del codice: 
+\textit{``
+Debugging is twice as hard as writing the code in the first place. 
+Therefore, if you write the code as cleverly as possible, you are, 
+by definition, not smart enough to debug it.''}\footnote{
+	Eliminare gli errori di un programma (``debuggare'') è due volte più
+	difficile di scriverlo. Quindi, se scriviamo il codice nel modo più 
+	intelligente che possiamo, non siamo, per definizione, sufficientemente 
+	intelligenti per correggerlo.
+}
+
+Quindi, sviluppando per la semplicità, l'aggiunta di indirettezze 
+o altri livelli di astrazione verrà 
+svolta in seguito, quando effettivamente ne verificheremo la necessità. 
+L'aggiunta di astrazione va fatta a partire dal refactoring, 
 senza che porti dei cambiamenti sul comportamento del
-sistema. Si basa allora su un codice già funzionante e su tutta la rete
-di protezione fornita dalla suite di test previamente definita. 
+sistema. Si basa allora su delle necessità reali, su un codice già
+funzionante e su tutta la rete di protezione fornita dalla suite di 
+test preventivamente definita. 
 
 Come visto, ancora una volta lo sviluppo del progetto Spazi Unimi,
 ci ha ricondotto al concetto di \textit{refactoring}: non più per sistemare
@@ -2169,7 +2210,7 @@ errori previamente commessi o rendere più leggibile il codice,
 ma per guidare, a posteriori, le trasformazioni sul design. 
 
 Pensare al refactoring come attività di design, 
-ci permette allora di circoscrivere la complessità del sistema alle sole
+ci permette allora di circoscrivere la complessità del sistema alle 
 astrazioni essenziali alla sua buona organizzazione. Queste sorgono 
 da necessità concrete, a partire dal codice già esistente e funzionale.
 
@@ -2221,8 +2262,6 @@ principi di Progettazione Software.
 
 
 
-% (TODO: Conclusioni: dopo aver applicato ho applicato anche ai test, e
-% alla fine corretto la quantità di test tautologici aggiunti in precedenza)
 % (TODO: Conclusioni: usare la repl non è sabagliato, ma alla fine ho
 % concluso che per ogni fase / momento ci vuole anche un workflow diverso!)
 % (TODO: esempio di floormerger, l'unico caso in cui non sentivo la
