@@ -2018,7 +2018,167 @@ nella scelta delle modifiche da operare e bilanciando in parte la
 difficoltà di capire i problemi di design dovuta alla mancanza di un'esperienza
 più SOLIDa (non per caso in maiuscole).
 
+
+%
+%
+% 
+%
+%
+\chapter{Il refactoring come attività di \textit{design}}
+
+In ambito lavorativo, le scadenze e la pressione degli \textit{stakeholders}
+fanno si che molto spesso diventi impossibile la manutenzione continuata
+della qualità del software, a meno ovviamente di una forte resistenza 
+da parte degli sviluppatori coinvolti, il che rischia addirittura di danneggiare
+i rapporti professionali. È allora più naturale che in questo contesto la
+preoccupazione con il design e la qualità del codice decada a misura che ci
+avviciniamo alle scadenze, esperienza che ho vissuto più volte.
+
+Su questo progetto sono partito 
+con il chiaro scopo di curare bene il \textit{design}, ero
+deciso a contenere la complessità della nostra \textit{codebase}
+fin dall'inizio, per non ricadere ancora una volta in quella
+situazione. 
+
+\section{Il paradosso dello sviluppatore}
+
+Nel corso di questo progetto gli effetti della sistematica ma speculativa 
+rincorsa del design sono stati positivi in determinati ambiti, 
+mentre su altri ci hanno generato moduli complessi e con eccessive indirezioni. 
+Cercando di anticipare le richieste future, abbiamo predisposto una serie di
+fondazioni che poi non abbiamo effettivamente utilizzato. Abbiamo allora
+ottenuto più codice da mantenere, e una maggior difficoltà della 
+comprensione dei flussi di esecuzione.
+
+Su questa problematicità vorrei citare le riflessioni di Kent Beck
+presentate in una sua partecipazione nel libro ``Refactoring: Improving the 
+Design of Existing Code'' di Martin Fowler\cite{fowler2002}:
+
+
+\begin{quote}
+	
+	Se si conclude il lavoro del giorno, ma se lo fa in modo che diventi 
+	impossibile la conclusione di quello di domani, allora siamo stati sconfitti.
+	Da notare, però, che sappiamo cosa dobbiamo fare oggi, ma non siamo 
+	sicuri sul domani. Forze faremo questo, forze quell'altro, o forze qualcosa
+	che non abbiamo ancora nemmeno immaginato.
+	
+	\flushright
+	\textit{(Kent Beck in \cite{fowler2002}, traduzione mia, originale in inglese\footnote{
+			``If you get today's work done today, but you do it in such a way 
+			that you can't possibly get tomorrow's work done tomorrow, then 
+			you lose. Notice, though, that you know what you need to do today, 
+			but you're not quite sure about tomorrow. Maybe you'll do this, 
+			maybe that, maybe something you haven't imagined yet."
+		})
+	}
+\end{quote}
+
+Se da un lato Kent Beck avverte contro il rischio di implementare le 
+funzionalità presenti in modo che quelle future diventino irraggiungibili,
+dall'altro sottolinea che su quelle future non abbiamo nessuna certezza. 
+A questa ambiguità do il nome di ``paradosso dello sviluppatore''.
+
+Procedere nello sviluppo delle funzionalità pensando a ciò che dovremo
+sviluppare in futuro comporta un \textit{overhead} che, con
+grande probabilità, non si pagherà: infatti, le anticipazioni a che
+possiamo provvedere sono trascurabili rispetto a tutti i possibili
+cammini di sviluppo che al sistema potrebbero capitare.
+
+L'incertezza è un ingrediente noto in ambito software, e nasce da diversi
+aspetti, ad esempio dalla malleabilità del software che rende possibile
+i frequenti cambiamenti dei requisiti. Se da un lato può essere semplice 
+pianificare i lavori della prossima settimana, all'aumentare dell'orizzonte 
+temporale l'effetto delle previsioni si degrada velocemente. Allo 
+sviluppatore rimane equilibrarsi tra le richieste di oggi e l'incertezza
+del domani.
+
+\section{Design \textit{a posteriori}: la tutela del \textit{refactoring}}
+
+Riguardo a questa ambiguità, conseguenza della malleabilità del software, 
+Kent Beck ci presenta una possibile via di uscita:
+
+\begin{quote}
+	Quando si percepisce che la decisione presa ieri non ha più senso oggi,
+	si cambia quella decisione. Allora si può fare il lavoro di oggi. Domani,
+	qualche delle comprensioni di oggi sembreranno ingenue, e allora
+	dovremo cambiare anche quelle.
+	
+	\flushright
+	\textit{(Kent Beck in \cite{fowler2002}, traduzione mia, originale in inglese\footnote{
+			``When you find that yesterday's decision doesn't make sense 
+			today, you change the decision. Now you can do today's work. 
+			Tomorrow, some of your understanding as of today will seem naive, 
+			so you'll change that too.''
+		})
+	}
+\end{quote}
+
+Quando Kent Beck parla di cambiare le decisioni di ieri, non parla della
+scelta delle funzionalità, ma dell'organizzazione
+del codice e delle relazioni fra i moduli, cioè del design del software.
+L'importanza è data non alla capacità di prevedere gli sviluppi futuri
+del sistema, ma alla facilità con cui possiamo cambiare le decisioni
+prese in passato, in modo da adeguare la soluzione esistente alle
+nuove richieste appena arrivate. 
+
+\begin{quote}
+	Si deve comparare questo (il refactoring) con il curato design
+	a priori. Il design speculativo è un tentativo di includere
+	tutte le qualità positive nel sistema prima ancora che qualsiasi
+	codice sia stato scritto. Il problema di questo procedimento è
+	che è molto facile indovinare in modo sbagliato. Con il refactoring,
+	non si ha il rischio di essere completamente sbagliati. Alla fine
+	il programma si comporta sempre come all'inizio.
+	
+	\flushright
+	\textit{(Kent Beck in \cite{fowler2002}, traduzione mia, 
+	originale in inglese\footnote{
+			``Contrast this (refactoring) with careful upfront design. 
+			Speculative design is an attempt to put all the good
+			qualities into the system before any code is written. Then
+			the code can just be hung on the sturdy skeleton. The problem
+			with this process is that it is too easy to guess wrong.
+			With refactoring, you are never in danger of being completely
+			wrong. The program always behaves at the end as it did
+			at the beginning. ''
+		})
+	}
+\end{quote}
+
+Questo è un approccio verticale rispetto alla
+concezione tradizionale di design del software.
+Si parla di refactoring, allora, come principio cardine del
+design stesso. Non si tratta solo di correggere gli errori commessi, ma di
+accogliere l'effimerità delle scelte attuali, di sapere che, con grande
+probabilità, domani esse verranno cambiate, e che ciò è positivo per la
+qualità del software. Facciamo il design a posteriori invece che a priori.
+
+Questa coscienza ci porta a sviluppare le funzionalità di oggi nel modo
+più semplice possibile, limitando gli scarti futuri. L'aggiunta di 
+indirezione o altri livelli di astrazione va fatta dopo, quando 
+effettivamente viene verificata la necessità. L'aggiunta di
+astrazione va fatta a partire dal refactoring, 
+senza che porti dei cambiamenti sul comportamento del
+sistema. Si basa allora su un codice già funzionante e su tutta la rete
+di protezione fornita dalla suite di test previamente definita. 
+
+Come visto, ancora una volta lo sviluppo del progetto Spazi Unimi,
+ci ha ricondotto al concetto di \textit{refactoring}: non più per sistemare
+errori previamente commessi o rendere più leggibile il codice, 
+ma per guidare, a posteriori, le trasformazioni sul design. 
+
+Pensare al refactoring come attività di design, 
+ci permette allora di circoscrivere la complessità del sistema alle sole
+astrazioni essenziali alla sua buona organizzazione. Queste sorgono 
+da necessità concrete, a partire dal codice già esistente e funzionale.
+
+
 \chapter{Conclusioni}
+
+Partecipare a questo progetto mi rappresentava un'opportunità per poter
+riflettere con calma sui principi della progettazione software, applicandoli
+direttamente in un contesto pratico. 
 
 
 Penso di aver colto aspetti importanti da considerare durante un 
@@ -2082,9 +2242,11 @@ sono fondamentali. Ma quello lo sapevamo già.
 %
 \begin{thebibliography}{00}
 %
+\bibitem{beck2002}
+Beck, Kent. Test Driven Development: By Example, 2002.
+
 \bibitem{bobmartin2003}
-Martin, Robert C.. Agile Software Development, Principles, Patterns,
-and Practices, 2003.
+Martin, Robert C.. Agile Software Development, Principles, Patterns, and Practices, 2003.
 
 \bibitem{fowler2002}
 Fowler, Martin. Refactoring: Improving the Design of Existing Code, 2002.
@@ -2093,8 +2255,7 @@ Fowler, Martin. Refactoring: Improving the Design of Existing Code, 2002.
 Metz, Sandi. Practical object-oriented design in Ruby : an agile primer, 2013.
 
 \bibitem{seiden2012}
-Seiden, Josh, Replacing Requirements with Hypotheses, speach,
-\url{http://www.slideshare.net/jseiden/2012-feb-25-agile-ux-nyc-seiden-requirements-to-hypotheses?from=ss_embed}, 2012.
+Seiden, Josh, Replacing Requirements with Hypotheses, speach, \url{http://www.slideshare.net/jseiden/2012-feb-25-agile-ux-nyc-seiden-requirements-to-hypotheses?from=ss_embed}, 2012.
 
 \end{thebibliography}
 % 
