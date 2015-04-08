@@ -106,6 +106,7 @@ belowskip=2em
 \renewcommand{\baselinestretch}{1.3}
 \title{Progettazione di un'applicazione e conseguenze di un approccio
 ``continuos refactoring''}
+%%PROF: ABBIAMO SCRITTO "CONTINUOS"???  PERCHE' DOVEVA ESSERE "CONTINUOUS" !!!
 \author{Samuel Gomes Brandão}
 \dept{Corso di Laurea in Informatica} 
 \anno{2013-2014}
@@ -137,7 +138,7 @@ i mesi di progettazione e sviluppo.
 
 Tra queste considerazioni si collocano anche le riflessioni 
 sull'organizzazione di 
-un team autogestito, senza nessuna tipo di gerarchia netta, le 
+un team autogestito, senza nessun tipo di gerarchia netta, le 
 conseguenti difficoltà e come siamo stati in grado di superarle, 
 e sulla (per noi) nuova esperienza di \textit{pair programming}. 
 Per quanto riguarda il lato strettamente pratico, 
@@ -146,11 +147,11 @@ tecniche e decisioni che abbiamo preso, qualche particolarmente
 interessante soluzione per l'integrazione dei dati o 
 ottimizzazione algoritmica.
 
-Ho provato a fornire definizioni e spiegazioni dei concetti utilizzati sempre
-che giudicavo necessario. Però, come in qualsiasi ambito, in quello informatico 
-ce ne sono concetti generalmente diffusi, per cui mi sono limitato spesso a
+Ho provato a fornire definizioni e spiegazioni dei concetti utilizzati ogni volta
+che giudicavo necessario. Però, come in qualsiasi ambito, anche in quello informatico 
+ci sono concetti maggiormente noti, per i quali mi sono limitato spesso a
 descrizioni limitate e non esaustive. Ulteriori informazioni possono sempre
-essere facilmente trovate in rete.
+essere facilmente trovate in rete. %% PROF: se lo hai fatto, aggiungi "nelle risorse che di volta in volta ho citato in bibliografia. "
 
 \section*{Note di stile}
 L'italiano non è la mia lingua madre, e perciò prevedo che molte frasi
@@ -165,7 +166,7 @@ ragionamenti, che sono state ottenute a partire da letteratura in inglese.
 Ho inserito allora una mia traduzione degli opportuni brani, e indicato
 a piè di pagina la versione originale in inglese che ho utilizzato. In questo
 modo rimane al lettore la possibilità di capire meglio in originale
-o disambiguare la traduzione.
+o disambiguare la traduzione.  %%PROF: probabilmente toglierei la traduzione e lascerei versione inglese (ma confermerò quando le leggo)
 
 Ho provato a tenere il flusso di lettura leggero, senza troppo carico
 teorico o di definizioni (anche per compensare la difficoltà di esprimere
@@ -174,17 +175,18 @@ concetti ma evitando di ripetermi troppo. Si tratta di un racconto,
 una relazione su un progetto sviluppato, sugli obbiettivi raggiunti, 
 gli ostacoli trovati e le lezioni acquisite.
 
-Per quanto riguarda lo stile, vorrei notare che l'uso alternato tra prima
+Per quanto riguarda lo stile, vorrei far notare che l'uso alternato tra prima
 persona plurale (noi) e prima persona singolare (io) è intenzionale, per
 il fatto che ho partecipato a un progetto come membro di un team. Perciò
 uso il plurale per la descrizione degli aspetti collettivi 
 (nostri obbiettivi, compiti, ecc), ma passo al singolare per descrivere gli
-aspetti su cui mi sono concentrato particolarmente di più, i miei
+aspetti su cui mi sono concentrato particolarmente, i miei
 ragionamenti, riflessioni o opinioni.
 
-Per chiarezza ho evidenziato i termini in inglese con l'uso del corsivo, 
-ad eccezione di quando sono all'interno di paragrafi di citazione o quando
-si trattano di nomi propri.
+%PROF: non si deve dire.
+%Per chiarezza ho evidenziato i termini in inglese con l'uso del corsivo, 
+%ad eccezione di quando sono all'interno di paragrafi di citazione o quando
+%si trattano di nomi propri.
 
 %
 %
@@ -213,13 +215,13 @@ e il prof. Dr. Carlo Bellettini.
 Spazi Unimi è il nome dato a un progetto per l'ottenimento di dati sugli 
 spazi dell’Università degli Studi di Milano, sviluppato durante il 
 Tirocinio Interno per la laurea triennale in Informatica all’UNIMI, 
-da Samuel Gomes Brandão, Diego Costantino e Palo Venturi. L'idea 
+da Samuel Gomes Brandão, Diego Costantino e Paolo Venturi. L'idea 
 nasce a partire dalle proposte del progetto Campus Sostenibile, 
 promosso dall’UNIMI e dal Politecnico di Milano, e si sviluppa 
-posteriormente in autonomia, sotto l'orientamento del Prof. Dr. Carlo Bellettini.
+successivamente in autonomia, sotto l'orientamento del Prof. Dr. Carlo Bellettini.
 
 La necessità base da soddisfare è quella di fornire agli utenti
-universitari, cioè insegnanti, studenti, ricercatori, visitanti
+universitari, cioè insegnanti, studenti, ricercatori, visitatori
 e addetti, informazioni utili alla localizzazione delle stanze 
 e locali di loro interesse, indicando su una mappa interattiva
 non solo l'edificio in cui è inserito il locale desiderato, ma anche 
@@ -227,7 +229,7 @@ la sua posizione all'interno della pianta architettonica.
 
 Sulla suddetta pianta vogliamo anche indicare la presenza di locali
 utili, raggruppati per categoria o scopo funzionale, come ad esempio
-i Bagni, Biblioteca, Sale Studio, Uffici, Aule Didattiche, locali
+ bagni, biblioteche, sale studio, uffici, aule didattiche, locali
 ristorazione, eccetera.
 
 Il progetto parte con lo sviluppo di un'applicazione software con 
@@ -241,19 +243,19 @@ utilizzati per futuri progetti attraverso l'uso di una specifica
 Le informazioni integrate riguardano la topologia e la destinazione
 d'uso degli edifici universitari e i loro spazi, con particolare
 importanza alla elaborazione e presentazione delle piante interne e
-localizzazione di stanze precise. In questo modo, siamo in grado di
+alla precisa localizzazione delle stanze. In questo modo, siamo in grado di
 fornire accuratamente informazioni sulla localizzazione di palazzi,
 aule, o stanze a secondo della loro tipologia d'uso (bagni, 
 biblioteca, sale studio, ecc).
 
-In definitiva, tre sono stati i principali compiti del progetto:
+In definitiva, i principali compiti del progetto sono stati:
 \begin{itemize}
   \item Estrarre la topologia interna degli edifici universitari a
-partire dalle piantine edili.
+partire dalle piantine edili;
   \item Integrare le diverse informazioni testuali (fogli elettronici,
-file CSV\footnote{\textit{Comma separated values} - formato testuale
+file CSV\footnote{\textit{Comma separated values} -- formato testuale
 in cui le informazioni vengono inserite utilizzando le virgole come
-separatori}) fornite dall'università e validarle.
+separatori dei vari campi}) fornite dall'università e validarle;
   \item Associare le informazioni testuali alla topologia dei palazzi,
 identificando la localizzazione di stanze rilevanti e la categoria
 funzionale delle altre stanze.
@@ -271,43 +273,38 @@ metodologie di sviluppo che abbiamo utilizzato.
 Particolari riflessioni vengono fatte su
 aspetti di \textit{design} del software, e principalmente sull'attività
 di \textit{refactoring} come parte integrante del flusso di lavoro.
-A questo concetto do il nome di \textit{“continuos refactoring”} 
-\footnote{Si veda il capitolo \ref{cap4} ma principalmente il capitolo \ref{cap5}}.
+A questo concetto do il nome di \textit{“continuous refactoring”}\footnote{Si veda il capitolo \ref{cap4} e, ancora di più, il capitolo \ref{cap5}}.
 
 
 % 
 % 
 %			CAPITOLO 2
 \chapter{Attività Preliminari}
-\label{cap2}
+\label{cap2} %%PROF: per il futuro ricordati che in latex non ha senso mettere una label con il numero del capitolo... ad esempio se decidessi di spostarlo, tutte le citazioni risulterebbero fuorvianti ... e' meglio usare label sul contenuto, tipo: \label{att_preliminari}
 
-La prima sfida per lo sviluppo di un progetto è quella di capire i
+La prima sfida nello sviluppo di un progetto è quella di capire i
 requisiti e i problemi coinvolti. A seconda della tipologia di
 progetto, questa fase può richiedere tempo e dedizione considerevoli. Molto
 spesso però il capire avviene soltanto durante lo sviluppo stesso:
-sono casi in cui la comprensione del problema avviene, contraddittoriamente,
+ci sono  casi in cui la comprensione del problema avviene, addirittura, solo
 con la sua risoluzione.
 
-Il nostro primo passo è stato quello di pensare ai casi d'uso che
+Il nostro primo passo è stato quindi quello di pensare ai casi d'uso che
 volevamo coprire con la nostra applicazione. Da questo punto abbiamo
 proceduto verso la comprensione dei dati e delle informazioni
 disponibili e la scelta delle tecnologie più adeguate per la loro
-elaborazione. Le sorgenti dati che dovevamo integrare erano due
-principali, a loro volta suddivise in più tipologie di informazione e
+elaborazione. Le sorgenti dati che dovevamo integrare erano principalmente due: la divisione Manutenzione edilizia e impiantistica, e la divisione Sistemi informativi. I documenti forniti a loro volta possono essere suddivisi in più tipologie di informazione e
 formati di provenienza.
 
-Dal dipartimento di Edilizia dell'UNIMI abbiamo ottenuto le piante
-architettoniche dei palazzi utilizzati dall'Università, in formato DWG
-- un formato file proprietario, e una serie di fogli elettronici con
+Dalla "Divisione Manutenzione edilizia e impiantistica" della università abbiamo ottenuto le piante
+architettoniche dei palazzi utilizzati dall'Università in formato DWG
+-- un formato file proprietario -- e una serie di fogli elettronici con
 informazioni dettagliate sui palazzi e sulle loro stanze, in particolare
 quelle utilizzate per scopi didattici.
 
 Abbiamo convertito questi file binari in formato DXF (formato testuale
-\textit{``CAD-compatible''} ma comunque incomprensibile all'essere
-umano) utilizzando uno strumento gratuito, dato che era il formato
-richiesto dalla libreria dxfgrabber \footnote{Libreria \textit{opensource},
-sorgente disponibile in https://bitbucket.org/mozman/dxfgrabber} che abbiamo
-utilizzato. Più in avanti parlerò anche delle motivazioni per le scelte
+\textit{``CAD-compatible''} definito proprio per le operazioni di interscambio) utilizzando uno strumento fornito gratuitamente da Autodesk. I file DXF sono stati quindi processatitramite la libreria dxfgrabber \footnote{Libreria \textit{opensource},
+sorgente disponibile in https://bitbucket.org/mozman/dxfgrabber}. Più avanti parlerò anche delle motivazioni per le scelte
 tecnologiche, tra cui l'utilizzo di questa libreria.
 
 La dimensione dei DXF arrivava facilmente all'ordine dei
@@ -327,16 +324,16 @@ del file manualmente. }
     \label{fig:dxf_chaos}
 \end{figure}
 
-Con l'aiuto anche della divisione di Sistemi Informativi, rappresentata
-da Vincenzo Pupillo, abbiamo ottenuto in formato testuale CSV le
+Con l'aiuto anche della Divisione Sistemi Informativi, rappresentata
+da Vincenzo Pupillo, abbiamo ottenuto invece in formato testuale CSV le
 informazioni utilizzate dal sistema Easyrooms, rispetto all'uso didattico
 degli spazi (eventi, lezioni, capienza delle aule, lauree, eccetera).
 
-Entrambi i dipartimenti ci hanno aiutato con totale disponibilità e
+Entrambe le divisioni ci hanno aiutato con totale disponibilità e
 trasparenza, e senza il loro aiuto il nostro progetto non sarebbe mai
 stato portato a buon fine.
 
-Con queste informazioni in mano ne abbiamo incominciato l'analisi,
+Con queste informazioni in mano abbiamo incominciato l'analisi,
 cercando di capire non solo le loro criticità, ma anche dove si
 sovrapponevano, completavano o fossero ridondanti. Al primo contatto
 ci sembravano perfette: avevamo informazioni di destinazione delle
@@ -347,35 +344,35 @@ la localizzazione di aree di interesse come biblioteche, sale studio, bagni,
 spazi di ristorazione, eccetera.
 
 In sostanza, il lavoro di integrazione consisteva nel far confluire in
-prima istanza i dati testuali dei dipartimenti di Sistemi Informativi
+prima istanza i dati testuali delle divisioni Sistemi Informativi
 e Edilizia. Si trattava allora di relazionare informazioni sui palazzi
 e sulle aule didattiche. Il risultato di questa operazione andava 
 poi correlato con le informazioni presenti nelle piantine edili. Lo scopo
 finale è quello di avere un ulteriore set di dati disponibile, con la
-pretesa di essere più preciso e di averne più informazioni delle
+pretesa di essere più preciso e di avere più informazioni delle
 singole sorgenti di partenza.
 
 \section{La consistenza dei dati}
 
-Sotto uno sguardo più attento, però, l'immagine mentale che ci eravamo
-costruiti di quei dati incominciò a rilevare i suoi difetti: le
-fessure venivano come errori di battitura, l'utilizzo duplice di
+A uno sguardo più attento, però, l'immagine mentale che ci eravamo
+costruiti di quei dati incominciò a rivelare i suoi difetti: errori di battitura, utilizzo di diversi
 codici identificativi per i palazzi, piante architettoniche fuori
 scala o semplicemente disegno della stessa stanza più di una volta
 sullo stesso file. Spesso i disegni venivano ripetuti sulla stessa
 posizione, probabilmente frutto di un'operazione di copia e incolla
 interrotta a metà. All'occhio umano saltavano facilmente gli errori, e
 riuscivamo a correggerli riconoscendo dei pattern di riferimento, ma per un
-elaboratore no sarebbe stato così facile. Dato che il nostro scopo era 
+elaboratore non sarebbe stato così facile. Dato che il nostro scopo era 
 quello di estrarre le informazioni in modo automatico, 
 è stato necessario gestire tutte queste eccezioni/errori.
 
 Con buona probabilità questi errori sono stati accumulati lungo gli
 anni, ed è totalmente comprensibile che ci siano, se  consideriamo ad
 esempio che la maggior parte delle piante architettoniche di cui
-disponevano sono state disegnate in formato cartaceo e solo posteriormente
+disponevano sono state disegnate in formato cartaceo e solo a posteriori
 trasferite in formato digitale, quando la costruzione dell'edificio era già
-finita. Sono inoltre state fatte e raccolte lungo periodi significativi,
+finita. %%PROF: in che senso? cosa interessa quando sono stati costruiti?
+Sono inoltre state fatte e raccolte lungo periodi significativi,
 create da persone diverse, e perciò è difficile mantenere degli
 \textit{standard} nella loro rappresentazione digitale. Ovviamente, nel
 processo di trasferimento da cartaceo a digitale, dettagli vengono persi,
@@ -384,8 +381,8 @@ meticolosa verifica di quelle utilizzate per la costruzione degli edifici.
 
 Da questo segue una nuova sfida: prima ancora di procedere all'integrazione,
 dovrebbe esserci un efficace meccanismo di validazione dei dati di partenza.
-Questo è diventato un valore aggregato all'applicazione, cioè la capacità di
-fornire un'analisi della correttezza sintattica dei file in input, permettendo
+Questo è diventato un valore aggiunto dell'applicazione, cioè la capacità di
+fornire un'analisi della correttezza sintattica/semantica dei file in input, permettendo
 un valido \textit{feedback} per ulteriori miglioramenti e correzioni manuali.
 
 Una volta che abbiamo superato le barriere più significative per l'estrazione 
@@ -393,25 +390,27 @@ dei dati e riuscivamo effettivamente ad inserirli nel nostro
 database, abbiamo potuto fare un ulteriore passo rispetto a 
 queste validazioni di dati: avendo altre fonti con cui comparare i dati
 estratti, le operazioni di validazione acquisivano anche un significato
-semantico. Infatti, alla fine del progetto abbiamo sviluppato in parallelo
+semantico. %%secondo me il seignificato semantico c'era anche prima, ora si aggiunge quello di coerenza/consistenza
+
+Infatti, alla fine del progetto abbiamo sviluppato in parallelo
 un altro programma in grado di analizzare lo stato del database 
 e fornire un lungo e comprensivo \textit{output} sulla 
 qualità e quantità dei dati, e sui risultati dell'integrazione delle 
-diverse sorgenti. Ci forniva anche delle medie campionarie che ci hanno 
+diverse sorgenti. Questo programma ci ha fornito anche delle medie campionarie che ci hanno 
 garantito un maggiore livello di confidenza nello scegliere le
-strategie per l'estrazione o ulteriore elaborazione dei dati.
+strategie per l'estrazione o l'ulteriore elaborazione dei dati.
 
 \section*{Nessuna assunzione}
 
 La mole di dati era significativa, in particolare per i file DXF: più di
-700, ognuno con dimensione media di 4.5Mb, e casi estremi di fino a
+700, ognuno con dimensione media di 4.5Mb, e casi estremi anche di
 44Mb. Questi file contenevano tutte le informazioni edili: tubature,
 finestre, porte, scale, sezioni dei palazzi, disegno dei muri,
 cortili, terrazze, eccetera. Ci è bastato poco tempo nell'analizzare quei
 dati per capire che l'unico modo di giudicarne la loro qualità sarebbe
 stato incominciando con la loro estrazione e imparando durante il
 processo. Queste caratteristiche hanno determinato tanti aspetti dello
-sviluppo, addirittura il nostro \textit{workflow}, che frequentemente si è
+sviluppo, e in particolate del nostro \textit{workflow}, che frequentemente si è
 dimostrato ``REPL \textit{Driven}'' o ``\textit{Experimentation
 Driven}''\footnote{Più dettagli nel capitolo \ref{cap3}}. 
 
@@ -437,23 +436,21 @@ strumento per l'esecuzione di operazioni di trasformazione e
 filtraggio dei dati, specialmente se associate a funzioni per
 l'aggregazione di dati e agli iteratori di Python 3. Possiamo vedere
 le \textit{list comprehentions} come un'applicazione più leggibile del
-paradigma map-filter-reduce.
+paradigma map-filter-reduce;
   \item L'esistenza di una forte comunità di sviluppatori e entusiasti
-per il linguaggio, specialmente in Italia.
-  \item Ampia presenza di librerie di supporto per le attività che
+per il linguaggio, specialmente in Italia;
+  \item L'ampia presenza di librerie di supporto per le attività che
 dovevamo eseguire (lettura delle piante, elaborazioni geometriche,
-generazione di immagini, ecc).
-  \item Essendo Python un nuovo linguaggio per tutti i partecipanti al
-progetto, rappresentava una positiva sfida didattica.
-  \item La scelta di Python non sarebbe limitante per la continuazione
-del progetto in futuro da parte di altri studenti/tesisti, in quanto è
+generazione di immagini, ecc);
+  \item La positiva sfida rappresentata dal fatto che Python era un linguaggioquasi nuovo per tutti i partecipanti al progetto;
+  \item La convinzione che la scelta di Python non sarebbe  stata limitante per la continuazione del progetto da parte di altri studenti/tesisti, in quanto è
 anche un linguaggio insegnato all'università.
 \end{itemize}
 
 Per quanto riguarda la scelta del DBMS (\textit{Database Management
 System}) è stata l'inconsistenza dei dati a guidare la scelta: le
 informazioni presenti sui diversi palazzi non erano omogenee in
-termini quantitativi ne qualitativi. Su alcuni edifici disponevamo di
+termini quantitativi nè qualitativi. Su alcuni edifici disponevamo di
 più informazioni topologiche mentre su altri quasi nessuna. Anche le
 informazioni inerenti all'edificio stesso (come il suo nome rappresentativo o
 scopo d'utilizzo - ad esempio ``Dipartimento di Informatica'') non sempre
@@ -472,7 +469,7 @@ abbiamo scelto MongoDB come DBMS di riferimento.
 \section{Partire da Zero}
 
 Una mia particolare preoccupazione in fase iniziale del progetto, era
-quella di garantire la costante e ricorrente ricerca per la buona
+quella di garantire la costante e continua ricerca di una buona
 progettazione. A parte i vantaggi ovvi per il prodotto finale di un
 approccio del genere, avevo lo scopo personale di sanare un mio
 \textit{gap} tecnico: sentivo che le mie conoscenze di (buona)
@@ -481,7 +478,7 @@ Mi mancava l'assimilazione pratica dei principali concetti e avevo
 l'impressione che questo \textit{gap} fosse abbastanza comune tra gli altri
 studenti del mio stesso anno. Mi sembra anche ragionevole, dato che il
 perfezionamento di questo tipo di abilità avviene in modo più
-significativo soltanto attraverso confronto dello studio teorico con
+significativo soltanto attraverso il confronto dello studio teorico con
 l'applicazione pratica. Su questo aspetto ho trovato un forte contributo nello
 sviluppo di questo progetto.
 
@@ -498,7 +495,7 @@ determinato orizzonte temporale molto preciso.
 In ambito accademico sento che il rilievo maggiore è sempre stato 
 dato alla performance e al rispetto di vincoli pratici e in poche
 occasioni ci siamo concentrati sulle tecniche per l'organizzazione
-più strutturale del software. Ovviamente, questo è un discorso
+più strutturata del software. Ovviamente, questo è un discorso
 molto generale e queste caratteristiche sono anche comprensibili data
 la quantità di argomenti da esplorare nel poco tempo disponibile
 su un corso di studi di una laurea triennale.
@@ -528,7 +525,7 @@ causare troppi danni.
 
 Sul progetto Spazi Unimi non avevamo una struttura simile preesistente, e non
 avevamo qualcuno all'interno del \textit{team} che ci mostrasse le
-soluzioni migliori. Perciò, molto abbiamo discusso per superare la
+soluzioni migliori. Perciò,  abbiamo avuto spesso discussioni per superare la
 sfida della costruzione del software da zero. In questo senso,
 mi sento fortunato di aver potuto partecipare a un processo
 così intenso, e sono grato per l'opportunità di averlo fatto affianco
@@ -571,7 +568,7 @@ aperto la REPL\footnote{
 	rispettivo linguaggio di programmazione ed avere il risultato
 	stampato in sequenza. 
 } 
-di Python, e abbiamo incominciato ad esperimentare con la libreria e i dati.
+di Python, e abbiamo incominciato a sperimentare con la libreria e i dati.
 
 La libreria dxfgrabber gestiva il compito di leggere i file da disco,
 interpretare le sue informazioni e restituirci un oggetto che
@@ -609,13 +606,14 @@ dovevamo affrontare.
 
 Una delle pratiche difficoltà del TDD è riuscire a convincere un eventuale
 \textit{manager} orientato ai risultati immediati che ne valga la pena. 
-Il motivo è semplice: di immediato il TDD tende a rallentare 
-il processo di sviluppo. I suoi benefici sorgono a lungo termine, 
+Il motivo è semplice: all'inizio il TDD tende a rallentare 
+il processo di sviluppo. %%soprattutto se gli sviluppatori non ne sonon esperti
+I suoi benefici si evidenziano successivamente, 
 sotto forma di un \textit{design} del software più consistente,
-mantenibile, chiaro. Spesso i test scritti per guidare 
-la progettazione aggiungono anche valore posteriore 
+manutenibile, semplice, e chiaro. Spesso i test scritti per guidare 
+la progettazione aggiungono anche valore ulteriore 
 come \textit{regression test}. Riassumendo, 
-il TDD ha un costo immediato ma tende a pagare a lungo
+il TDD ha un costo immediato, ma tende a ripagare a lungo
 termine in forma di un \textit{design} di qualità superiore, e questo
 sembra abbastanza evidente per la maggior parte degli sviluppatori.
 
@@ -638,7 +636,7 @@ Ovviamente queste sono mie particolari osservazioni senza nessuna
 pretesa di valore scientifico. Il mio obbiettivo nel
 richiamare questo aspetto è quello di discutere su possibili
 contesti in cui i benefici di utilizzare il TDD possono non bilanciare
-in tempo sufficientemente abile i suoi costi. 
+in tempo  i suoi costi. 
 
 Nel nostro caso, l'eterogeneità dei dati da trattare rappresentava 
 una notevole sfida per la scrittura dei test. Una delle qualità 
@@ -653,13 +651,13 @@ dimostrare. Le poche che abbiamo provato si sono rilevate composte
 più da eccezioni che da regole.
 
 Per poter procedere con l'utilizzo del TDD come guida dello sviluppo,
-abbiamo percepito che, ad ogni iterazione, avremmo dovuto
+abbiamo capito che, ad ogni iterazione, avremmo potuto
 procedere in uno di questi modi:
 
 \begin{itemize}
   \item Basandoci sui file veri. Usando molti file avremo suite di test
   eccessivamente lente (I/O di file di dimensione significativa),
-  usando pochi avremo affidabilità insufficiente. 
+  usandone pochi avremo affidabilità insufficiente. 
   \item Basandoci sull'uso di \textit{mock} 
   per poter stimolare una quantità significativa di casi, 
   senza dover pagare gli eccessivi tempi di I/O dei file veri. 
@@ -669,10 +667,11 @@ procedere in uno di questi modi:
   sistematico per poter ottenere riferimenti di casi veri da trattare.
 \end{itemize}
 
-In entrambi i casi i vantaggi del TDD si sminuivano di fronte al costo della
-scrittura dei casi di test. Per testare la prima estrazione
-ci sarebbe richiesto uno sforzo molto alto perché eravamo
+In entrambi i casi i vantaggi del TDD diminuivano di fronte al costo della
+scrittura dei casi di test. Testare la prima estrazione
+avrebbe richiesto uno sforzo molto alto perché eravamo
 circondati da incertezze.
+%%PROF: nota per il futuro: in questi casi (incertezza sul da farsi o poca conoscenza di framework, o librerie che si devono usare) il modo di procedere è quello di fare uno spike esplorativo (quello che voi avete fatto tramite REPL), ma poi una volta eliminata un po' di incertezza, si passa al TDD :-D 
 
 \section{Accogliere l'incertezza}
 
@@ -682,7 +681,7 @@ non riuscivamo a trovare proprietà che venissero rispettate nel 100\%
 dei casi. La via di uscita sarebbe dimenticarci dell'ideale 100\%.
 Non l'avremmo mai raggiunto. Ci serviva, invece, una soglia ammissibile di
 errore, la possibilità di segnalarli all'utente o superarli attraverso qualche
-euristica particolare. Sorsero allora i seguenti obbiettivi, per ogni
+euristica particolare. Identificammo allora i seguenti obbiettivi, per ogni
 funzionalità / problema in considerazione: 
 
 \begin{itemize}
@@ -699,7 +698,7 @@ In altre parole, non saremmo più partiti dai test, ma da un'esplorazione
 sistematica del problema e dei dati, e infatti era esattamente quello che
 avevamo già fatto alla prima apertura della REPL per l'esplorazione della
 libreria utilizzata: volevamo capire meglio in che modo lo strumento ci
-potrebbe aiutare nella gestione dei dati. Tale approccio ci ha consentito
+potesse aiutare nella gestione dei dati. Tale approccio ci ha consentito di
 gestire meglio l'incertezza, sostituendo le assunzioni per ipotesi da testare.
 
 In uno \textit{speech} nell'Agile UX NYC 2012, Joshua Seiden discorre
@@ -707,8 +706,8 @@ sul rimpiazzare i \textit{requirements} con ipotesi quando sviluppiamo
 per ambienti caratterizzati dall'incertezza: 
 
 \begin{quote}
-Quando si sta in produzione, sviluppando su standard predefiniti, si vogliono
-i requisiti. Quando si sta in un ambiente di incertezza, si vogliono
+Quando si è in produzione, sviluppando su standard predefiniti, si vogliono
+i requisiti. Quando si è in un ambiente di incertezza, si vogliono
 ipotesi.\cite{seiden2012}
 
 \flushright
@@ -727,10 +726,11 @@ che facevamo sui nostri dati, attraverso la definizione di soglie di errore
 come delle ipotesi di soddisfacibilità dei nostri requisiti.
 
 In seguito allo stabilire delle ipotesi sui dati, seguiva la fase
-della loro validazione, dalla quale volevamo ricavare un percentuale
-di soddisfacibilità (quale percentuale dei dati totali soddisfa
+della loro validazione, dalla quale volevamo ricavare la percentuale
+di soddisfacibilità (cioè quale percentuale dei dati totali soddisfa
 positivamente o negativamente l'ipotesi in questione).
 
+%%PROF: arrivato qui a correggere
 \section{\textit{Experimentation Driven}}
 
 Dalla necessità di conoscere meglio il dominio dei nostri dati e
@@ -2275,6 +2275,9 @@ poter sviluppare le mie proprie idee e capacità. Ciò rinforza in me l'idea
 di aver scelto una professione in cui lo studio e l'aggiornamento costante 
 sono fondamentali. Ma quello lo sapevamo già.
 %
+
+
+%%PROF: La bibliografia non va fatta così... va usato bibtex... ci metti pochi minuti a capirlo, evita errori stupidi e fattorizza il lavoro.
 
 %
 %			BIBLIOGRAFIA
