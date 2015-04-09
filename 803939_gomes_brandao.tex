@@ -107,12 +107,16 @@ belowskip=2em
 \title{Progettazione di un'applicazione e conseguenze di un approccio
 ``continuos refactoring''}
 %%PROF: ABBIAMO SCRITTO "CONTINUOS"???  PERCHE' DOVEVA ESSERE "CONTINUOUS" !!!
+%% SAM: avevo la speranza che fosse stato un errore di battitura solo qua. Invece
+%% ho appena verificato il documento di cambio titolo presentato e si, ho sbagliato anche li. Ho
+%% commesso l'errore di battitura a monte, e quello si è propagato fin qua.
+%% Cosa conviene fare?
+
 \author{Samuel Gomes Brandão}
 \dept{Corso di Laurea in Informatica} 
 \anno{2013-2014}
 \matricola{803939}
 \relatore{Prof. Carlo Bellettini}
-%\correlatore{Dr. Richard STEVENS}
 
 \beforepreface
 \prefacesection{Dedica}
@@ -183,20 +187,6 @@ uso il plurale per la descrizione degli aspetti collettivi
 aspetti su cui mi sono concentrato particolarmente, i miei
 ragionamenti, riflessioni o opinioni.
 
-%PROF: non si deve dire.
-%Per chiarezza ho evidenziato i termini in inglese con l'uso del corsivo, 
-%ad eccezione di quando sono all'interno di paragrafi di citazione o quando
-%si trattano di nomi propri.
-
-%
-%
-%			ORGANIZZAZIONE
-%\section*{Organizzazione della tesi}
-%\label{organizzazione}
-%La tesi \`e organizzata come segue:
-%\begin{itemize}
-%\item nel Capitolo 1 ....
-%\end{itemize}
 %
 %			RINGRAZIAMENTI
 %
@@ -210,7 +200,7 @@ e il prof. Dr. Carlo Bellettini.
 % 
 %			CAPITOLO 1: iNTRODUZIONE
 \chapter{Introduzione}
-\label{cap1}
+\label{cap:intro}
 
 Spazi Unimi è il nome dato a un progetto per l'ottenimento di dati sugli 
 spazi dell’Università degli Studi di Milano, sviluppato durante il 
@@ -273,14 +263,14 @@ metodologie di sviluppo che abbiamo utilizzato.
 Particolari riflessioni vengono fatte su
 aspetti di \textit{design} del software, e principalmente sull'attività
 di \textit{refactoring} come parte integrante del flusso di lavoro.
-A questo concetto do il nome di \textit{“continuous refactoring”}\footnote{Si veda il capitolo \ref{cap4} e, ancora di più, il capitolo \ref{cap5}}.
+A questo concetto do il nome di \textit{“continuous refactoring”}\footnote{Si veda il capitolo \ref{cap:software_decay} e, ancora di più, il capitolo \ref{cap:refactoring_continuo}}.
 
 
 % 
 % 
 %			CAPITOLO 2
 \chapter{Attività Preliminari}
-\label{cap2} %%PROF: per il futuro ricordati che in latex non ha senso mettere una label con il numero del capitolo... ad esempio se decidessi di spostarlo, tutte le citazioni risulterebbero fuorvianti ... e' meglio usare label sul contenuto, tipo: \label{att_preliminari}
+\label{cap:attr_preliminari} 
 
 La prima sfida nello sviluppo di un progetto è quella di capire i
 requisiti e i problemi coinvolti. A seconda della tipologia di
@@ -293,7 +283,10 @@ Il nostro primo passo è stato quindi quello di pensare ai casi d'uso che
 volevamo coprire con la nostra applicazione. Da questo punto abbiamo
 proceduto verso la comprensione dei dati e delle informazioni
 disponibili e la scelta delle tecnologie più adeguate per la loro
-elaborazione. Le sorgenti dati che dovevamo integrare erano principalmente due: la divisione Manutenzione edilizia e impiantistica, e la divisione Sistemi informativi. I documenti forniti a loro volta possono essere suddivisi in più tipologie di informazione e
+elaborazione. Le sorgenti dati che dovevamo integrare erano principalmente due: 
+la divisione Manutenzione edilizia e impiantistica, e la divisione Sistemi 
+informativi. I documenti forniti a loro volta possono essere suddivisi in 
+più tipologie di informazione e
 formati di provenienza.
 
 Dalla "Divisione Manutenzione edilizia e impiantistica" della università abbiamo ottenuto le piante
@@ -303,8 +296,11 @@ informazioni dettagliate sui palazzi e sulle loro stanze, in particolare
 quelle utilizzate per scopi didattici.
 
 Abbiamo convertito questi file binari in formato DXF (formato testuale
-\textit{``CAD-compatible''} definito proprio per le operazioni di interscambio) utilizzando uno strumento fornito gratuitamente da Autodesk. I file DXF sono stati quindi processatitramite la libreria dxfgrabber \footnote{Libreria \textit{opensource},
-sorgente disponibile in https://bitbucket.org/mozman/dxfgrabber}. Più avanti parlerò anche delle motivazioni per le scelte
+\textit{``CAD-compatible''} definito proprio per le operazioni di interscambio) 
+utilizzando uno strumento fornito gratuitamente da Autodesk. I file DXF sono 
+stati quindi processati tramite la libreria dxfgrabber \footnote{Libreria \textit{opensource},
+sorgente disponibile in https://bitbucket.org/mozman/dxfgrabber}. 
+Più avanti parlerò anche delle motivazioni per le scelte
 tecnologiche, tra cui l'utilizzo di questa libreria.
 
 La dimensione dei DXF arrivava facilmente all'ordine dei
@@ -355,7 +351,8 @@ singole sorgenti di partenza.
 \section{La consistenza dei dati}
 
 A uno sguardo più attento, però, l'immagine mentale che ci eravamo
-costruiti di quei dati incominciò a rivelare i suoi difetti: errori di battitura, utilizzo di diversi
+costruiti di quei dati incominciò a rivelare i suoi difetti: errori di battitura, 
+utilizzo di diversi
 codici identificativi per i palazzi, piante architettoniche fuori
 scala o semplicemente disegno della stessa stanza più di una volta
 sullo stesso file. Spesso i disegni venivano ripetuti sulla stessa
@@ -391,6 +388,8 @@ database, abbiamo potuto fare un ulteriore passo rispetto a
 queste validazioni di dati: avendo altre fonti con cui comparare i dati
 estratti, le operazioni di validazione acquisivano anche un significato
 semantico. %%secondo me il seignificato semantico c'era anche prima, ora si aggiunge quello di coerenza/consistenza
+%% SAM: hai ragione. troverò con calma un modo migliore per dire
+%% quello che intendevo
 
 Infatti, alla fine del progetto abbiamo sviluppato in parallelo
 un altro programma in grado di analizzare lo stato del database 
@@ -412,7 +411,7 @@ stato incominciando con la loro estrazione e imparando durante il
 processo. Queste caratteristiche hanno determinato tanti aspetti dello
 sviluppo, e in particolate del nostro \textit{workflow}, che frequentemente si è
 dimostrato ``REPL \textit{Driven}'' o ``\textit{Experimentation
-Driven}''\footnote{Più dettagli nel capitolo \ref{cap3}}. 
+Driven}''\footnote{Più dettagli nel capitolo \ref{cap:scelta_di_workflow}}. 
 
 Da queste analisi abbiamo concluso che potevamo fare poche o nessuna
 assunzione iniziale sulla qualità, formato, presenza o consistenza dei dati.
@@ -442,8 +441,10 @@ per il linguaggio, specialmente in Italia;
   \item L'ampia presenza di librerie di supporto per le attività che
 dovevamo eseguire (lettura delle piante, elaborazioni geometriche,
 generazione di immagini, ecc);
-  \item La positiva sfida rappresentata dal fatto che Python era un linguaggioquasi nuovo per tutti i partecipanti al progetto;
-  \item La convinzione che la scelta di Python non sarebbe  stata limitante per la continuazione del progetto da parte di altri studenti/tesisti, in quanto è
+  \item La positiva sfida rappresentata dal fatto che Python era un linguaggio
+  quasi nuovo per tutti i partecipanti al progetto;
+  \item La convinzione che la scelta di Python non sarebbe stata limitante per 
+  la continuazione del progetto da parte di altri studenti/tesisti, in quanto è
 anche un linguaggio insegnato all'università.
 \end{itemize}
 
@@ -538,7 +539,7 @@ processo.
 % 
 %			CAPITOLO 3
 \chapter{La scelta di un \textit{workflow}}
-\label{cap3}
+\label{cap:scelta_di_workflow}
 
 
 \section{Partire con il TDD}
@@ -607,7 +608,12 @@ dovevamo affrontare.
 Una delle pratiche difficoltà del TDD è riuscire a convincere un eventuale
 \textit{manager} orientato ai risultati immediati che ne valga la pena. 
 Il motivo è semplice: all'inizio il TDD tende a rallentare 
-il processo di sviluppo. %%soprattutto se gli sviluppatori non ne sonon esperti
+il processo di sviluppo. 
+%% soprattutto se gli sviluppatori non ne sono esperti
+%% Sam: Sono assolutamente d'accordo. Conviene dichiararlo nella tesi però? 
+%% Ho cercato di trovare un punto di equilibro che mi permettesse parlare
+%% degli errori che abbiamo commesso ma con più attenzione a come li abbiamo
+%% superato.
 I suoi benefici si evidenziano successivamente, 
 sotto forma di un \textit{design} del software più consistente,
 manutenibile, semplice, e chiaro. Spesso i test scritti per guidare 
@@ -672,6 +678,8 @@ scrittura dei casi di test. Testare la prima estrazione
 avrebbe richiesto uno sforzo molto alto perché eravamo
 circondati da incertezze.
 %%PROF: nota per il futuro: in questi casi (incertezza sul da farsi o poca conoscenza di framework, o librerie che si devono usare) il modo di procedere è quello di fare uno spike esplorativo (quello che voi avete fatto tramite REPL), ma poi una volta eliminata un po' di incertezza, si passa al TDD :-D 
+%% SAM: Abbiamo sbagliato parecchio durante il progetto. Questo è sicuramente
+%% uno dei punti più significativi. Grazie prof :)
 
 \section{Accogliere l'incertezza}
 
@@ -1226,7 +1234,7 @@ dell'incertezza che ne avevamo già affrontato.
 %
 %
 \chapter{Un Primo Contatto con il \textit{Software Decay}}
-\label{cap4}
+\label{cap:software_decay}
 
 \vspace{1cm}
 \begin{flushright}
@@ -1814,7 +1822,7 @@ prima applicazione.
 %
 %
 \chapter{Refactoring continuo e guidato}
-\label{cap5}
+\label{cap:refactoring_continuo}
 
 Analizzando queste esperienze, ho concluso che l'aver utilizzato uno o più
 concetti esplicitamente per l'analisi del codice mi ha permesso di
@@ -2025,6 +2033,7 @@ più SOLIDa (non per caso in maiuscole).
 %
 %
 \chapter{Il refactoring come attività di \textit{design}}
+\label{cap:refactoring_come_design}
 
 In ambito lavorativo, le scadenze e la pressione degli \textit{stakeholders}
 fanno sì che molto spesso diventi difficile la manutenzione 
@@ -2259,17 +2268,6 @@ di studi, e, nel mio caso particolare, penso che ne abbia contribuito
 significativamente per farmi assorbire in modo più profondo alcuni dei
 principi di Progettazione Software.
 
-
-
-
-% (TODO: Conclusioni: usare la repl non è sabagliato, ma alla fine ho
-% concluso che per ogni fase / momento ci vuole anche un workflow diverso!)
-% (TODO: esempio di floormerger, l'unico caso in cui non sentivo la
-% puzza, e perché? (cit. riga 53 delle note sul libro))
-% (TODO: questo modo di scrivere troppo narrativo può essere un problema?)
-% (Com'è bello avere l'occasione di riflette sul proprio codice, sui
-% propri test! Perché non me lo fanno fare al lavoro? xD)
-
 In letteratura ho trovato il riscontro che sentivo di aver bisogno per
 poter sviluppare le mie proprie idee e capacità. Ciò rinforza in me l'idea
 di aver scelto una professione in cui lo studio e l'aggiornamento costante 
@@ -2278,7 +2276,7 @@ sono fondamentali. Ma quello lo sapevamo già.
 
 
 %%PROF: La bibliografia non va fatta così... va usato bibtex... ci metti pochi minuti a capirlo, evita errori stupidi e fattorizza il lavoro.
-
+%% SAM: ok,  la sistemo con calma al fine settimana.
 %
 %			BIBLIOGRAFIA
 %
