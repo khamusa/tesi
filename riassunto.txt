@@ -1,0 +1,31 @@
+Progettazione di un'applicazione e conseguenze di un approccio ``continuous refactoring''.
+
+``Experience is simply the name we give our mistakes.'' - Oscar Wilde
+
+Spazi Unimi è il nome dato a un progetto per l'ottenimento di dati sugli spazi dell’Università degli Studi di Milano, sviluppato durante il Tirocinio Interno per la laurea triennale in Informatica all’UNIMI, da Samuel Gomes Brandão, Diego Costantino e Paolo Venturi. L'idea nasce a partire dalle proposte del progetto Campus Sostenibile, promosso dall’UNIMI e dal Politecnico di Milano, e si sviluppa successivamente in autonomia, sotto l'orientamento del Prof. Dr. Carlo Bellettini.
+
+La necessità base da soddisfare è quella di fornire agli utenti universitari, cioè insegnanti, studenti, ricercatori, visitatori e addetti, informazioni utili alla localizzazione delle stanze e locali di loro interesse, indicando su una mappa interattiva non solo l'edificio in cui è inserito il locale desiderato, ma anche la sua posizione all'interno della pianta architettonica. 
+
+Siamo partiti dai casi d'uso degli utenti e abbiamo proceduto verso la comprensione dei dati e delle informazioni disponibili, con un approccio iniziale che ho denominato ``Exploration Driven''.
+
+Siamo stati in grado di estrarre le informazioni necessarie delle piante architettoniche fornite dal dipartimento di edilizia dell'università, ed incrociarle con altri dati rilevanti sull'uso degli spazi universitari. Abbiamo conquistato questi obbiettivi attraverso l'applicazione di molte euristiche per la validazione e correzione dei dati iniziali in input, spesso molto inconsistenti.
+
+Abbiamo utilizzato un flusso di lavoro basato sull'Extreme Programming, con uso del TDD nella maggior parte delle fasi dello sviluppo. Abbiamo praticato estensiva attività di testing e in particolare mi sono concentrato su quella di refactoring.
+
+A un certo punto del progetto mi sono accorto che il nostro codice diventava ogni volta più complesso, e ci sentivamo meno capaci di sistemarlo. Allo stesso tempo, non eravamo in grado di capire i motivi per cui fossimo arrivati a quel punto - dato che eravamo partiti dall'inizio con una forte preoccupazione per il design del codice. Percepivamo la presenza dei problemi, cioè dei code smells, ma non eravamo in grado di trovarne l'origine - ci mancava l'esperienza. Mi sono allora messo il compito di trovare aiuto in letteratura, l'ispirazione che ci aiutasse ad identificare i problemi e le soluzioni.
+
+Sono partito rileggendo dei concetti base di progettazione del software, in particolare i principi SOLID, il principio KISS e DRY. Non si trattano di design patterns complessi o soluzioni pronte, ma piuttosto dei concetti molto  basilari, delle linee guida intese a aiutare il progettista a nominare i problemi del proprio codice. Sono infatti una misura per la qualità del software.
+
+All'applicazione di ognuno di questi concetti al codebase, seguiva un'operazione di refactoring: in poche parole, sapendo che cosa cercare nel nostro codice, siamo riusciti a ricondurci alle radici dei problemi. 
+
+Il refactoring è l'attività di cambiare il codice esistente senza alterarne la sua funzionalità, con lo scopo di perfezionarlo: aumentare la leggibilità, ``mantenibilità'' o ``testabilità''.
+
+Da questa esperienza ho tratto un'importante conclusione riguardo ai motivi per cui i nostri sforzi di costruire sempre del design di qualità non avevano avuto il successo atteso. Abbiamo spesso applicato la tecnica del design in anticipo, cioè la progettazione del software prima della sua scrittura, ma non siamo stati così attenti alla manutenzione del design in seguito alle mutazioni e estensioni del codice esistente.
+
+Il codice ha un ciclo di vita, quale viene creato e va mantenuto. Come risultato finale di queste riflessioni sono arrivato al concetto di ``continuous refactoring''. Per questo concetto intendo l'applicazione sistematica, metodologica e a piccoli passi delle tecniche di refactoring. Il refactoring non va visto soltanto come una strategia per correggere i difetti già presenti, ma come un'attività di design stessa - non è per caso che è uno dei passi cardine del TDD. La sua applicazione non può essere casuale ma metodologica, basata su concetti semplici e sufficientemente generici che definiscano le caratteristiche che consideriamo desiderabili da un buon design. Nel nostro preciso contesto ci hanno serviti i concetti prima citati (in speciale i concetti SOLID), ma anche quello può variare a seconda delle tecnologie utilizzate e principalmente dei paradigmi di programmazione in uso.
+
+Una volta conferita al refactoring dignità di processo, con la sua applicazione continua a diversi livelli di granularità abbiamo ottenuto moduli più organizzati, con le dipendenze contenute, e un'ultima particolare caratteristica che adesso considero quella più importante: codice auto-documentante.
+
+L'inserimento del refactoring come parte del processo stesso di lavoro fa si che ad ogni iterazione ci sia una nuova opportunità per migliorare l'espressività del codice. Ci permette di raggiungere un punto in cui è il codice stesso ad esprimere il suo scopo e la strategia utilizzata per raggiungerlo, senza necessità di ausili esterni, ne di commenti, ne di documenti formali. Otteniamo un codice in grado di esplicitare il suo proposito e il proprio flusso di esecuzione in modo semplice e diretto. Questa caratteristica è di una potenza significativa all'interno di progetti con più sviluppatori e con frequenti cambiamenti sul team.
+
+Infine, un codice semplice da capire è sempre, anche, un codice più facile da debuggare.
