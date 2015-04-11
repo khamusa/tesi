@@ -18,7 +18,12 @@ Siamo stati in grado di estrarre le informazioni necessarie delle piante archite
 
 L'argomento principale del capitolo 4 è il nostro confronto con il ``Software Decay''. A un certo punto del progetto mi sono accorto che il nostro codice diventava complesso, e ci sentivamo meno capaci di sistemarlo. Allo stesso tempo, non eravamo in grado di capire i motivi per cui fossimo arrivati a quel punto, dato che avevamo dedicato molta attenzione al design del sistema. 
 
-Percepivamo la presenza dei problemi, in particolare in forma di code smells, ma non eravamo in grado di trovarne l'origine - ci mancava l'esperienza. Mi sono allora messo il compito di trovare aiuto in letteratura, di cercare l'inspirazione che ci aiutasse ad identificare i problemi e le relative soluzioni.
+Percepivamo la presenza dei problemi, in particolare in forma di code smells, ma non eravaml \textit{refactoring} 
+abbia la stessa dignità e importanza di ogni altro passo affinché il 
+TDD sia veramente un approccio verso il \textbf{design}, e non verso 
+il \textit{testing}. Lo scopo è quello di garantire una manutenzione 
+continua della qualità del design. Ciò dovrebbe evitare il suo decadimento
+e allora la necessità di interventi dedicati alla sua risio in grado di trovarne l'origine - ci mancava l'esperienza. Mi sono allora messo il compito di trovare aiuto in letteratura, di cercare l'inspirazione che ci aiutasse ad identificare i problemi e le relative soluzioni.
 
 Sono partito rileggendo dei concetti base di progettazione del software, in particolare i principi SOLID, il principio KISS e DRY. Non si trattano di design patterns complessi o soluzioni pronte, ma piuttosto dei concetti molto  basilari, linee guida intese ad aiutare il progettista ad identificare i problemi del proprio codice. Sono infatti una misura per la qualità del software. 
 
@@ -34,8 +39,8 @@ Una volta conferito al refactoring dignità di processo, con la sua applicazione
 
 Ad ogni iterazione di refactoring abbiamo una nuova opportunità per migliorare l'espressività del codice. Lo scopo è costruire codice in grado di esprimere il suo scopo e la strategia utilizzata per raggiungerlo, senza necessità di ausili esterni, come commenti o documentazione formale. Vogliamo un codice in grado di esplicitare il suo proposito e il proprio flusso di esecuzione in modo semplice e diretto. Questa caratteristica è di una potenza significativa all'interno di progetti con più sviluppatori e con frequenti cambiamenti sul team, e rende significativamente più facile il rilevamento degli errori.
 
-Partecipare a questo progetto mi ha fornito l'opportunità di
+Partecipare a questo progetto mi ha presentato un'opportunità per
 riflettere con calma sui principi della progettazione software, applicandoli
-direttamente in un contesto pratico. 
+direttamente a un contesto pratico. 
 
-Concludo questo progetto con la sensazione che l'attività di design del software non sia affatto un'attività precisa, esatta. Ci vuole del tempo per maturare la propria comprensione del sistema in questione, il proprio sguardo e la percezione dei problemi. Ci vuole non solo contemplazione e riflessione, ma anche la possibilità di fare tentativi, commettere degli errori e confrontarsi. Torno a casa con uno sguardo più maturo, con la certezza che la strada da percorrere è ancora lunga e con il dubbio che ci sia un punto finale (ma spero di no).
+Concludo questo progetto con la sensazione che l'attività di design del software non sia affatto un'attività precisa, esatta. Ci vuole del tempo per maturare la propria comprensione del sistema in questione, il proprio sguardo e la percezione dei problemi. Ci vuole non solo contemplazione e riflessione, ma anche la possibilità di fare tentativi, commettere degli errori e confrontarsi. Torno a casa con uno sguardo più maturo, con la certezza che la strada da percorrere è ancora lunga e con il dubbio che ci sia una destinazione finale. Spero, sinceramente, di no.

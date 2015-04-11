@@ -357,7 +357,7 @@ codici identificativi per i palazzi, piante architettoniche fuori
 scala o semplicemente disegno della stessa stanza più di una volta
 sullo stesso file. Spesso i disegni venivano ripetuti sulla stessa
 posizione, probabilmente frutto di un'operazione di copia e incolla
-interrotta a metà. All'occhio umano saltavano facilmente gli errori, e
+interrotta a metà. Gli errori saltavano all'occhio facilmente, e
 riuscivamo a correggerli riconoscendo dei pattern di riferimento, ma per un
 elaboratore non sarebbe stato così facile. Dato che il nostro scopo era 
 quello di estrarre le informazioni in modo automatico, 
@@ -421,7 +421,7 @@ assunzione iniziale sulla qualità, formato, presenza o consistenza dei dati.
 
 Questa natura dei dati trasformava tante delle nostre richieste in
 \textit{``Wicked Problems''}, problemi la cui comprensione potrebbe
-avvenire soltanto durante la loro risoluzione stessa e non era
+avvenire soltanto durante la loro risoluzione stessa e non è
 possibile \textit{a priori}. Questo è stato uno dei primi motivi che
 ci ha fatto scegliere Python 3 come linguaggio di riferimento per
 l'estrazione e l'elaborazione: la capacità di scrivere velocemente
@@ -521,7 +521,7 @@ e spesso partivo da qualche
 o sistema preesistente, che mi forniva già una struttura base
 per il \textit{design} a livello macro, 
 di solito con l'utilizzo di pattern strutturali come MVC / MVP.
-A me restava più che altro rispettare le convenzioni fornite dall'ambiente di
+A me restava più che altro da rispettare le convenzioni fornite dall'ambiente di
 sviluppo e assicurarmi di, a livello \textit{micro} (metodi, classi), non
 causare troppi danni.
 
@@ -606,7 +606,7 @@ identificato. A questo punto, abbiamo incominciato a chiederci se
 il TDD sarebbe stato adeguato per la natura dei problemi che
 dovevamo affrontare.
 
-Una delle pratiche difficoltà del TDD è riuscire a convincere un eventuale
+Una delle difficoltà pratiche del TDD è riuscire a convincere un eventuale
 \textit{manager} orientato ai risultati immediati che ne valga la pena. 
 Il motivo è semplice: all'inizio il TDD tende a rallentare 
 il processo di sviluppo. 
@@ -669,7 +669,7 @@ procedere in uno di questi modi:
   per poter stimolare una quantità significativa di casi, 
   senza dover pagare gli eccessivi tempi di I/O dei file veri. 
   La difficoltà stava nell'elaborazione dei casi di test: o 
-  sarebbero casi fittizi e di conseguenza non avremmo potuto giudicarne 
+  sarebbero stati casi fittizi e di conseguenza non avremmo potuto giudicarne 
   l'affidabilità, oppure avremmo dovuto esplorare i file veri in modo
   sistematico per poter ottenere riferimenti di casi veri da trattare.
 \end{itemize}
@@ -780,8 +780,8 @@ direttamente sulla REPL dettagli sulla loro \textit{signature} e anche
 documentazione (\textit{docstring}).
   \item Possibilità di salvare il codice utilizzato direttamente
 sul \textit{filesystem}
-  \item Funzionalità \textit{rewind}, che permette di disfare le
-istruzioni precedenti. Ci permetteva ad esempio di esplorare e
+  \item Funzionalità \textit{rewind}, che permette di annullare le
+istruzioni eseguite, tornando agli stati precedenti dell'esecuzione. Ci permetteva ad esempio di esplorare e
 trasformare i dati per vederne determinati risultati, tornare indietro 
 e riprovare con strategie diverse.
 \end{itemize}
@@ -899,7 +899,7 @@ stanze rappresentava circa il 96\%, e questo ci ha fatto intuire che
 la nostra ipotesi poteva effettivamente essere verificata.
 Avevamo in mano, dall'uso della REPL, una soluzione che sembrava 
 soddisfacente. Non eravamo sicuri di avere il 90\% di \textit{precision}
-desiderato ma sembrava abbastanza vicino. Restava stimare allora
+desiderato ma sembrava abbastanza vicino. Restava allora da stimare
 la correttezza.
 
 Purtroppo definire la correttezza sarebbe stato un lavoro manuale. Facendolo,
@@ -910,7 +910,7 @@ Per evitare di dover analizzare più di 700 file manualmente,
 abbiamo allora lanciato una nuova ipotesi: se scartiamo alcune
 tipologie specifiche di stanze che ai nostri scopi sono di minore
 importanza, riusciremo ad aumentare la precisione relativa al 90\%
-desiderato, al patto di ridurre il percentuale di \textit{recall}.
+desiderato, a patto di ridurre il percentuale di \textit{recall}.
 
 Nell'esempio sopra il nostro algoritmo poteva sbagliare o decidere 
 correttamente con uguale probabilità: dipendeva soltanto da quale 
@@ -919,7 +919,7 @@ poligono della stanza. Decidendo di non considerare l'etichetta
 1005 per il fatto che si tratta di un ``cavedio porta impianti'' 
 (codice VNS02 associato) l'unica possibilità sarebbe stata
 la risposta corretta. Avevamo identificato tanti altri casi simili, e
-ce ne aspettavamo che ci fossero altri.
+ci aspettavamo che ce ne fossero altri.
 
 La scelta di queste categorie non partiva solo dal fatto che a noi
 interessavano meno. Abbiamo cercato di sceglierle
@@ -960,7 +960,7 @@ Con l'uso della REPL abbiamo invece scoperto che tale approccio non era
 necessario: la differenza nella qualità dell'associazione era molto
 bassa. Da ciò abbiamo concluso che la soluzione precedente, con grande
 probabilità, soddisfaceva già la nostra precisione desiderata del 90\%.
-Non era giustificato allora la complessità aggiunta in termine di 
+Non era giustificata allora la complessità aggiunta in termine di 
 codice, e allora abbiamo mantenuto soltanto lo scarto della 
 categoria ``Cavedio porta impianti''.
 
@@ -1031,7 +1031,7 @@ secondo il dip. di Edilizia era di questo tipo:
 	\item 2º Piano
 \end{itemize}
 
-Al posto di Ammezzato potrebbe pure essere Rialzato. In molti casi
+Al posto di Ammezzato ci potrebbe essere Rialzato. In molti casi
 il piano Terra non era presente e invece c'erano sia Rialzato che
 Ammezzato. Queste distinzioni sono naturali in ambito edile, ma poco
 intuitive per l'utente normale di un sistema come Easyroom. Per questo 
@@ -1073,7 +1073,7 @@ era un'informazione sufficientemente affidabile per stabilire l'equivalenza
 dei loro rispettivi piani. C'erano \textbf{molti} casi in cui ciò 
 avrebbe generato errore. L'unica cosa che potevamo affermare effettivamente
 era che le piante architettoniche ci garantivamo almeno un raggruppamento
-corretto di stanze. Se poi si trattassero del piano 0, 1, 2 o sotterraneo
+corretto di stanze. Se poi si trattava del piano 0, 1, 2 o sotterraneo
 era un altro discorso.
 
 Partendo da questa ipotesi, abbiamo cercato di rimappare non i piani, ma 
@@ -1167,7 +1167,7 @@ il suo lemma principale. Spiegando con un po' più di dettaglio, vengono
 introdotti gli altri quattro passi inerenti al TDD: verificare il 
 fallimento del test, farlo passare, eseguire il refactoring, e ripetere. 
 Non può coesistere l'idea di fare il TDD e di saltare uno 
-\textbf{qualsiasi di questi step}, ma in tanto molto spesso ci si limita
+\textbf{qualsiasi di questi step}, ma intanto molto spesso ci si limita
 a riassumerlo sotto il lemma ``Test First''. 
 
 Dalla scrittura iniziale del test si ottiene l'orientamento per il design 
@@ -1182,9 +1182,9 @@ Tutto ciò avviene allora in modo incrementale e iterativo, inclusa
 l'attività di refactoring. È essenziale che il \textit{refactoring} 
 abbia la stessa dignità e importanza di ogni altro passo affinché il 
 TDD sia veramente un approccio verso il \textbf{design}, e non verso 
-il \textit{testing}. Lo scopo è quello di garantire che la manutenzione 
+il \textit{testing}. Lo scopo è quello di garantire una manutenzione 
 continua della qualità del design. Ciò dovrebbe evitare il suo decadimento
-e allora la necessità di interventi dedicati per la sua risistemazione.
+e allora la necessità di interventi dedicati alla sua risistemazione.
 
 Gli esempi forniti fino al momento e la parte del processo raccontata
 non riguardano l'argomento del design del software, e neanche il concetto
@@ -1208,7 +1208,7 @@ basato sulla REPL e sulla sperimentazione sarebbe stata semplice
 l'introduzione del refactoring continuo/iterativo,
 ma non l'abbiamo fatto.
 
-Per altre funzionalità, in particolare quelle successive di integrazione 
+Per altre funzionalità, in particolare quelle successive, di integrazione 
 dei dati già estratti, siamo stati in grado di applicare il TDD nella 
 sua forma più naturale. È notevole la differenza dell'output di 
 queste operazioni rispetto a quelle precedenti, che sta, nella 
@@ -1218,10 +1218,10 @@ Siamo arrivati al punto in cui la complessità del sistema era
 cresciuta, e capire il suo flusso non era più immediato. Avevamo 
 in mano una serie di classi che, non avendo ricevuto lo sforzo 
 continuo per il loro contenimento, incominciavano a rappresentare 
-difficoltà per le modifiche o aggiunte di nuove funzionalità, al 
-passo che altri moduli ci fornivano significativa confidenza. Nella 
-mia opinione la differenza stava necessariamente nella presenza o 
-assenza del refactoring continuo.
+difficoltà per le modifiche o aggiunte di nuove funzionalità, 
+mentre su altri moduli avevamo significativa confidenza. Nella 
+mia opinione la differenza fra questi casi stava necessariamente 
+nella presenza o assenza del refactoring continuo.
 
 Dati i tempi stretti, nella maggior parte dei casi abbiamo optato per
 la rielaborazione dei prototipi esistenti e non per il loro scarto,
@@ -1229,7 +1229,7 @@ poiché ci sembrava evidente che una nuova versione fatta da zero avrebbe avuto
 molto in comune con il prototipo in mano. Riflettendo a posteriori, vedo
 in queste decisioni un ulteriore errore: ci siamo negati l'opportunità 
 di ripensarli con uno sguardo più fresco, senza i vincoli 
-dell'incertezza che ne avevamo già affrontato. 
+dell'incertezza che avevamo già affrontato. 
 
 % 
 %
@@ -1255,17 +1255,17 @@ Non bastava esserci messi l'obbiettivo della ricerca costante della qualità e
 chiarezza del design. Poco a poco, il nostro sistema era diventato complesso, 
 le modifiche costavano di più e non potevo evitare di pensare che ci fosse 
 qualcosa di sbagliato mentre guardavo il codice, l'organizzazione dei diversi 
-moduli, o addirittura la composizione interna di qualche algoritmi. 
+moduli, o addirittura la composizione interna di alcuni algoritmi. 
 
 A quanto pare, il nostro progetto, al crescere in dimensione e complessità 
 diventava vittima del fenomeno noto come \textit{software decay}.
-La nostra intesa ``buona progettazione'' fatta 
+La nostra desiderata ``buona progettazione'' fatta 
 dall'inizio veniva poco a poco storpiata.
 
 L'approccio di sviluppo iniziale basato sulla REPL si era rivelato eccezionale 
 per alcuni aspetti, in particolare nella fase iniziale del progetto dove la 
 necessità di capire era predominante rispetto alle preoccupazioni sulla 
-qualità del codice. Una volta che avevamo superato le limitazioni iniziale dei 
+qualità del codice. Una volta che avevamo superato le limitazioni iniziali dei 
 problemi e dati di partenza, il sistema è cresciuto velocemente con l'aggiunta 
 delle funzionalità di integrazione dei dati, ulteriori validazioni, interazioni 
 con il database e funzionalità di segnalazione. Cresceva in complessità. 
@@ -1275,7 +1275,7 @@ letteralmente ``puzza del codice''}, cioè sintomi sul programma che indicavano
 possibilmente la presenza di problemi più profondi. Tra la percezione dei 
 \textit{code smells} e la capacità di trovare le loro radici esiste però una
 grossa differenza, e l'esperienza e pratica è ciò che molto spesso ci rende
-in grado di stabilire il diagnostico completo.
+in grado di stabilire una diagnosi completa.
 
 Mi chiedevo che cosa ci fosse di sbagliato, leggendo il codice e studiando il 
 funzionamento del sistema ripetitivamente, senza riuscire però
@@ -1314,8 +1314,7 @@ qualcuno che avesse già vissuto quella difficoltà e avesse imparato
 da qualcun altro o addirittura a partire da uno sforzo proprio! 
 Mi sono accorto però che se qualcuno poteva riuscirci da solo, potevo provare
 anch'io, e chi sa un giorno sarei stato io ad aiutare qualcuno in una situazione 
-simile? E allo stesso tempo la sensazione di aver bisogno di un maestro da farci
-vedere come procedere era costante.
+simile? E allo stesso tempo la sensazione di aver bisogno di un maestro che ci mostrasse come procedere era costante.
 
 In mancanza di questa figura all'interno del team, mi chiedevo in che altro modo 
 avrei potuto acquisire quell'esperienza. Il primo tentativo 
@@ -1343,7 +1342,7 @@ design in Ruby: an agile primer'':
 
 \begin{quote}
 Un altro modo per concentrarsi su che cosa una classe sta veramente facendo
-è provare a descriverla in una sola sentenza. Ricordarsi che una classe deve
+è provare a descriverla in una sola frase. Ricordarsi che una classe deve
 fare soltanto la più piccola cosa utile possibile. Questa cosa dev'essere
 semplice da descrivere. Se la descrizione più semplice che si riesce a
 ottenere usa la congiunzione ``e'' la classe ha probabilmente più di una
@@ -1434,7 +1433,8 @@ design del software.
 Ho deciso per l'ereditarietà per due motivi: non avevamo richieste di 
 cambiamenti a \textit{runtime}, e non esistevano metodi o attributi 
 in comune utilizzati da BuildingDataUpdater e RoomDataUpdater, il che garantiva 
-che non ci sarebbero nessun dei noti problemi di \textit{method resolution 
+che non si sarebbe verificato nessun dei noti problemi di 
+\textit{method resolution 
 order} che nascono in contesti di ereditarietà multipla. Da questo cambiamento
 siamo passati al seguente \textit{class diagram}:
 
@@ -1470,7 +1470,7 @@ Le frasi continuavano ad essere piuttosto corpose, ma adesso la responsabilità
 era stata divisa esattamente a metà. Una classe gestiva una tipologia di 
 dati, un altra classe l'altra. Ma non ero soddisfatto. 
 
-Avevo messo su il mio ``cappello del refactoring''\footnote{
+Avevo indossato il mio ``cappello del refactoring''\footnote{
 Allusione alla metafora di ``Two Hats'' di Kent Beck, raccontata
 da Martin Fowler in \cite{fowler2002}, in cui afferma l'importanza di
 essere sempre cosciente di quale cappello stiamo utilizzando, ovvero 
@@ -1523,8 +1523,9 @@ una stanza la dovevo prima pulire (formattando meglio le stringhe, ad esempio)
 e validare (non dovevo inserire stanze che non godessero, ad esempio, di un
 identificativo del palazzo a cui appartenevano). In seguito avrei preparato il
 formato verso il database, inviato i dati e, una volta che i dati originali
-di questa sorgente finissero memorizzati \textbf{correttamente}, avrei dovuto 
-fare una richiesta a un altra classe che avrebbe eseguito 
+di questa sorgente sarebbero stati memorizzati \textbf{correttamente}, 
+avrei dovuto 
+fare una richiesta a un'altra classe che avrebbe eseguito 
 l'integrazione con altre sorgenti dati già presenti. 
 
 Il compito funzionale delle mie classi sotto analisi era di gestire il 
@@ -1640,8 +1641,8 @@ Da notare le seguenti proprietà di questo \textit{refactoring}:
   \item Il metodo update\_buildings compie ora il ruolo
   di scheletro dell'esecuzione. Essendo piccolo, ci sta in una sola
   pagina di codice e permette con un unico sguardo di cogliere il flusso.
-  \item L'esplicitare dello scheletro aiuta nel trovare
-   eventuali problemi concettuali che dipendano dall'ordine
+  \item L'esplicitare lo scheletro aiuta nel trovare
+   eventuali problemi concettuali che dipendono dall'ordine
    delle operazioni.
   \item Ogni \textit{step} coincide con una chiamata di metodo, 
   che viene incapsulato e isolato. Cambiamenti della logica di
@@ -1735,7 +1736,7 @@ e a noi interessava particolarmente il fatto di rendere più facile l'adozione
 della \textit{codebase} in futuro per la continuazione del progetto.
 
 In particolare nel caso di questo refactoring, i nomi più significativi
-illustrano bene flusso funzionale e la logica applicativa incorporata.
+illustrano bene il flusso funzionale e la logica applicativa incorporata.
 Inoltre, il rinominare della variabile di iterazione ``b'' a ``b\_data'' rende
 più chiaro il suo scopo (sono i dati letti da inviare al database) 
 e la differenzia dalla variabile building (che è un oggetto della
@@ -1750,7 +1751,7 @@ e che quelli invalidi verranno semplicemente ignorati (\textit{continue}).
 Se sono interessato a capire qual'è la logica di validazione, mi basta
 proseguire al metodo \_validate\_building\_data, definito 
 sulla stessa classe. Si noti che si potrebbe portare ancora avanti 
-l'espressività, sfruttando la struttura di controllo fornita da Python 
+la leggibilità, sfruttando la struttura di controllo fornita da Python 
 per formare vere e proprie frasi in linguaggio naturale, con la 
 rinominazione del metodo di validazione:
 
@@ -1863,7 +1864,7 @@ Ho trovato una definizione più precisa di refactoring, e, più importante,
 ricorrenti incentivi alla sua 
 \textbf{pratica continua}, a prescindere degli ostacoli naturali (management, 
 l'impressione che non porti a niente di nuovo, molto sforzo per nessun valore
-percepibile dall'esterno, eccetera). Un'idea su cui avevo appena riflesso
+percepibile dall'esterno, eccetera). Un'idea su cui avevo appena riflettuto
 ma che Martin Fowler ha molto bene sintetizzato è quella descritta nel
 seguente paragrafo:
 
@@ -1910,7 +1911,7 @@ siamo dimenticati di riadeguare quelle già esistenti!
 
 Il secondo errore commesso è stato quello di frammentare eccessivamente la
 classe BuildingDataUpdater durante il suo refactoring. Mi ero messo l'obbiettivo
-di ``rimuovere di una volta per tutte'' i \textit{code smells} su quella classe,
+di ``rimuovere una volta per tutte'' i \textit{code smells} su quella classe,
 e allora mi sono messo a fare grossi cambiamenti. La verità è che l'unico
 grosso cambiamento strutturale che era veramente necessario era quello di separare
 DataUpdater in due classi distinte per l'aggiornamento delle stanze e dei 
@@ -1943,12 +1944,11 @@ A piccoli passi le trasformazioni avvengono in modo incrementale,
 e allora esiste una maggiore probabilità di ridurre i tempi con cui 
 riusciamo a percepire che il refactoring effettuato sia significativo 
 e che ci stia portando nella direzione voluta.
-Non posso dire che non avrei commesso quell'errore se avessi avanzato
-a piccoli passi, ma di sicuro ci sarebbe una maggiore probabilità che
-non dovessi arrivare alla mattina successiva per accorgermi.
+Non posso dire che non avrei commesso quell'errore se fossi avanzato
+a piccoli passi, ma di sicuro ci sarebbe una maggiore possibilità di non arrivare alla mattina per accorgermene.
 
 Si noti inoltre il rilievo dato da Fowler all'idea di 
-\textit{Refactoring Regolare}. Su questo aspetto ne discute
+\textit{Refactoring Regolare}. Su questo aspetto si discute
 ancora:
 
 \begin{quote}
@@ -1971,7 +1971,7 @@ and refactoring helps you do that other thing''
 \end{quote}
 
 Assumendo allora che questo approccio di \textbf{continuous refactoring} venga
-portato in avanti sin dall'inizio di un progetto, sono 
+portato avanti sin dall'inizio di un progetto, sono 
 assolutamente d'accordo con tale affermazione. Con questo 
 sforzo continuo e inerente all'attività di implementare nuove 
 funzionalità o estendere quelle esistenti,
@@ -1980,13 +1980,13 @@ mantenuto ma anche migliorato.
 
 Nella mia opinione esiste però un caso in cui prendersi del tempo 
 preciso per fare il refactoring è necessario. Si tratta del caso specifico che
-ho esperimentato: quando ci si accorge un po' tardi che l'effetto 
+ho sperimentato: quando ci si accorge un po' tardi che l'effetto 
 cumulativo della perdita di struttura del codice ha già causato
-troppi danni. A quel punto bisogna fermarsi, separare del tempo 
+troppi danni. A quel punto bisogna fermarsi, prendersi del tempo 
 ed eseguire l'attività di refactoring a piena autonomia.
 
 Vorrei sottolineare che c'è una netta differenza tra le due modalità
-di refactoring. Nel primo caso (quando se lo esegue come
+di refactoring. Nel primo caso (quando lo si esegue come
 parte del processo di sviluppo stesso) utilizziamo il refactoring con lo
 scopo di adeguare il codice esistente a delle richieste 
 che dobbiamo implementare subito, e allora \textbf{richieste che conosciamo 
@@ -2000,7 +2000,7 @@ tecniche nel libro a cui faccio riferimento\cite{fowler2002}.
 
 L'altro caso, cioè, quando decidiamo che lo stato attuale del codice
 richiede un impegno dedicato di refactoring, non abbiamo richieste esplicite
-da guidare le nostre trasformazioni. Le richieste invece tendono ad essere
+a guidare le nostre trasformazioni. Le richieste invece tendono ad essere
 piuttosto generali, come ``migliorare la leggibilità del codice'', ``ridurre
 le dipendenze'', ``disaccoppiare moduli'', ``aumentare la testabilità'',
 eccettera.
@@ -2106,14 +2106,14 @@ Procedere nello sviluppo delle funzionalità pensando a ciò che dovremo
 sviluppare in futuro comporta un \textit{overhead} che, con
 grande probabilità, non verrà compensato: infatti, data la molteplicità
 di cammini di sviluppo possibili, dobbiamo essere molto fortunati per
-trovare uno giusto.
+trovarne uno giusto.
 
 L'incertezza è un ingrediente noto in ambito software, e nasce da diversi
 aspetti, ad esempio dalla malleabilità del software che rende possibile
 i frequenti cambiamenti dei requisiti. Se da un lato può essere semplice 
 pianificare i lavori della prossima settimana, all'aumentare dell'orizzonte 
-temporale (??) l'effetto delle previsioni si degrada velocemente. Allo 
-sviluppatore rimane equilibrarsi tra le richieste di oggi e l'incertezza
+temporale l'effetto delle previsioni si degrada velocemente. Allo 
+sviluppatore rimane da equilibrarsi tra le richieste di oggi e l'incertezza
 del domani.
 
 \section{Design \textit{a posteriori}: la tutela del \textit{refactoring}}
@@ -2185,7 +2185,7 @@ dovremo scoprire che parte del lavoro fatto non è più adeguato, ci conviene
 piuttosto farlo nel modo più semplice possibile. 
 
 Un concetto simile a questo descritto è il KISS, acronimo per l'espressione
-\textit{Keep it simple stupid}, cognata nel 1960 da Kelly Johnson, ingegnere
+\textit{Keep it simple stupid}, coniata nel 1960 da Kelly Johnson, ingegnere
 aeronautico americano. Johnson affermava che gli aerei progettati 
 dovevano essere riparabili facilmente da un qualsiasi meccanico,
 con pochi e semplici strumenti. Questo concetto è stato ampiamente 
@@ -2227,10 +2227,9 @@ da necessità concrete, a partire dal codice già esistente e funzionale.
 
 \chapter{Conclusioni}
 
-Partecipare a questo progetto mi rappresentava un'opportunità per poter
+Partecipare a questo progetto mi ha presentato un'opportunità per
 riflettere con calma sui principi della progettazione software, applicandoli
 direttamente a un contesto pratico. 
-
 
 Penso di aver colto aspetti importanti da considerare durante un 
 \textit{refactoring} guidato, e allora di aver sanato alcune lacune e 
