@@ -33,6 +33,9 @@
 \usepackage{enumitem}
 \usepackage{setspace}
 
+\usepackage[backend=bibtex]{biblatex}
+\addbibresource{Bibliografia.bib}
+
 \expandafter\def\expandafter\quote\expandafter{\quote\singlespacing}
 \onehalfspacing                %% <--- Better use setspace
 \setlist{noitemsep}
@@ -634,9 +637,8 @@ nella sua forma più tradizionale deve prepararsi a venir
 contraddetto in poco tempo\footnote{
 	Giusto per citarne un esempio,
 	uno di questi episodi ha (per fortuna!)
-	portato a una epica discussione fra David Heinemeier Hansson,
-	Martin Fowler e Kent Beck: 
-	\url{http://martinfowler.com/articles/is-tdd-dead/}
+	portato a una epica discussione\cite{fowler_tdd_dead} fra David Heinemeier Hansson (che ha dato inizio alla discussione\cite{dhh_tdd_dead}),
+	Martin Fowler e Kent Beck.
 }.
 	
 Ovviamente queste sono mie particolari osservazioni senza nessuna
@@ -1322,7 +1324,7 @@ che considero sia stato un successo parziale è stato quello di
 cercare i concetti teorici della ``buona progettazione'' 
 e in particolare sono finito a rileggermi ancora una volta 
 i principali materiali disponibili sui principi SOLID\footnote{
-SOLID è un acronimo per i cinque principi basici della programmazione
+SOLID\cite{bobmartin_solid} è un acronimo per i cinque principi basici della programmazione
 orientata ad oggetti proposti da Robert C. Martin. I principi sono \textit{
 Single
 responsibility, Open-closed, Liskov substitution, 
@@ -2273,32 +2275,11 @@ poter sviluppare le mie proprie idee e capacità. Ciò rinforza in me l'idea
 di aver scelto una professione in cui lo studio e l'aggiornamento costante 
 sono fondamentali. Ma quello lo sapevamo già.
 
-Concludo questo progetto con la sensazione che l'attività di design del software non sia affatto un'attività precisa, esatta. Ci vuole del tempo per maturare la propria comprensione del sistema in questione, il proprio sguardo e la percezione dei problemi. Ci vuole non solo contemplazione e riflessione, ma anche la possibilità di fare tentativi, commettere degli errori e confrontarsi. Torno a casa con uno sguardo più maturo, con la certezza che la strada da percorrere è ancora lunga e con il dubbio che ci sia un punto finale (ma spero di no).
+Concludo questo progetto con la sensazione che l'attività di design del software non sia affatto un'attività precisa, esatta. Ci vuole del tempo per maturare la propria comprensione del sistema in questione, il proprio sguardo e la percezione dei problemi. Ci vuole non solo contemplazione e riflessione, ma anche la possibilità di fare tentativi, commettere degli errori e confrontarsi. Torno a casa con uno sguardo più maturo, con la certezza che la strada da percorrere è ancora lunga e con il dubbio che ci sia un punto finale (spero sinceramente di no).
 %
 
+\nocite{*}
+\printbibliography
 
-%%PROF: La bibliografia non va fatta così... va usato bibtex... ci metti pochi minuti a capirlo, evita errori stupidi e fattorizza il lavoro.
-%% SAM: ok,  la sistemo con calma al fine settimana.
-%
-%			BIBLIOGRAFIA
-%
-\begin{thebibliography}{00}
-%
-\bibitem{beck2002}
-Beck, Kent. Test Driven Development: By Example, 2002.
-
-\bibitem{bobmartin2003}
-Martin, Robert C.. Agile Software Development, Principles, Patterns, and Practices, 2003.
-
-\bibitem{fowler2002}
-Fowler, Martin. Refactoring: Improving the Design of Existing Code, 2002.
-
-\bibitem{metz2013}
-Metz, Sandi. Practical object-oriented design in Ruby : an agile primer, 2013.
-
-\bibitem{seiden2012}
-Seiden, Josh, Replacing Requirements with Hypotheses, speach, \url{http://www.slideshare.net/jseiden/2012-feb-25-agile-ux-nyc-seiden-requirements-to-hypotheses?from=ss_embed}, 2012.
-
-\end{thebibliography}
 % 
 \end{document}
